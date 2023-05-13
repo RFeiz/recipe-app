@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_app/dataStructures/foodStructure.dart';
 
 class FoodCard extends StatefulWidget {
-  const FoodCard({Key? key}) : super(key: key);
+  const FoodCard(
+      {Key? key, required this.food, required this.width, required this.height})
+      : super(key: key);
+
+  final Food food;
+  final double width;
+  final double height;
 
   @override
   _FoodCardState createState() => _FoodCardState();
@@ -13,7 +20,8 @@ class _FoodCardState extends State<FoodCard> {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
-        width: 200,
+        width: widget.width,
+        height: widget.height,
         child: Column(
           children: [
             Padding(
@@ -21,17 +29,19 @@ class _FoodCardState extends State<FoodCard> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image(
+                    width: 120,
+                    height: 120,
                     image: NetworkImage(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREjSFXBYiIVBaAkj5X4x8UsWSaGugO_eHXYQ&usqp=CAU',
-                  scale: 1.0,
-                )),
+                      widget.food.image,
+                      scale: 1.0,
+                    )),
               ),
             ),
             SizedBox(
               height: 25,
             ),
-            Text("Food Name"),
-            Text("Food Description"),
+            Text(widget.food.name),
+            Text(widget.food.description),
             SizedBox(
               height: 8,
             ),
@@ -40,9 +50,19 @@ class _FoodCardState extends State<FoodCard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("100 Kcal"),
+                  Text(widget.food.calories.toString() + " Kcal"),
                   IconButton(
-                      onPressed: () => {}, icon: Icon(Icons.heart_broken))
+                      onPressed: () => {
+                            setState(() {
+                              widget.food.isFavorite = !widget.food.isFavorite;
+                            })
+                          },
+                      icon: Icon(
+                        widget.food.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: Colors.red,
+                      ))
                 ],
               ),
             ),

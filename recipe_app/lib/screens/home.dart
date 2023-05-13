@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/widgets/foodCard.dart';
 import 'package:recipe_app/widgets/foodListView.dart';
 
+import 'package:recipe_app/dataStructures/foodStructure.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -10,6 +12,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Food pizza = Food(
+      name: "Pizza",
+      description: "Italian",
+      image:
+          "https://firebasestorage.googleapis.com/v0/b/recipe-app-6d61d.appspot.com/o/pizza.jpeg?alt=media&token=2dd5e22d-132f-4733-9fb4-b935bbfc2e93",
+      calories: 250,
+      isFavorite: false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +54,11 @@ class _HomeState extends State<Home> {
             FoodListView(),
             SizedBox(height: 50),
             Text("Trending Dinner"),
-            FoodCard()
+            FoodCard(
+              food: pizza,
+              width: MediaQuery.of(context).size.width,
+              height: 250,
+            )
           ],
         ),
       ),
