@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe/models/food.dart';
 
 class PopularCard extends StatefulWidget {
-  const PopularCard({super.key});
+  const PopularCard({super.key, required this.food});
+
+  final Food food;
 
   @override
   State<PopularCard> createState() => _PopularCardState();
@@ -22,8 +25,7 @@ class _PopularCardState extends State<PopularCard> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                   image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"),
+                      image: NetworkImage(widget.food.thumbnailUrl),
                       fit: BoxFit.cover)),
             ),
           ),
@@ -52,11 +54,15 @@ class _PopularCardState extends State<PopularCard> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Pasta with Tomato Sauce",
+                          Text(widget.food.name,
                               style: Theme.of(context).textTheme.titleMedium),
                           SizedBox(width: 5.0),
                           Text(
-                              "A delicious pasta with tomato sauce and cheese topping.",
+                              widget.food.smallDescription.length > 70
+                                  ? widget.food.smallDescription
+                                          .substring(0, 70) +
+                                      "..."
+                                  : widget.food.smallDescription,
                               style: Theme.of(context).textTheme.bodySmall),
                         ],
                       ),
@@ -69,7 +75,16 @@ class _PopularCardState extends State<PopularCard> {
                                   Icon(Icons.favorite_border_outlined,
                                       color: Colors.red),
                                   SizedBox(width: 1.0),
-                                  Text("45k",
+                                  Text(
+                                      widget.food.likes > 1000
+                                          ? widget.food.likes > 1000000
+                                              ? (widget.food.likes / 1000000)
+                                                      .toStringAsFixed(1) +
+                                                  "M"
+                                              : (widget.food.likes / 1000)
+                                                      .toStringAsFixed(1) +
+                                                  "K"
+                                          : widget.food.likes.toString(),
                                       style:
                                           Theme.of(context).textTheme.bodySmall)
                                 ]),
@@ -79,7 +94,7 @@ class _PopularCardState extends State<PopularCard> {
                                   Icon(Icons.watch_later_outlined,
                                       color: Colors.red),
                                   SizedBox(width: 1.0),
-                                  Text("30min",
+                                  Text(widget.food.cookingTime,
                                       style:
                                           Theme.of(context).textTheme.bodySmall)
                                 ]),
@@ -89,7 +104,8 @@ class _PopularCardState extends State<PopularCard> {
                                   Icon(Icons.local_fire_department_sharp,
                                       color: Colors.red),
                                   SizedBox(width: 1.0),
-                                  Text("1200Kcal",
+                                  Text(
+                                      widget.food.calories.toString() + " Kcal",
                                       style:
                                           Theme.of(context).textTheme.bodySmall)
                                 ]),
