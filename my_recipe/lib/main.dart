@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/home/home.dart';
+import 'package:my_recipe/widgets/customNavigationBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,14 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF1FCC79)),
           useMaterial3: true,
         ),
-        home: SafeArea(child: Home()));
+        home: SafeArea(
+          child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.search),
+              ),
+              body: Home(),
+              bottomNavigationBar: CustomNavigationBar()),
+        ));
   }
 }
