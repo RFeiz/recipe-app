@@ -24,7 +24,8 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'My Recipes',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1FCC79)),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Color.fromARGB(255, 186, 31, 243)),
           useMaterial3: true,
         ),
         home: SafeArea(
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
               bottomNavigationBar: BottomNavigationBar(
                 onTap: (value) {
                   pageController.animateToPage(value,
-                      duration: const Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 1),
                       curve: Curves.ease);
                 },
                 items: const [

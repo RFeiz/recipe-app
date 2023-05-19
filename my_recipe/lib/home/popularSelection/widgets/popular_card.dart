@@ -19,7 +19,7 @@ class _PopularCardState extends State<PopularCard> {
         children: [
           Center(
             child: Container(
-              margin: EdgeInsets.only(bottom: 45.0, left: 5, right: 5),
+              margin: const EdgeInsets.only(bottom: 45.0, left: 5, right: 5),
               height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width * 0.8,
               decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class _PopularCardState extends State<PopularCard> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       )
                     ]),
                 child: Padding(
@@ -56,12 +56,10 @@ class _PopularCardState extends State<PopularCard> {
                         children: [
                           Text(widget.food.name,
                               style: Theme.of(context).textTheme.titleMedium),
-                          SizedBox(width: 5.0),
+                          const SizedBox(width: 5.0),
                           Text(
-                              widget.food.smallDescription.length > 70
-                                  ? widget.food.smallDescription
-                                          .substring(0, 70) +
-                                      "..."
+                              widget.food.smallDescription.length > 50
+                                  ? "${widget.food.smallDescription.substring(0, 50)}..."
                                   : widget.food.smallDescription,
                               style: Theme.of(context).textTheme.bodySmall),
                         ],
@@ -72,18 +70,14 @@ class _PopularCardState extends State<PopularCard> {
                             Wrap(
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
-                                  Icon(Icons.favorite_border_outlined,
+                                  const Icon(Icons.favorite_border_outlined,
                                       color: Colors.red),
-                                  SizedBox(width: 1.0),
+                                  const SizedBox(width: 1.0),
                                   Text(
                                       widget.food.likes > 1000
                                           ? widget.food.likes > 1000000
-                                              ? (widget.food.likes / 1000000)
-                                                      .toStringAsFixed(1) +
-                                                  "M"
-                                              : (widget.food.likes / 1000)
-                                                      .toStringAsFixed(1) +
-                                                  "K"
+                                              ? "${(widget.food.likes / 1000000).toStringAsFixed(1)}M"
+                                              : "${(widget.food.likes / 1000).toStringAsFixed(1)}K"
                                           : widget.food.likes.toString(),
                                       style:
                                           Theme.of(context).textTheme.bodySmall)
@@ -91,9 +85,9 @@ class _PopularCardState extends State<PopularCard> {
                             Wrap(
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
-                                  Icon(Icons.watch_later_outlined,
+                                  const Icon(Icons.watch_later_outlined,
                                       color: Colors.red),
-                                  SizedBox(width: 1.0),
+                                  const SizedBox(width: 1.0),
                                   Text(widget.food.cookingTime,
                                       style:
                                           Theme.of(context).textTheme.bodySmall)
@@ -101,11 +95,10 @@ class _PopularCardState extends State<PopularCard> {
                             Wrap(
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
-                                  Icon(Icons.local_fire_department_sharp,
+                                  const Icon(Icons.local_fire_department_sharp,
                                       color: Colors.red),
-                                  SizedBox(width: 1.0),
-                                  Text(
-                                      widget.food.calories.toString() + " Kcal",
+                                  const SizedBox(width: 1.0),
+                                  Text("${widget.food.calories} Kcal",
                                       style:
                                           Theme.of(context).textTheme.bodySmall)
                                 ]),

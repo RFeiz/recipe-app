@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomAppBar(
+          const CustomAppBar(
             title: "Hello Sarwin",
             subTitle: "What will you be cooking today?",
           ),
@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
                 style: Theme.of(context).textTheme.titleLarge),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          CategoryList()
+          const CategoryList()
         ],
       ),
     );

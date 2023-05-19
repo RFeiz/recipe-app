@@ -15,7 +15,7 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-        margin: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+        margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
         height: MediaQuery.of(context).size.height * 0.15,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0),
@@ -24,7 +24,7 @@ class _CategoryCardState extends State<CategoryCard> {
                 fit: BoxFit.cover)),
       ),
       Container(
-        margin: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+        margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
         height: MediaQuery.of(context).size.height * 0.15,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class _CategoryCardState extends State<CategoryCard> {
                 ),
                 Text(
                   widget.category.description.length > 70
-                      ? widget.category.description.substring(0, 70) + '...'
+                      ? '${widget.category.description.substring(0, 70)}...'
                       : widget.category.description,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
