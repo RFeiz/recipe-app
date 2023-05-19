@@ -17,7 +17,10 @@ class _HomeContentState extends State<HomeContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomAppBar(),
+          CustomAppBar(
+            title: "Hello Sarwin",
+            subTitle: "What will you be cooking today?",
+          ),
           PopularList(),
           SizedBox(height: MediaQuery.of(context).size.height * 0.05),
           Padding(

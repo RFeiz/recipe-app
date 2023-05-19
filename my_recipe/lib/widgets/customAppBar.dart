@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatefulWidget {
-  const CustomAppBar({super.key});
+  const CustomAppBar({super.key, required this.title, required this.subTitle});
+
+  final String title;
+  final String subTitle;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -19,8 +22,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Hello Sarwin", style: Theme.of(context).textTheme.titleLarge),
-            Text("What will you be cooking today?",
+            Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
+            Text(widget.subTitle,
                 style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
