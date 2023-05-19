@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_recipe/home/categoryList/categoryList.dart';
-import 'package:my_recipe/home/popularSelection/popularList.dart';
-import 'package:my_recipe/widgets/customAppBar.dart';
+import 'package:my_recipe/home/categoryList/category_list.dart';
+import 'package:my_recipe/home/popularSelection/popular_list.dart';
+import 'package:my_recipe/widgets/custom_app_bar.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

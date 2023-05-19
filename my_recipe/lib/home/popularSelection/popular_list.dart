@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_recipe/home/popularSelection/widgets/popularCard.dart';
+import 'package:my_recipe/home/popularSelection/widgets/popular_card.dart';
 
 class PopularList extends StatefulWidget {
   const PopularList({super.key});
