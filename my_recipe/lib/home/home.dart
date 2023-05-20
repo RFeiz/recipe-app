@@ -29,7 +29,8 @@ class _HomeState extends State<Home> {
                 style: Theme.of(context).textTheme.titleLarge),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          const CategoryList()
+          const CategoryList(),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025)
         ],
       ),
     );

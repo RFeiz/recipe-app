@@ -27,24 +27,38 @@ class _CategoryCardState extends State<CategoryCard> {
         margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
         height: MediaQuery.of(context).size.height * 0.15,
         width: MediaQuery.of(context).size.width,
+        // GRADIENT WHITE
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.7)),
+            gradient: LinearGradient(
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
+                colors: [
+                  const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                  const Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
+                ],
+                stops: [
+                  0.0,
+                  0.8
+                ])),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   widget.category.name,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  // white and bold
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  widget.category.description.length > 70
-                      ? '${widget.category.description.substring(0, 70)}...'
+                  widget.category.description.length > 50
+                      ? widget.category.description.substring(0, 90) + "..."
                       : widget.category.description,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ]),
         ),
