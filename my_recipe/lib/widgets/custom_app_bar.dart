@@ -22,7 +22,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
+            Text(widget.title,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontWeight: FontWeight.bold)),
             Text(widget.subTitle,
                 style: Theme.of(context).textTheme.titleMedium),
           ],
