@@ -26,10 +26,14 @@ class _HomeState extends State<Home> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Text("Meal Categories",
-                style: Theme.of(context).textTheme.titleLarge),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold)),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          const CategoryList()
+          const CategoryList(),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025)
         ],
       ),
     );
