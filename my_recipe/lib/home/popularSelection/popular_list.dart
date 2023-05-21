@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/home/popularSelection/widgets/popular_card.dart';
+import 'package:my_recipe/models/ingredient.dart';
 
 class PopularList extends StatefulWidget {
   PopularList({Key? key}) : super(key: key);
@@ -10,13 +11,20 @@ class PopularList extends StatefulWidget {
   final List<Food> popularFoodList = [
     Food(
       name: "Pasta with Tomato",
-      smallDescription: "A delicious pasta with tomato sauce and cheese topping.",
-      longDescription: "A delicious pasta with tomato sauce and cheese topping.",
+      smallDescription:
+          "A delicious pasta with tomato sauce and cheese topping.",
+      longDescription:
+          "A delicious pasta with tomato sauce and cheese topping.",
       thumbnailUrl:
           "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
       cookingTime: "30m",
       calories: 596,
       likes: 5,
+      ingredientList: [
+        Ingredient(name: "Pasta", quantity: "200", unit: "g"),
+        Ingredient(name: "Tomato", quantity: "2", unit: "pcs"),
+        Ingredient(name: "Cheese", quantity: "100", unit: "g"),
+      ],
     ),
     Food(
       name: "Beef Wellington",
@@ -28,6 +36,11 @@ class PopularList extends StatefulWidget {
       cookingTime: "4h",
       calories: 427,
       likes: 256302,
+      ingredientList: [
+        Ingredient(name: "Beef", quantity: "1", unit: "kg"),
+        Ingredient(name: "Puff Pastry", quantity: "200", unit: "g"),
+        Ingredient(name: "Mushroom", quantity: "100", unit: "g"),
+      ],
     ),
     Food(
       name: "Ramen Noodles",
@@ -40,6 +53,11 @@ class PopularList extends StatefulWidget {
       cookingTime: "15m",
       calories: 450,
       likes: 785000000,
+      ingredientList: [
+        Ingredient(name: "Noodles", quantity: "200", unit: "g"),
+        Ingredient(name: "Fish", quantity: "100", unit: "g"),
+        Ingredient(name: "Mushroom", quantity: "100", unit: "g"),
+      ],
     ),
   ];
 

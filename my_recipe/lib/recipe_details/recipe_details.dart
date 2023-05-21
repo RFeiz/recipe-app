@@ -111,7 +111,7 @@ class RecipeDetails extends StatelessWidget {
                 margin: EdgeInsets.only(left: 8, right: 8),
                 child: Column(children: [
                   Text(
-                    "About Recipe",
+                    "Ingredients",
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!
@@ -120,11 +120,61 @@ class RecipeDetails extends StatelessWidget {
                   SizedBox(
                     height: 4,
                   ),
-                  Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    style: Theme.of(context).textTheme.bodyMedium!,
-                    textAlign: TextAlign.justify,
-                  ),
+                  //Display the list of ingredients here (Icon, name, quantity, unit) in cards
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: food.ingredientList.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: (Colors.grey[200])!)),
+                          padding: EdgeInsets.all(8),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Row(
+                              //move the quantity and unit to the right
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      // decoration: BoxDecoration(
+                                      //     borderRadius: BorderRadius.circular(10),
+                                      //     image: DecorationImage(
+                                      //         image: NetworkImage(
+                                      //             food.ingredientList[index]
+                                      //                 .thumbnailUrl),
+                                      //         fit: BoxFit.cover)),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      food.ingredientList[index].name,
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.grey[900],
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  food.ingredientList[index].quantity +
+                                      " " +
+                                      food.ingredientList[index].unit,
+                                  style: GoogleFonts.roboto(
+                                      color: Colors.grey[900]),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+
                   SizedBox(
                     height: 24,
                   ),
