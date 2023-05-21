@@ -141,8 +141,8 @@ class RecipeDetails extends StatelessWidget {
                                 Row(
                                   children: [
                                     Container(
-                                      width: 50,
-                                      height: 50,
+                                      width: 30,
+                                      height: 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
