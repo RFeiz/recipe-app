@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_recipe/models/food.dart';
+import 'package:my_recipe/recipe_details/cooking_method.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
@@ -14,6 +15,12 @@ class RecipeDetails extends StatefulWidget {
 class _RecipeDetailsState extends State<RecipeDetails> {
   bool isFavorite = false;
 
+  void toggleFavorite() {
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +32,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               isFavorite ? Icons.favorite : Icons.favorite_border,
               color: Colors.red,
             ),
-            onPressed: () {
-              setState(() {
-                isFavorite = !isFavorite;
-              });
-            },
+            onPressed: toggleFavorite,
           ),
         ],
       ),
@@ -153,7 +156,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                         margin: EdgeInsets.only(bottom: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: (Colors.grey[200])!),
+                          border: Border.all(color: Colors.grey[200]!),
                         ),
                         padding: EdgeInsets.all(8),
                         child: Padding(
@@ -225,6 +228,27 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        width: 200,
+        height: 45, // Set the desired width here
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CookingMethod(),
+              ),
+            );
+          },
+          child: Text(
+            'Start Cooking',
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
         ),
       ),
     );
