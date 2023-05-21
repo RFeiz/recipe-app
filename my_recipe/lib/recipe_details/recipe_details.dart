@@ -143,13 +143,14 @@ class RecipeDetails extends StatelessWidget {
                                     Container(
                                       width: 50,
                                       height: 50,
-                                      // decoration: BoxDecoration(
-                                      //     borderRadius: BorderRadius.circular(10),
-                                      //     image: DecorationImage(
-                                      //         image: NetworkImage(
-                                      //             food.ingredientList[index]
-                                      //                 .thumbnailUrl),
-                                      //         fit: BoxFit.cover)),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                              image: NetworkImage(food
+                                                  .ingredientList[index]
+                                                  .iconUrl),
+                                              fit: BoxFit.cover)),
                                     ),
                                     SizedBox(
                                       width: 8,
