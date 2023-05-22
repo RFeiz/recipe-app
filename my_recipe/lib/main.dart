@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
         title: 'My Recipes',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Color.fromARGB(255, 186, 31, 243)),
+              seedColor: const Color.fromARGB(255, 186, 31, 243)),
           useMaterial3: true,
         ),
         home: SafeArea(
