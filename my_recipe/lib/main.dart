@@ -23,9 +23,16 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'My Recipes',
+        themeMode: ThemeMode.system,
         theme: ThemeData(
+          colorScheme:
+              ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 31, 243, 52)),
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Color.fromARGB(255, 186, 31, 243)),
+              seedColor: Color.fromARGB(255, 31, 243, 52),
+              brightness: Brightness.dark),
           useMaterial3: true,
         ),
         home: SafeArea(
