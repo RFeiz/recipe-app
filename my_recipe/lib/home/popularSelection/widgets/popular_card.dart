@@ -49,17 +49,19 @@ class _PopularCardState extends State<PopularCard> {
                 height: MediaQuery.of(context).size.height * 0.175,
                 width: MediaQuery.of(context).size.width * 0.7,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Theme.of(context).colorScheme.surface,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    )
-                  ],
-                ),
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Theme.of(context).colorScheme.surface,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .scrim
+                            .withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      )
+                    ]),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
