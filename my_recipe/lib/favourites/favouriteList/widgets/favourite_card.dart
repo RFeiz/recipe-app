@@ -53,7 +53,7 @@ class _FavouriteCardState extends State<FavouriteCard> {
       margin: const EdgeInsets.only(left: 12, right: 15, bottom: 10),
       child: Row(children: [
         Container(
-          width: MediaQuery.of(context).size.width * 0.25,
+          width: MediaQuery.of(context).size.width * 0.225,
           height: MediaQuery.of(context).size.height * 0.125,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(7.0),
@@ -77,24 +77,41 @@ class _FavouriteCardState extends State<FavouriteCard> {
                     offset: const Offset(0, 3),
                   ),
                 ]),
-            child: const Padding(
-              padding: EdgeInsets.only(left: 10),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
               child: Column(
                 children: [
+                  Text(widget.food.name,
+                      style: Theme.of(context).textTheme.titleMedium),
                   Text(
-                    "Name",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "Description",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
+                      widget.food.smallDescription.length > 35
+                          ? "${widget.food.smallDescription.substring(0, 35)}..."
+                          : widget.food.smallDescription,
+                      style: Theme.of(context).textTheme.bodySmall),
+                  const SizedBox(height: 3.0),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              const Icon(Icons.watch_later_outlined,
+                                  color: Colors.red),
+                              const SizedBox(width: 1.0),
+                              Text(widget.food.cookingTime,
+                                  style: Theme.of(context).textTheme.bodySmall)
+                            ]),
+                        Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              const Icon(Icons.local_fire_department_sharp,
+                                  color: Colors.red),
+                              const SizedBox(width: 1.0),
+                              Text("${widget.food.calories} Kcal",
+                                  style: Theme.of(context).textTheme.bodySmall)
+                            ]),
+                      ]),
+                  const SizedBox(height: 3.0),
                 ],
               ),
             ),

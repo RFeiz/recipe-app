@@ -19,18 +19,17 @@ class _SortingBarState extends State<SortingBar> {
             Icons.sort,
             color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
           ),
-          const SizedBox(width: 10.0),
-          // Text("Sort by", style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(width: 7.0),
           Text(
             "Sort by",
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 color: Theme.of(context)
                     .textTheme
                     .titleMedium
                     ?.color
                     ?.withOpacity(0.5)),
           ),
-          const SizedBox(width: 10.0),
+          const SizedBox(width: 7.0),
           Icon(
             Icons.arrow_downward,
             color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
