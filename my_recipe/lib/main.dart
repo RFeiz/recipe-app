@@ -1,10 +1,13 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/favourites/favourites.dart';
 import 'package:my_recipe/home/home.dart';
 import 'package:my_recipe/profile/profile.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   runApp(const MyApp());
 }
 
