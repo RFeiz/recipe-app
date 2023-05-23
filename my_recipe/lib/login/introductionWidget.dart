@@ -48,7 +48,7 @@ class _IntroductionWidgetState extends State<IntroductionWidget>
   }
 
   Widget _buildImage(String assetName, [double width = 300]) {
-    return Image.asset('images/$assetName', width: width);
+    return Image.asset('assets/images/$assetName', width: width);
   }
 
   @override
