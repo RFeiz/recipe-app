@@ -1,16 +1,19 @@
 // popular_list.dart
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/home/popularSelection/widgets/popular_card.dart';
 import 'package:my_recipe/models/ingredient.dart';
+
+import 'widgets/popular_card_skeleton.dart';
 
 class PopularList extends StatefulWidget {
   PopularList({Key? key}) : super(key: key);
 
   final List<Food> popularFoodList = [
     Food(
-      name: "Pasta with Tomato",
+      name: "Pasta with Tomato Sauce",
       smallDescription:
           "A delicious pasta with tomato sauce and cheese topping.",
       longDescription:
@@ -67,6 +70,30 @@ class PopularList extends StatefulWidget {
 
 class _PopularListState extends State<PopularList> {
   int _index = 0;
+  List<Food> foodList = [];
+
+  // get and retuen the popular food list
+  Future getFoodList() async {
+    foodList.clear();
+    await FirebaseFirestore.instance
+        .collection('recipes')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Food food = Food(
+          name: doc['name'],
+          smallDescription: doc['small_description'],
+          longDescription: doc['long_description'],
+          thumbnailUrl: doc['thumbnail_url'],
+          cookingTime: doc['cooking_time'],
+          calories: doc['calories'],
+          likes: doc['likes'],
+          ingredientList: [],
+        );
+        foodList.add(food);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,12 +101,26 @@ class _PopularListState extends State<PopularList> {
       height: MediaQuery.of(context).size.height * 0.4,
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.only(bottom: 10),
-      child: PageView.builder(
-        itemCount: widget.popularFoodList.length,
-        controller: PageController(viewportFraction: 0.82),
-        onPageChanged: (int index) => setState(() => _index = index),
-        itemBuilder: (_, i) {
-          return PopularCard(food: widget.popularFoodList[i]);
+      child: FutureBuilder(
+        future: getFoodList(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return PageView.builder(
+              itemCount: foodList.length,
+              controller: PageController(viewportFraction: 0.82),
+              itemBuilder: (_, i) {
+                return PopularCard(food: foodList[i]);
+              },
+            );
+          } else {
+            return PageView.builder(
+              itemCount: 1,
+              controller: PageController(viewportFraction: 0.82),
+              itemBuilder: (_, i) {
+                return PopularCardSkeleton();
+              },
+            );
+          }
         },
       ),
     );
