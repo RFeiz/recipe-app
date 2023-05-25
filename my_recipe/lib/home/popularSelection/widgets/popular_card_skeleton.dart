@@ -23,7 +23,7 @@ class _PopularCardSkeleton extends State<PopularCardSkeleton> {
               child: Text("Skeleton"),
               skeleton: Container(
                 margin: const EdgeInsets.only(bottom: 45.0, left: 5, right: 5),
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.03,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
@@ -62,7 +62,7 @@ class _PopularCardSkeleton extends State<PopularCardSkeleton> {
                           isLoading: true,
                           child: Text("Skeleton"),
                           skeleton: Container(
-                            height: 20,
+                            height: MediaQuery.of(context).size.height * 0.03,
                             width: MediaQuery.of(context).size.width * 0.5,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
@@ -75,7 +75,7 @@ class _PopularCardSkeleton extends State<PopularCardSkeleton> {
                             isLoading: true,
                             child: Text("Skeleton"),
                             skeleton: Container(
-                              height: 40,
+                              height: MediaQuery.of(context).size.height * 0.03,
                               width: MediaQuery.of(context).size.width * 0.7,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -88,7 +88,7 @@ class _PopularCardSkeleton extends State<PopularCardSkeleton> {
                       isLoading: true,
                       child: Text("Skeleton"),
                       skeleton: Container(
-                        height: 20,
+                        height: MediaQuery.of(context).size.height * 0.03,
                         width: MediaQuery.of(context).size.width * 0.7,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
