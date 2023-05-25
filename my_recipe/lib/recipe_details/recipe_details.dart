@@ -234,8 +234,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
-        width: 200,
-        height: 45, // Set the desired width here
+        width: 200, // Set the desired width here
         child: FloatingActionButton(
           onPressed: () {
             Navigator.push(

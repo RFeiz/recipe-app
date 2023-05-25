@@ -73,6 +73,7 @@ class _PopularCardState extends State<PopularCard> {
                         children: [
                           Text(
                             widget.food.name,
+                            overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           const SizedBox(height: 5.0),
@@ -91,7 +92,8 @@ class _PopularCardState extends State<PopularCard> {
                           Wrap(
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              const Icon(Icons.favorite_border_outlined, color: Colors.red),
+                              const Icon(Icons.favorite_border_outlined,
+                                  color: Colors.red),
                               const SizedBox(width: 1.0),
                               Text(
                                 widget.food.likes > 1000
@@ -106,7 +108,8 @@ class _PopularCardState extends State<PopularCard> {
                           Wrap(
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              const Icon(Icons.watch_later_outlined, color: Colors.red),
+                              const Icon(Icons.watch_later_outlined,
+                                  color: Colors.red),
                               const SizedBox(width: 1.0),
                               Text(
                                 widget.food.cookingTime,
@@ -117,7 +120,8 @@ class _PopularCardState extends State<PopularCard> {
                           Wrap(
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              const Icon(Icons.local_fire_department_sharp, color: Colors.red),
+                              const Icon(Icons.local_fire_department_sharp,
+                                  color: Colors.red),
                               const SizedBox(width: 1.0),
                               Text(
                                 "${widget.food.calories} Kcal",
