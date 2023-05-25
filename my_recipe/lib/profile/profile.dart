@@ -29,7 +29,8 @@ class _ProfileState extends State<Profile> {
           children: <Widget>[
             const CircleAvatar(
               radius: 64,
-              backgroundImage: AssetImage('https://www.google.com/url?sa=i&url=https%3A%2F%2Fhypebae.com%2F2020%2F7%2Fapple-emoji-memoji-update-iphone-ipad-face-masks-transgender-symbol-bubble-tea-tamale&psig=AOvVaw0JfQ9APlfXmfB0T1tjRqdh&ust=1685122310395000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKDc4Pv_kP8CFQAAAAAdAAAAABAD'),
+              backgroundImage: NetworkImage(
+                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80'),
             ),
             const SizedBox(height: 16),
             const Text(
