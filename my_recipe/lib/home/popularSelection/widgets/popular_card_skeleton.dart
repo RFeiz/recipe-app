@@ -23,7 +23,7 @@ class _PopularCardSkeleton extends State<PopularCardSkeleton> {
               child: Text("Skeleton"),
               skeleton: Container(
                 margin: const EdgeInsets.only(bottom: 45.0, left: 5, right: 5),
-                height: MediaQuery.of(context).size.height * 0.03,
+                height: MediaQuery.of(context).size.height * 0.3,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
