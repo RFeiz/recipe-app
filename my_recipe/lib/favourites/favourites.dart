@@ -11,6 +11,9 @@ class Favourites extends StatefulWidget {
 }
 
 class _FavouritesState extends State<Favourites> {
+  bool isDescending = false;
+  String selectedSortOptions = "Name";
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -20,8 +23,22 @@ class _FavouritesState extends State<Favourites> {
           const CustomAppBar(
               title: "Favourites",
               subTitle: "All your favourite recipes in one place"),
-          const SortingBar(),
-          FavouriteList()
+          SortingBar(
+            onSortChanged: (isDescending) {
+              setState(() {
+                this.isDescending = isDescending;
+              });
+            },
+            onSortOptionChanged: (selectedSortOptions) {
+              setState(() {
+                this.selectedSortOptions = selectedSortOptions;
+              });
+            },
+          ),
+          FavouriteList(
+            isDescending: isDescending,
+            selectedSortOptions: selectedSortOptions,
+          ),
         ],
       ),
     );
