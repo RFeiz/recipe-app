@@ -3,7 +3,12 @@ import 'package:my_recipe/favourites/favouriteList/widgets/favourite_card.dart';
 import 'package:my_recipe/models/food.dart';
 
 class FavouriteList extends StatefulWidget {
-  FavouriteList({super.key});
+  final bool isDescending;
+  final String selectedSortOptions;
+
+  FavouriteList(
+      {Key? key, required this.isDescending, required this.selectedSortOptions})
+      : super(key: key);
 
   final List<Food> favouriteList = [
     Food(
@@ -48,6 +53,36 @@ class FavouriteList extends StatefulWidget {
 }
 
 class _FavouriteListState extends State<FavouriteList> {
+  List<Food> get sortedList {
+    switch (widget.selectedSortOptions) {
+      case "Name":
+        return widget.favouriteList
+          ..sort((item1, item2) => widget.isDescending
+              ? item2.name.compareTo(item1.name)
+              : item1.name.compareTo(item2.name));
+      case "Cooking Time":
+        return widget.favouriteList
+          ..sort((item1, item2) => widget.isDescending
+              ? item2.cookingTime.compareTo(item1.cookingTime)
+              : item1.cookingTime.compareTo(item2.cookingTime));
+      case "Calories":
+        return widget.favouriteList
+          ..sort((item1, item2) => widget.isDescending
+              ? item2.calories.compareTo(item1.calories)
+              : item1.calories.compareTo(item2.calories));
+      case "Likes":
+        return widget.favouriteList
+          ..sort((item1, item2) => widget.isDescending
+              ? item2.likes.compareTo(item1.likes)
+              : item1.likes.compareTo(item2.likes));
+      default:
+        return widget.favouriteList
+          ..sort((item1, item2) => widget.isDescending
+              ? item2.name.compareTo(item1.name)
+              : item1.name.compareTo(item2.name));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -55,7 +90,7 @@ class _FavouriteListState extends State<FavouriteList> {
       shrinkWrap: true,
       itemCount: widget.favouriteList.length,
       itemBuilder: (_, i) {
-        return FavouriteCard(food: widget.favouriteList[i]);
+        return FavouriteCard(food: sortedList[i]);
       },
     );
   }
