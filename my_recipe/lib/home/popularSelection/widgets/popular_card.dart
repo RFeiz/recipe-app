@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/recipe_details.dart';
+import 'package:skeletons/skeletons.dart';
 
 class PopularCard extends StatefulWidget {
   const PopularCard({Key? key, required this.food}) : super(key: key);
@@ -16,6 +17,20 @@ class PopularCard extends StatefulWidget {
 class _PopularCardState extends State<PopularCard> {
   @override
   Widget build(BuildContext context) {
+    NetworkImage thumbnailImage = NetworkImage(widget.food.thumbnailUrl);
+    bool isLoading = true;
+    thumbnailImage.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener(
+        (info, call) {
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
+          }
+        },
+      ),
+    );
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -30,15 +45,31 @@ class _PopularCardState extends State<PopularCard> {
         child: Stack(
           children: [
             Center(
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 45.0, left: 5, right: 5),
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 0.8,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  image: DecorationImage(
-                    image: NetworkImage(widget.food.thumbnailUrl),
-                    fit: BoxFit.cover,
+              child:
+                  // skeleton widget if network image is still loading
+                  Skeleton(
+                isLoading: isLoading,
+                skeleton: Container(
+                  margin:
+                      const EdgeInsets.only(bottom: 45.0, left: 5, right: 5),
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Colors.grey[300],
+                  ),
+                ),
+                child: Container(
+                  margin:
+                      const EdgeInsets.only(bottom: 45.0, left: 5, right: 5),
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    image: DecorationImage(
+                      image: NetworkImage(widget.food.thumbnailUrl),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

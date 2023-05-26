@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/category.dart';
+import 'package:skeletons/skeletons.dart';
 
 class CategoryCard extends StatefulWidget {
   const CategoryCard({super.key, required this.category});
