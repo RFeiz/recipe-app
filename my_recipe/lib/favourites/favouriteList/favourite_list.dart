@@ -1,82 +1,98 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/favourites/favouriteList/widgets/favourite_card.dart';
 import 'package:my_recipe/models/food.dart';
+import 'package:my_recipe/user.dart';
 
 class FavouriteList extends StatefulWidget {
   final bool isDescending;
   final String selectedSortOptions;
 
+  // ignore: prefer_const_constructors_in_immutables
   FavouriteList(
       {Key? key, required this.isDescending, required this.selectedSortOptions})
       : super(key: key);
-
-  final List<Food> favouriteList = [
-    Food(
-        name: "Pasta with Tomato Sauce",
-        smallDescription:
-            "A delicious pasta with tomato sauce and cheese topping.",
-        longDescription:
-            "A delicious pasta with tomato sauce and cheese topping.",
-        thumbnailUrl:
-            "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-        cookingTime: "30m",
-        calories: 596,
-        likes: 5,
-        ingredientList: []),
-    Food(
-        name: "Beef Wellington",
-        smallDescription:
-            "Beef tenderloin wrapped in layers of pâté, duxelles, parma ham, and puff pastry, then baked.",
-        longDescription: "Beef with a crust of puff pastry.",
-        thumbnailUrl:
-            "https://images.unsplash.com/photo-1675718341348-65224936b742?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80",
-        cookingTime: "4h",
-        calories: 427,
-        likes: 256302,
-        ingredientList: []),
-    Food(
-        name: "Ramen Noodles",
-        smallDescription:
-            "A chinese noodle dish with a fish-based broth and a variety of toppings.",
-        longDescription:
-            "A chinese noodle dish with a fish-based broth and a variety of toppings.",
-        thumbnailUrl:
-            "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80",
-        cookingTime: "15m",
-        calories: 450,
-        likes: 785000000,
-        ingredientList: []),
-  ];
 
   @override
   State<FavouriteList> createState() => _FavouriteListState();
 }
 
 class _FavouriteListState extends State<FavouriteList> {
+  List<Food> favouriteFoodList = [];
+  String id = currentId;
+
+  Future<List<String>> getIdList(String userId) async {
+    final DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+    if (userSnapshot.exists) {
+      final List<dynamic>? favouriteIds =
+          userSnapshot.data()!['favourites'] as List<dynamic>?;
+
+      if (favouriteIds != null) {
+        return favouriteIds.cast<String>();
+      }
+    }
+    return [];
+  }
+
+  Future<List<Map<String, dynamic>>> getFavouritesList(
+      List<String> favouriteIds) async {
+    final List<Future<DocumentSnapshot<Map<String, dynamic>>>> futures = [];
+
+    for (String id in favouriteIds) {
+      final String trimmedId = id.trim();
+      final Future<DocumentSnapshot<Map<String, dynamic>>> future =
+          FirebaseFirestore.instance.collection('recipes').doc(trimmedId).get();
+
+      futures.add(future);
+    }
+
+    final List<DocumentSnapshot<Map<String, dynamic>>> snapshots =
+        await Future.wait(futures);
+
+    final List<Map<String, dynamic>> favouriteRecipes = snapshots
+        .map((DocumentSnapshot<Map<String, dynamic>> doc) => doc.data() ?? {})
+        .toList();
+
+    return favouriteRecipes;
+  }
+
+  Future displayFav() async {
+    List<String> ids = await getIdList(id);
+    List<Map<String, dynamic>> tempList = await getFavouritesList(ids);
+
+    favouriteFoodList.clear();
+    for (var element in tempList) {
+      Food food = Food.convertToFood(element);
+      favouriteFoodList.add(food);
+    }
+  }
+
   List<Food> get sortedList {
     switch (widget.selectedSortOptions) {
       case "Name":
-        return widget.favouriteList
+        return favouriteFoodList
           ..sort((item1, item2) => widget.isDescending
               ? item2.name.compareTo(item1.name)
               : item1.name.compareTo(item2.name));
       case "Cooking Time":
-        return widget.favouriteList
+        return favouriteFoodList
           ..sort((item1, item2) => widget.isDescending
               ? item2.cookingTime.compareTo(item1.cookingTime)
               : item1.cookingTime.compareTo(item2.cookingTime));
       case "Calories":
-        return widget.favouriteList
+        return favouriteFoodList
           ..sort((item1, item2) => widget.isDescending
               ? item2.calories.compareTo(item1.calories)
               : item1.calories.compareTo(item2.calories));
       case "Likes":
-        return widget.favouriteList
+        return favouriteFoodList
           ..sort((item1, item2) => widget.isDescending
               ? item2.likes.compareTo(item1.likes)
               : item1.likes.compareTo(item2.likes));
       default:
-        return widget.favouriteList
+        return favouriteFoodList
           ..sort((item1, item2) => widget.isDescending
               ? item2.name.compareTo(item1.name)
               : item1.name.compareTo(item2.name));
@@ -85,13 +101,17 @@ class _FavouriteListState extends State<FavouriteList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: widget.favouriteList.length,
-      itemBuilder: (_, i) {
-        return FavouriteCard(food: sortedList[i]);
-      },
-    );
+    return FutureBuilder(
+        future: displayFav(),
+        builder: (context, snapshot) {
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: favouriteFoodList.length,
+            itemBuilder: (_, i) {
+              return FavouriteCard(food: sortedList[i]);
+            },
+          );
+        });
   }
 }
