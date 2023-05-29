@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe/profile/theme_Select.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
+
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
@@ -8,6 +10,15 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+  void _showThemeSelectionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ThemeSelectDialog();
+      },
+    );
+  }
   
 
   @override
@@ -44,7 +55,8 @@ class _ProfileState extends State<Profile> {
             const SizedBox(height: 200),
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement theme selection logic
+                // Implement theme selection logic
+                _showThemeSelectionDialog(context);
               },
               child: const Text('Choose a Theme'),
             ),
