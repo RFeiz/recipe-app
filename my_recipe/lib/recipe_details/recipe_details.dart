@@ -16,13 +16,18 @@ class RecipeDetails extends StatefulWidget {
 }
 
 class _RecipeDetailsState extends State<RecipeDetails> {
+  List<String> ids = [];
+  String thisRecipeId = "";
+
   String id = currentId;
+
   bool _isMounted = false;
   bool isFavourite = false;
 
   @override
   void initState() {
     super.initState();
+
     _isMounted = true;
     displayDetails();
   }
@@ -30,12 +35,35 @@ class _RecipeDetailsState extends State<RecipeDetails> {
   @override
   void dispose() {
     _isMounted = false;
+
+    if (isFavourite && isInFavList(thisRecipeId) == false) {
+      addToFav();
+    } else if (!isFavourite && isInFavList(thisRecipeId) == true) {
+      removeFromFav();
+    }
+
     super.dispose();
   }
 
-  void toggleFavourite() {
-    setState(() {
-      isFavourite = !isFavourite;
+  bool isInFavList(String thisId) {
+    return ids.contains(thisId);
+  }
+
+  Future<void> addToFav() async {
+    DocumentReference<Map<String, dynamic>> userRef =
+        FirebaseFirestore.instance.collection('users').doc(id);
+
+    await userRef.update({
+      'favourites': FieldValue.arrayUnion([thisRecipeId])
+    });
+  }
+
+  Future<void> removeFromFav() async {
+    DocumentReference<Map<String, dynamic>> userRef =
+        FirebaseFirestore.instance.collection('users').doc(id);
+
+    await userRef.update({
+      'favourites': FieldValue.arrayRemove([thisRecipeId])
     });
   }
 
@@ -63,6 +91,10 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       final String recipeId = doc.id;
       final String recipeName = doc.data()?['name'] ?? '';
 
+      if (recipeName == widget.food.name) {
+        thisRecipeId = recipeId;
+      }
+
       if (favorites.contains(recipeId) && recipeName == widget.food.name) {
         setState(() {
           if (_isMounted) {
@@ -75,8 +107,14 @@ class _RecipeDetailsState extends State<RecipeDetails> {
   }
 
   Future displayDetails() async {
-    List<String> ids = await getIdList(id);
+    ids = await getIdList(id);
     checkFavorites(ids);
+  }
+
+  void toggleFavourite() {
+    setState(() {
+      isFavourite = !isFavourite;
+    });
   }
 
   @override
