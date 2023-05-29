@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:my_recipe/widgets/custom_app_bar.dart';
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
@@ -8,22 +8,21 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+    
+    return SingleChildScrollView(
+      child: Column(
+
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const CustomAppBar(
+              title: "Profile",
+              subTitle: ""),
+       Padding(
+        padding: const EdgeInsets.all(1.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -33,6 +32,7 @@ class _ProfileState extends State<Profile> {
                   'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80'),
             ),
             const SizedBox(height: 16),
+
             const Text(
               'geerish',
               style: TextStyle(
@@ -40,27 +40,8 @@ class _ProfileState extends State<Profile> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
-            const Text(
-              'Liked Recipes',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _counter,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: const Icon(Icons.favorite),
-                    title: Text('Recipe ${index + 1}'),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
+
+            const SizedBox(height: 200),
             ElevatedButton(
               onPressed: () {
                 // TODO: Implement theme selection logic
@@ -77,11 +58,11 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+
+      
+      
+        ],
+      )
     );
   }
 }
