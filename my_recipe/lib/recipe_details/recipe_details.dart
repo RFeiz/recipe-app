@@ -36,17 +36,13 @@ class _RecipeDetailsState extends State<RecipeDetails> {
   void dispose() {
     _isMounted = false;
 
-    if (isFavourite && isInFavList(thisRecipeId) == false) {
+    if (isFavourite) {
       addToFav();
-    } else if (!isFavourite && isInFavList(thisRecipeId) == true) {
+    } else if (!isFavourite) {
       removeFromFav();
     }
 
     super.dispose();
-  }
-
-  bool isInFavList(String thisId) {
-    return ids.contains(thisId);
   }
 
   Future<void> addToFav() async {
