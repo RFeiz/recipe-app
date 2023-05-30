@@ -19,6 +19,12 @@ class _ProfileState extends State<Profile> {
       },
     );
   }
+
+  void _logout() {
+    // TODO: Implement your logout logic here
+    // For example, you can navigate to the login page
+    Navigator.pushReplacementNamed(context, '/login');
+  }
   
 
   @override
@@ -64,6 +70,7 @@ class _ProfileState extends State<Profile> {
             ElevatedButton(
               onPressed: () {
                 // TODO: Implement logout logic
+                _logout();
               },
               child: const Text('Log Out'),
             ),
