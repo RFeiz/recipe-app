@@ -37,9 +37,7 @@ class _MainViewState extends State<MainView> {
             onTap: (value) {
               setState(() {
                 currentIndex = value;
-                pageController.animateToPage(value,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.ease);
+                pageController.jumpToPage(value);
               });
             },
             items: const [

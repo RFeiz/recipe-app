@@ -238,7 +238,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CookingMethod(),
+                builder: (context) => CookingMethod(food: widget.food),
               ),
             );
           },
