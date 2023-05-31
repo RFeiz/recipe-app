@@ -11,7 +11,6 @@ class RecipeDetails extends StatefulWidget {
   const RecipeDetails({Key? key, required this.food}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _RecipeDetailsState createState() => _RecipeDetailsState();
 }
 
@@ -102,7 +101,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     }
   }
 
-  Future displayDetails() async {
+  Future<void> displayDetails() async {
     ids = await getIdList(id);
     checkFavorites(ids);
   }
@@ -134,7 +133,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     );
   }
 
-  SizedBox cookingSteps(BuildContext context) {
+  Widget cookingSteps(BuildContext context) {
     return SizedBox(
       width: 200,
       child: FloatingActionButton(
@@ -142,7 +141,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CookingMethod(),
+              builder: (context) => CookingMethod(food: widget.food),
             ),
           );
         },
@@ -156,7 +155,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     );
   }
 
-  SingleChildScrollView detailsBody(BuildContext context) {
+  Widget detailsBody(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -260,7 +259,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                   "Ingredients",
                   style: Theme.of(context)
                       .textTheme
-                      .titleLarge!
+                      .headline6!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -319,54 +318,30 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                             ),
                           ],
                         ),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Text(
-                    "Cooking Method",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida mauris ut semper posuere. Fusce volutpat neque non elementum rutrum. Phasellus et lacus et lacus accumsan commodo ac quis felis. Proin quam lorem, pellentesque in pretium ac, convallis et massa. Donec in nisi magna. In rutrum, nibh id interdum auctor, nisl elit ultricies arcu, ut ullamcorper ipsum mauris quis eros. Aenean ex tortor, pretium eu vulputate a, consectetur vel diam. Cras nulla nisl, euismod eu purus ac, sagittis viverra elit. Duis pulvinar sem quis fermentum iaculis. Quisque pharetra turpis velit, ut hendrerit tortor finibus id. Sed eu pretium libero.Vestibulum semper justo eu purus suscipit scelerisque. Proin eget rhoncus ex. Nam eget egestas nisi. Morbi molestie imperdiet sapien, ut ornare est laoreet in. Nam fermentum venenatis lorem, et scelerisque ante fermentum eget. Vestibulum eget urna ullamcorper, consequat odio et, efficitur arcu. Ut molestie feugiat tristique. Ut lectus erat, malesuada eget elit et, laoreet commodo augue. Nullam at velit vel ipsum tristique rhoncus. Fusce euismod facilisis lorem nec consequat. Donec in turpis tellus. Nunc at massa et sapien hendrerit volutpat. Curabitur condimentum, nibh hendrerit fermentum suscipit, justo lacus pellentesque felis, vitae rhoncus mi est sit amet massa. Donec id hendrerit felis, at blandit ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    style: Theme.of(context).textTheme.bodyText2,
-                    textAlign: TextAlign.justify,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        width: 200, // Set the desired width here
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CookingMethod(food: widget.food),
-              ),
-            );
-          },
-          child: Text(
-            'Start Cooking',
-            style: TextStyle(
-              fontSize: 16,
                       ),
                     );
                   },
                 ),
+              ],
             ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Text(
+            "Cooking Method",
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Text(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida mauris ut semper posuere. Fusce volutpat neque non elementum rutrum. Phasellus et lacus et lacus accumsan commodo ac quis felis. Proin quam lorem, pellentesque in pretium ac, convallis et massa. Donec in nisi magna. In rutrum, nibh id interdum auctor, nisl elit ultricies arcu, ut ullamcorper ipsum mauris quis eros. Aenean ex tortor, pretium eu vulputate a, consectetur vel diam. Cras nulla nisl, euismod eu purus ac, sagittis viverra elit. Duis pulvinar sem quis fermentum iaculis. Quisque pharetra turpis velit, ut hendrerit tortor finibus id. Sed eu pretium libero.Vestibulum semper justo eu purus suscipit scelerisque. Proin eget rhoncus ex. Nam eget egestas nisi. Morbi molestie imperdiet sapien, ut ornare est laoreet in. Nam fermentum venenatis lorem, et scelerisque ante fermentum eget. Vestibulum eget urna ullamcorper, consequat odio et, efficitur arcu. Ut molestie feugiat tristique. Ut lectus erat, malesuada eget elit et, laoreet commodo augue. Nullam at velit vel ipsum tristique rhoncus. Fusce euismod facilisis lorem nec consequat. Donec in turpis tellus. Nunc at massa et sapien hendrerit volutpat. Curabitur condimentum, nibh hendrerit fermentum suscipit, justo lacus pellentesque felis, vitae rhoncus mi est sit amet massa. Donec id hendrerit felis, at blandit ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            style: Theme.of(context).textTheme.bodyText2,
+            textAlign: TextAlign.justify,
           ),
         ],
       ),
