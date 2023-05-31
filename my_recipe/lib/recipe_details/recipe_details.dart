@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/cooking_method.dart';
+import 'package:my_recipe/user.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
@@ -9,15 +11,105 @@ class RecipeDetails extends StatefulWidget {
   const RecipeDetails({Key? key, required this.food}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _RecipeDetailsState createState() => _RecipeDetailsState();
 }
 
 class _RecipeDetailsState extends State<RecipeDetails> {
-  bool isFavorite = false;
+  List<String> ids = [];
+  String thisRecipeId = "";
 
-  void toggleFavorite() {
+  String id = currentId;
+
+  bool _isMounted = false;
+  bool isFavourite = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isMounted = true;
+    displayDetails();
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+
+    if (isFavourite) {
+      addToFav();
+    } else if (!isFavourite) {
+      removeFromFav();
+    }
+
+    super.dispose();
+  }
+
+  Future<void> addToFav() async {
+    DocumentReference<Map<String, dynamic>> userRef =
+        FirebaseFirestore.instance.collection('users').doc(id);
+
+    await userRef.update({
+      'favourites': FieldValue.arrayUnion([thisRecipeId])
+    });
+  }
+
+  Future<void> removeFromFav() async {
+    DocumentReference<Map<String, dynamic>> userRef =
+        FirebaseFirestore.instance.collection('users').doc(id);
+
+    await userRef.update({
+      'favourites': FieldValue.arrayRemove([thisRecipeId])
+    });
+  }
+
+  Future<List<String>> getIdList(String userId) async {
+    final DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+    if (userSnapshot.exists) {
+      final List<dynamic>? favouriteIds =
+          userSnapshot.data()!['favourites'] as List<dynamic>?;
+
+      if (favouriteIds != null) {
+        return favouriteIds.cast<String>();
+      }
+    }
+    return [];
+  }
+
+  void checkFavorites(List<String> favorites) async {
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance.collection('recipes').get();
+
+    for (final DocumentSnapshot<Map<String, dynamic>> doc
+        in querySnapshot.docs) {
+      final String recipeId = doc.id;
+      final String recipeName = doc.data()?['name'] ?? '';
+
+      if (recipeName == widget.food.name) {
+        thisRecipeId = recipeId;
+      }
+
+      if (favorites.contains(recipeId) && recipeName == widget.food.name) {
+        setState(() {
+          if (_isMounted) {
+            isFavourite = true;
+          }
+        });
+        break;
+      }
+    }
+  }
+
+  Future displayDetails() async {
+    ids = await getIdList(id);
+    checkFavorites(ids);
+  }
+
+  void toggleFavourite() {
     setState(() {
-      isFavorite = !isFavorite;
+      isFavourite = !isFavourite;
     });
   }
 
@@ -29,179 +121,203 @@ class _RecipeDetailsState extends State<RecipeDetails> {
         actions: [
           IconButton(
             icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
+              isFavourite ? Icons.favorite : Icons.favorite_border,
               color: Colors.red,
             ),
-            onPressed: toggleFavorite,
+            onPressed: toggleFavourite,
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.network(
-              widget.food.thumbnailUrl,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 200.0,
+      body: detailsBody(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: cookingSteps(context),
+    );
+  }
+
+  SizedBox cookingSteps(BuildContext context) {
+    return SizedBox(
+      width: 200,
+      child: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CookingMethod(),
             ),
-            SizedBox(height: 8.0),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: (Colors.grey[200])!),
+          );
+        },
+        child: const Text(
+          'Start Cooking',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  SingleChildScrollView detailsBody(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Image.network(
+            widget.food.thumbnailUrl,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: 200.0,
+          ),
+          const SizedBox(height: 8.0),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: (Colors.grey[200])!),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Calories",
+                        style: GoogleFonts.roboto(color: Colors.grey),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            "Calories",
-                            style: GoogleFonts.roboto(color: Colors.grey),
-                          ),
-                          Text(
-                            widget.food.calories.toString() + " Kcal",
-                            style: GoogleFonts.roboto(
-                              color: Colors.grey[900],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: (Colors.grey[200])!),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            "Ingredients",
-                            style: GoogleFonts.roboto(color: Colors.grey),
-                          ),
-                          Text(
-                            "06",
-                            style: GoogleFonts.roboto(
-                              color: Colors.grey[900],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: (Colors.grey[200])!),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            "Time",
-                            style: GoogleFonts.roboto(color: Colors.grey),
-                          ),
-                          Text(
-                            widget.food.cookingTime,
-                            style: GoogleFonts.roboto(
-                              color: Colors.grey[900],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 8, right: 8),
-              child: Column(
-                children: [
-                  Text(
-                    "Ingredients",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: widget.food.ingredientList.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey[200]!),
+                      Text(
+                        "${widget.food.calories} Kcal",
+                        style: GoogleFonts.roboto(
+                          color: Colors.grey[900],
+                          fontWeight: FontWeight.bold,
                         ),
-                        padding: EdgeInsets.all(8),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          widget.food.ingredientList[index]
-                                              .iconUrl,
-                                        ),
-                                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: (Colors.grey[200])!),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Ingredients",
+                        style: GoogleFonts.roboto(color: Colors.grey),
+                      ),
+                      Text(
+                        "06",
+                        style: GoogleFonts.roboto(
+                          color: Colors.grey[900],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: (Colors.grey[200])!),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Time",
+                        style: GoogleFonts.roboto(color: Colors.grey),
+                      ),
+                      Text(
+                        widget.food.cookingTime,
+                        style: GoogleFonts.roboto(
+                          color: Colors.grey[900],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 8, right: 8),
+            child: Column(
+              children: [
+                Text(
+                  "Ingredients",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: widget.food.ingredientList.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey[200]!),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: [
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        widget
+                                            .food.ingredientList[index].iconUrl,
                                       ),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text(
-                                    widget.food.ingredientList[index].name,
-                                    style: GoogleFonts.roboto(
-                                      color: Colors.grey[900],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                widget.food.ingredientList[index].quantity +
-                                    " " +
-                                    widget.food.ingredientList[index].unit,
-                                style: GoogleFonts.roboto(
-                                  color: Colors.grey[900],
                                 ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  widget.food.ingredientList[index].name,
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.grey[900],
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
+                              style: GoogleFonts.roboto(
+                                color: Colors.grey[900],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -246,9 +362,13 @@ class _RecipeDetailsState extends State<RecipeDetails> {
             'Start Cooking',
             style: TextStyle(
               fontSize: 16,
+                      ),
+                    );
+                  },
+                ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
