@@ -27,6 +27,7 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                         fit: BoxFit.cover)),
               ),
               Container(
+                width: constraints.maxWidth,
                 // GRADIENT WHITE
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
