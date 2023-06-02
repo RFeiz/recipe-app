@@ -26,11 +26,10 @@ class _CookingMethodState extends State<CookingMethod> {
           controller: PageController(initialPage: 0, viewportFraction: 0.5),
           children: [
             MethodCardwimg(food: widget.food),
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < widget.food.methodList.length; i++)
               MethodCard(
-                title: "HEHE cook",
-                stepDescription:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque accumsan elit a enim ullamcorper tristique. Maecenas laoreet bibendum risus quis volutpat. Pellentesque accumsan lorem ante, et porttitor libero pellentesque ut. Morbi fermentum tincidunt erat, vel pretium velit luctus vestibulum. Donec eu euismod enim. Duis et massa congue, facilisis ex vitae, tincidunt ex. Vivamus commodo interdum iaculis. Aenean volutpat dapibus porttitor. Integer interdum felis arcu, vel rhoncus ipsum congue vel. Nunc.",
+                title: widget.food.methodList[i].title,
+                stepDescription: widget.food.methodList[i].description,
                 currentStep: i + 1,
                 totalSteps: widget.food.methodList.length,
               ),
