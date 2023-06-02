@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
             title: "Hello Sarwin",
             subTitle: "What will you be cooking today?",
           ),
-          PopularList(),
+          const PopularList(),
           SizedBox(height: MediaQuery.of(context).size.height * 0.05),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),

@@ -12,8 +12,8 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  PageController pageController = PageController(initialPage: 0);
-  int currentIndex = 0;
+  int currentIndex = 1;
+  PageController pageController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _MainViewState extends State<MainView> {
                 currentIndex = value;
               });
             },
-            children: const [Home(), Favourites(), Profile()],
+            children: const [Favourites(), Home(), Profile()],
           ),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor: Theme.of(context).colorScheme.primary,
@@ -42,10 +42,10 @@ class _MainViewState extends State<MainView> {
             },
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined), label: "Home"),
-              BottomNavigationBarItem(
                   icon: Icon(Icons.favorite_border_outlined),
                   label: "Favourites"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home_outlined), label: "Home"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person_outline), label: "Profile"),
             ],

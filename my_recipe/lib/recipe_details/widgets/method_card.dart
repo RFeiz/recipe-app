@@ -24,33 +24,46 @@ class MethodCard extends StatefulWidget {
 class _MethodCardState extends State<MethodCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        child: Container(
-          // display title (top center) , step (top right) and description (center)
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                widget.title,
-                style: Theme.of(context).textTheme.titleLarge,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Padding(
+          padding:
+              const EdgeInsets.only(top: 20, bottom: 20, left: 8, right: 8),
+          child: SizedBox(
+            width: constraints.maxWidth,
+            child: Card(
+              child: Container(
+                // display title (top center), step (top right), and description (center)
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    Text(
+                      "Step ${widget.currentStep} of ${widget.totalSteps}",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                    SizedBox(height: 15),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.stepDescription,
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                "Step ${widget.currentStep} of ${widget.totalSteps}",
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                widget.stepDescription,
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
