@@ -16,6 +16,9 @@ class CookingMethod extends StatefulWidget {
 }
 
 class _CookingMethodState extends State<CookingMethod> {
+  PageController _pageController =
+      PageController(initialPage: 0, viewportFraction: 0.5);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,15 +33,18 @@ class _CookingMethodState extends State<CookingMethod> {
         color: Theme.of(context).colorScheme.surface,
         child: PageView(
           scrollDirection: Axis.vertical,
-          controller: PageController(initialPage: 0, viewportFraction: 0.5),
+          physics: const BouncingScrollPhysics(),
+          controller: _pageController,
           children: [
             MethodCardwimg(food: widget.food),
             for (var i = 0; i < widget.food.methodList.length; i++)
               MethodCard(
+                pageController: _pageController,
                 title: widget.food.methodList[i].title,
                 stepDescription: widget.food.methodList[i].description,
                 currentStep: i + 1,
                 totalSteps: widget.food.methodList.length,
+                duration: Duration(seconds: widget.food.methodList[i].time),
               ),
           ],
         ),

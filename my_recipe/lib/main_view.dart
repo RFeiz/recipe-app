@@ -24,6 +24,7 @@ class _MainViewState extends State<MainView> {
             child: const Icon(Icons.search),
           ),
           body: PageView(
+            physics: const BouncingScrollPhysics(),
             controller: pageController,
             onPageChanged: (value) {
               setState(() {
@@ -37,7 +38,9 @@ class _MainViewState extends State<MainView> {
             onTap: (value) {
               setState(() {
                 currentIndex = value;
-                pageController.jumpToPage(value);
+                pageController.animateToPage(value,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeIn);
               });
             },
             items: const [
