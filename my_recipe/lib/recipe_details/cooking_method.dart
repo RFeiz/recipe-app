@@ -19,6 +19,13 @@ class _CookingMethodState extends State<CookingMethod> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         child: PageView(

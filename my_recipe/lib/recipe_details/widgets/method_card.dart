@@ -1,3 +1,4 @@
+import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 
 class MethodCard extends StatefulWidget {
@@ -21,7 +22,15 @@ class MethodCard extends StatefulWidget {
   State<MethodCard> createState() => _MethodCardState();
 }
 
-class _MethodCardState extends State<MethodCard> {
+class _MethodCardState extends State<MethodCard>
+    with SingleTickerProviderStateMixin {
+  // late CustomTimerController _controller = CustomTimerController(
+  //     vsync: this,
+  //     begin: Duration(hours: 24),
+  //     end: Duration(),
+  //     initialState: CustomTimerState.counting,
+  //     interval: CustomTimerInterval.milliseconds);
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -57,6 +66,16 @@ class _MethodCardState extends State<MethodCard> {
                         ),
                       ),
                     ),
+                    // CustomTimer(
+                    //   controller: _controller,
+                    //   builder: (state, time) {
+                    //     // Build the widget you want!🎉
+                    //     return Text(
+                    //         "${time.hours}:${time.minutes}:${time.seconds}.${time.milliseconds}",
+                    //         style: TextStyle(fontSize: 24.0));
+                    //   },
+                    // ),
+                    SizedBox(height: 15),
                   ],
                 ),
               ),
