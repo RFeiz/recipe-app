@@ -4,14 +4,14 @@ class ThemeSelectDialog extends StatefulWidget {
   const ThemeSelectDialog({Key? key}) : super(key: key);
 
   @override
-  _ThemeSelectDialogState createState() => _ThemeSelectDialogState();
+  ThemeSelectDialogState createState() => ThemeSelectDialogState();
 }
 
-class _ThemeSelectDialogState extends State<ThemeSelectDialog> {
+class ThemeSelectDialogState extends State<ThemeSelectDialog> {
   ThemeMode _selectedTheme = ThemeMode.system;
 
   void _applySelectedTheme(BuildContext context) {
-    // TODO: Apply the selected theme
+    //  Apply the selected theme
     switch (_selectedTheme) {
       case ThemeMode.light:
         // Apply light theme
@@ -92,6 +92,6 @@ class ThemeManager {
   static void setTheme(ThemeMode theme) {
     currentTheme = theme;
     print('Theme changed to $currentTheme');
-    // TODO: Apply the theme to the app
+    //  Apply the theme to the app
   }
 }

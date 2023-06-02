@@ -31,5 +31,19 @@ Future<UserCredential?> signInWithGoogle() async {
   }
 }
 
+Future<void> signOut() async {
+  try {
+    await _auth.signOut();
+    await _googleSignIn.signOut();
+  } catch (error) {
+    // Handle any sign-out errors.
+    print("Error signing out: $error");
+  }
+}
+
+Future<User?> getCurrentUser() async {
+  final User? user = _auth.currentUser;
+  return user;
+}
 // Add other authentication-related functions as needed...
 

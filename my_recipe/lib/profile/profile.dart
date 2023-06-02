@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/profile/theme_Select.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
+
+import '../login/loginPage.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -15,16 +18,14 @@ class _ProfileState extends State<Profile> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        // ignore: prefer_const_constructors
         return ThemeSelectDialog();
       },
     );
   }
 
-  void _logout() {
-    // TODO: Implement your logout logic here
-    // For example, you can navigate to the login page
-    Navigator.pushReplacementNamed(context, '/login');
-  }
+  
+  
   
 
   @override
@@ -69,8 +70,16 @@ class _ProfileState extends State<Profile> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement logout logic
-                _logout();
+                //Implement logout logic
+                FirebaseAuth.instance.signOut();
+
+                Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  LoginPage(),
+              ),
+            );
+                
               },
               child: const Text('Log Out'),
             ),
