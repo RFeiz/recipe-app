@@ -17,40 +17,41 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.search),
-          ),
-          body: PageView(
-            controller: pageController,
-            onPageChanged: (value) {
-              setState(() {
-                currentIndex = value;
-              });
-            },
-            children: const [Favourites(), Home(), Profile()],
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: Theme.of(context).colorScheme.primary,
-            onTap: (value) {
-              setState(() {
-                currentIndex = value;
-                pageController.jumpToPage(value);
-              });
-            },
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite_border_outlined),
-                  label: "Favourites"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined), label: "Home"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline), label: "Profile"),
-            ],
-            currentIndex: currentIndex,
-          )),
-    );
+    return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.search),
+        ),
+        body: PageView(
+          physics: const BouncingScrollPhysics(),
+          controller: pageController,
+          onPageChanged: (value) {
+            setState(() {
+              currentIndex = value;
+            });
+          },
+          children: const [Favourites(), Home(), Profile()],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Theme.of(context).colorScheme.primary,
+          onTap: (value) {
+            setState(() {
+              currentIndex = value;
+              pageController.animateToPage(value,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeIn);
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_border_outlined),
+                label: "Favourites"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline), label: "Profile"),
+          ],
+          currentIndex: currentIndex,
+        ));
   }
 }
