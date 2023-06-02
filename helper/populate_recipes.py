@@ -27,6 +27,8 @@ db = firestore.client()
 #       ],
 #     ),
 
+# method = [{time:0, description:"", title:""}, {time:0, description:"", title:""}]
+
 while True:
 
     # ask user for input
@@ -62,6 +64,25 @@ while True:
         else:
             flag = False
 
+    flag = True
+    methods = []
+    while flag == True:
+        print("Enter method")
+        methodTitle = input("title: ")
+        methodDescription = input("description: ")
+        methodTime = input("time: ")
+        methods.append({
+            "title": methodTitle,
+            "description": methodDescription,
+            "time": int(methodTime)
+        })
+
+        x = input("Add another method? (y/n): ")
+        if x == "y":
+            flag = True
+        else:
+            flag = False    
+
     # create a dictionary to store the data
     data = {
         "name": name,
@@ -71,7 +92,8 @@ while True:
         "cooking_time": cookingTime,
         "calories": int(calories),
         "likes": int(likes),
-        "ingredient_list": ingredientList
+        "ingredient_list": ingredientList,
+        "method": methods
     }
     
     # add the data to the database

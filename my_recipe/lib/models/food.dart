@@ -1,4 +1,6 @@
 // food structure
+import 'package:my_recipe/models/method.dart';
+
 import 'ingredient.dart';
 
 class Food {
@@ -8,6 +10,7 @@ class Food {
   String thumbnailUrl;
 
   List<Ingredient> ingredientList;
+  List<Method> methodList;
 
   String cookingTime;
   int calories;
@@ -24,5 +27,39 @@ class Food {
       required this.calories,
       //required this.servings,
       required this.likes,
-      required this.ingredientList});
+      required this.ingredientList,
+      required this.methodList});
+
+  static Food convertToFood(Map<String, dynamic> data) {
+    List<Ingredient> ingredientList = [];
+
+    Map<String, dynamic> ingredientsData = data['ingredient_list'];
+    ingredientsData.forEach((id, ingredientData) {
+      String unit = ingredientData['unit'];
+      String quantity = ingredientData['quantity'].toString();
+      Ingredient ingredient =
+          Ingredient(unit: unit, quantity: quantity, name: '');
+      ingredientList.add(ingredient);
+    });
+
+    String name = data['name'];
+    String smallDescription = data['small_description'];
+    String longDescription = data['long_description'];
+    String thumbnailUrl = data['thumbnail_url'];
+    String cookingTime = data['cooking_time'];
+    int calories = data['calories'];
+    int likes = data['likes'];
+
+    return Food(
+      name: name,
+      smallDescription: smallDescription,
+      longDescription: longDescription,
+      thumbnailUrl: thumbnailUrl,
+      cookingTime: cookingTime,
+      calories: calories,
+      likes: likes,
+      ingredientList: ingredientList,
+      methodList: [], // implement later @feiz
+    );
+  }
 }
