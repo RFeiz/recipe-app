@@ -39,22 +39,17 @@ class _CookingMethodState extends State<CookingMethod>
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-          child: Icon(
-              _timeController.state.value.name == CustomTimerState.counting.name
-                  ? Icons.pause
-                  : Icons.play_arrow),
+          child: Icon(Icons.hourglass_bottom_rounded),
           onPressed: () {
-            setState(() {
-              if (_timeController.state.value.name ==
-                  CustomTimerState.counting.name) {
-                _timeController.pause();
-              } else if (_timeController.state.value.name ==
-                      CustomTimerState.paused.name ||
-                  _timeController.state.value.name ==
-                      CustomTimerState.reset.name) {
-                _timeController.start();
-              }
-            });
+            if (_timeController.state.value.name ==
+                CustomTimerState.counting.name) {
+              _timeController.pause();
+            } else if (_timeController.state.value.name ==
+                    CustomTimerState.paused.name ||
+                _timeController.state.value.name ==
+                    CustomTimerState.reset.name) {
+              _timeController.start();
+            }
           }),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -64,14 +59,16 @@ class _CookingMethodState extends State<CookingMethod>
         elevation: 0,
         centerTitle: true,
         title: Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          padding: const EdgeInsets.only(top: 20),
-          margin: const EdgeInsets.only(top: 20),
+          padding: EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           child: CustomTimer(
               controller: _timeController,
               builder: (state, time) {
                 return Text("${time.hours}h ${time.minutes}m ${time.seconds}s",
-                    style: TextStyle(fontSize: 24.0));
+                    style: Theme.of(context).textTheme.titleLarge);
               }),
         ),
       ),
@@ -82,7 +79,7 @@ class _CookingMethodState extends State<CookingMethod>
           physics: const BouncingScrollPhysics(),
           controller: _pageController,
           children: [
-            MethodCardwimg(food: widget.food),
+            MethodCardwimg(pageController: _pageController, food: widget.food),
             for (var i = 0; i < widget.food.methodList.length; i++)
               MethodCard(
                 timeController: _timeController,
