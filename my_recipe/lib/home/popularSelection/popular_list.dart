@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/home/popularSelection/widgets/popular_card.dart';
+import 'package:my_recipe/models/method.dart';
 
 import 'widgets/popular_card_skeleton.dart';
 
@@ -35,6 +36,7 @@ class _PopularListState extends State<PopularList> {
           calories: doc['calories'],
           likes: doc['likes'],
           ingredientList: [],
+          methodList: Method.convertToMethod(doc['method']),
         );
         foodList.add(food);
       });

@@ -1,9 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:my_recipe/favourites/favourites.dart';
-import 'package:my_recipe/home/home.dart';
-import 'package:my_recipe/profile/profile.dart';
+
+import 'package:my_recipe/main_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,20 +10,11 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  PageController pageController = PageController(initialPage: 0);
-  int currentIndex = 0;
-
-  @override
   Widget build(BuildContext context) {
-    // get platform theme color
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
@@ -43,39 +33,7 @@ class _MyAppState extends State<MyApp> {
                   brightness: Brightness.dark),
               useMaterial3: true,
             ),
-            home: SafeArea(
-              child: Scaffold(
-                  floatingActionButton: FloatingActionButton(
-                    onPressed: () {},
-                    child: const Icon(Icons.search),
-                  ),
-                  body: PageView(
-                    controller: pageController,
-                    onPageChanged: (value) {
-                      setState(() {
-                        currentIndex = value;
-                      });
-                    },
-                    children: const [Home(), Favourites(), Profile()],
-                  ),
-                  bottomNavigationBar: BottomNavigationBar(
-                    onTap: (value) {
-                      pageController.animateToPage(value,
-                          duration: const Duration(milliseconds: 1),
-                          curve: Curves.ease);
-                    },
-                    items: const [
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.home_outlined), label: "Home"),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.favorite_border_outlined),
-                          label: "Favourites"),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.person_outline), label: "Profile"),
-                    ],
-                    currentIndex: currentIndex,
-                  )),
-            ));
+            home: const MainView());
       },
     );
   }
