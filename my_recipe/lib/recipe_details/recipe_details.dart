@@ -183,10 +183,9 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                       ),
                       Text(
                         "${widget.food.calories} Kcal",
-                        style: GoogleFonts.roboto(
-                          color: Colors.grey[900],
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ],
                   ),
@@ -206,14 +205,13 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                     children: <Widget>[
                       Text(
                         "Ingredients",
-                        style: GoogleFonts.roboto(color: Colors.grey),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       Text(
                         "06",
-                        style: GoogleFonts.roboto(
-                          color: Colors.grey[900],
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ],
                   ),
@@ -233,14 +231,13 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                     children: <Widget>[
                       Text(
                         "Time",
-                        style: GoogleFonts.roboto(color: Colors.grey),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       Text(
                         widget.food.cookingTime,
-                        style: GoogleFonts.roboto(
-                          color: Colors.grey[900],
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ],
                   ),
@@ -303,18 +300,13 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                                 ),
                                 Text(
                                   widget.food.ingredientList[index].name,
-                                  style: GoogleFonts.roboto(
-                                    color: Colors.grey[900],
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ],
                             ),
                             Text(
                               "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
-                              style: GoogleFonts.roboto(
-                                color: Colors.grey[900],
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
                         ),
