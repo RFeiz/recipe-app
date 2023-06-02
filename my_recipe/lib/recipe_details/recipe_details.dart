@@ -181,12 +181,23 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                         "Calories",
                         style: GoogleFonts.roboto(color: Colors.grey),
                       ),
-                      Text(
-                        "${widget.food.calories} Kcal",
-                        style: GoogleFonts.roboto(
-                          color: Colors.grey[900],
-                          fontWeight: FontWeight.bold,
-                        ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            "Calories",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          Text(
+                            widget.food.calories.toString() + " Kcal",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -208,12 +219,23 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                         "Ingredients",
                         style: GoogleFonts.roboto(color: Colors.grey),
                       ),
-                      Text(
-                        "06",
-                        style: GoogleFonts.roboto(
-                          color: Colors.grey[900],
-                          fontWeight: FontWeight.bold,
-                        ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            "Ingredients",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          Text(
+                            "06",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -235,12 +257,23 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                         "Time",
                         style: GoogleFonts.roboto(color: Colors.grey),
                       ),
-                      Text(
-                        widget.food.cookingTime,
-                        style: GoogleFonts.roboto(
-                          color: Colors.grey[900],
-                          fontWeight: FontWeight.bold,
-                        ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            "Time",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          Text(
+                            widget.food.cookingTime,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -297,27 +330,68 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  widget.food.ingredientList[index].name,
-                                  style: GoogleFonts.roboto(
-                                    color: Colors.grey[900],
-                                    fontWeight: FontWeight.bold,
+                                  SizedBox(
+                                    width: 8,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
-                              style: GoogleFonts.roboto(
-                                color: Colors.grey[900],
+                                  Text(
+                                    widget.food.ingredientList[index].name,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                widget.food.ingredientList[index].quantity +
+                                    " " +
+                                    widget.food.ingredientList[index].unit,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ),
                           ],
                         ),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Text(
+                    "Cooking Method",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida mauris ut semper posuere. Fusce volutpat neque non elementum rutrum. Phasellus et lacus et lacus accumsan commodo ac quis felis. Proin quam lorem, pellentesque in pretium ac, convallis et massa. Donec in nisi magna. In rutrum, nibh id interdum auctor, nisl elit ultricies arcu, ut ullamcorper ipsum mauris quis eros. Aenean ex tortor, pretium eu vulputate a, consectetur vel diam. Cras nulla nisl, euismod eu purus ac, sagittis viverra elit. Duis pulvinar sem quis fermentum iaculis. Quisque pharetra turpis velit, ut hendrerit tortor finibus id. Sed eu pretium libero.Vestibulum semper justo eu purus suscipit scelerisque. Proin eget rhoncus ex. Nam eget egestas nisi. Morbi molestie imperdiet sapien, ut ornare est laoreet in. Nam fermentum venenatis lorem, et scelerisque ante fermentum eget. Vestibulum eget urna ullamcorper, consequat odio et, efficitur arcu. Ut molestie feugiat tristique. Ut lectus erat, malesuada eget elit et, laoreet commodo augue. Nullam at velit vel ipsum tristique rhoncus. Fusce euismod facilisis lorem nec consequat. Donec in turpis tellus. Nunc at massa et sapien hendrerit volutpat. Curabitur condimentum, nibh hendrerit fermentum suscipit, justo lacus pellentesque felis, vitae rhoncus mi est sit amet massa. Donec id hendrerit felis, at blandit ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        width: 200, // Set the desired width here
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CookingMethod(),
+              ),
+            );
+          },
+          child: Text(
+            'Start Cooking',
+            style: TextStyle(
+              fontSize: 16,
                       ),
                     );
                   },
