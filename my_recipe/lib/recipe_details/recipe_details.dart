@@ -184,11 +184,14 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 80),
       child: Column(
         children: [
-          Image.network(
-            widget.food.thumbnailUrl,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: 200.0,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.network(
+              widget.food.thumbnailUrl,
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(height: 8.0),
           Row(
@@ -196,7 +199,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: (Colors.grey[200])!),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -222,7 +225,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: (Colors.grey[200])!),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -248,7 +251,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: (Colors.grey[200])!),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -295,7 +298,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 8),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(15),
                         border: Border.all(color: Colors.grey[200]!),
                       ),
                       padding: const EdgeInsets.all(8),
@@ -310,7 +313,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                                   width: 30,
                                   height: 30,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(15),
                                     image: DecorationImage(
                                       image: NetworkImage(
                                         widget
