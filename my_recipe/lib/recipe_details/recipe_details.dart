@@ -119,9 +119,9 @@ class _RecipeDetailsState extends State<RecipeDetails> {
         title: Text(widget.food.name),
         actions: [
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 900),
+            duration: const Duration(milliseconds: 250),
             switchInCurve: Curves.easeIn,
-            switchOutCurve: Curves.easeOut,
+            switchOutCurve: Curves.easeOutExpo,
             transitionBuilder: (Widget child, Animation<double> animation) {
               return FadeTransition(
                 opacity: animation,

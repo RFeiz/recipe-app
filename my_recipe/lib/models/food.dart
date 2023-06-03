@@ -43,7 +43,7 @@ class Food {
       String unit = ingredientData['unit'];
       String quantity = ingredientData['quantity'].toString();
 
-      for (int i = 0; i <= tempIngredientList.length; i++) {
+      for (int i = 0; i < tempIngredientList.length; i++) {
         if (tempIngredientList[i] == id) {
           if (tempIngredientList[i + 2] == "") {
             Ingredient ingredient = Ingredient(
