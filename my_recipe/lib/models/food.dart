@@ -1,7 +1,7 @@
 // food structure
 import 'package:my_recipe/models/method.dart';
 
-import 'package:my_recipe/models/query.dart';
+import 'package:my_recipe/models/custom_query.dart';
 import 'package:my_recipe/models/ingredient.dart';
 
 class Food {
@@ -36,7 +36,7 @@ class Food {
         "https://firebasestorage.googleapis.com/v0/b/recipe-app-6d61d.appspot.com/o/ingredients%2Fvegetable-bucket.png?alt=media&token=a0768a42-aff0-437b-a63b-cc0cd1ce5988";
     List<Ingredient> ingredientList = [];
     List<String> tempIngredientList = [];
-    tempIngredientList = Query.allIngredientList;
+    tempIngredientList = CustomQuery.allIngredientList;
 
     Map<String, dynamic> ingredientsData = data['ingredient_list'];
     ingredientsData.forEach((id, ingredientData) {
