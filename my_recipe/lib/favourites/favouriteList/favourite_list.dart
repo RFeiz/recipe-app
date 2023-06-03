@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/favourites/favouriteList/widgets/favourite_card.dart';
+import 'package:my_recipe/favourites/favouriteList/widgets/favourite_card_skeleton.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/models/user.dart';
 
@@ -103,25 +104,36 @@ class _FavouriteListState extends State<FavouriteList> {
     return FutureBuilder(
         future: displayFav(),
         builder: (context, snapshot) {
-          if (favouriteFoodList.isNotEmpty) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (favouriteFoodList.isNotEmpty) {
+              return ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: favouriteFoodList.length,
+                itemBuilder: (_, i) {
+                  return FavouriteCard(food: sortedList[i]);
+                },
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.only(top: 125.0),
+                child: Center(
+                    child: Text(
+                  "You have no favourites yet!",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                )),
+              );
+            }
+          } else {
             return ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: favouriteFoodList.length,
-              itemBuilder: (_, i) {
-                return FavouriteCard(food: sortedList[i]);
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return const FavouriteCardSkeleton();
               },
-            );
-          } else {
-            return Padding(
-              padding: const EdgeInsets.only(top: 125.0),
-              child: Center(
-                  child: Text(
-                "You have no favourites yet!",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              )),
             );
           }
         });
