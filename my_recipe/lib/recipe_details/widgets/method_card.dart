@@ -1,6 +1,7 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MethodCard extends StatefulWidget {
   MethodCard(
       {super.key,

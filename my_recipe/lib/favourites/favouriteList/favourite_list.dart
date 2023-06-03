@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/favourites/favouriteList/widgets/favourite_card.dart';
 import 'package:my_recipe/models/food.dart';
-import 'package:my_recipe/user.dart';
+import 'package:my_recipe/models/user.dart';
 
 class FavouriteList extends StatefulWidget {
   final bool isDescending;
@@ -41,9 +41,8 @@ class _FavouriteListState extends State<FavouriteList> {
     final List<Future<DocumentSnapshot<Map<String, dynamic>>>> futures = [];
 
     for (String id in favouriteIds) {
-      final String trimmedId = id.trim();
       final Future<DocumentSnapshot<Map<String, dynamic>>> future =
-          FirebaseFirestore.instance.collection('recipes').doc(trimmedId).get();
+          FirebaseFirestore.instance.collection('recipes').doc(id).get();
 
       futures.add(future);
     }
@@ -104,14 +103,27 @@ class _FavouriteListState extends State<FavouriteList> {
     return FutureBuilder(
         future: displayFav(),
         builder: (context, snapshot) {
-          return ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: favouriteFoodList.length,
-            itemBuilder: (_, i) {
-              return FavouriteCard(food: sortedList[i]);
-            },
-          );
+          if (favouriteFoodList.isNotEmpty) {
+            return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: favouriteFoodList.length,
+              itemBuilder: (_, i) {
+                return FavouriteCard(food: sortedList[i]);
+              },
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.only(top: 125.0),
+              child: Center(
+                  child: Text(
+                "You have no favourites yet!",
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              )),
+            );
+          }
         });
   }
 }

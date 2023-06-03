@@ -1,10 +1,7 @@
-// popular_list.dart
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/home/popularSelection/widgets/popular_card.dart';
-import 'package:my_recipe/models/method.dart';
 
 import 'widgets/popular_card_skeleton.dart';
 
@@ -19,28 +16,19 @@ class PopularList extends StatefulWidget {
 class _PopularListState extends State<PopularList> {
   List<Food> foodList = [];
 
-  // get and retuen the popular food list
   Future getFoodList() async {
-    await FirebaseFirestore.instance
-        .collection('recipes')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      foodList.clear();
-      querySnapshot.docs.forEach((doc) {
-        Food food = Food(
-          name: doc['name'],
-          smallDescription: doc['small_description'],
-          longDescription: doc['long_description'],
-          thumbnailUrl: doc['thumbnail_url'],
-          cookingTime: doc['cooking_time'],
-          calories: doc['calories'],
-          likes: doc['likes'],
-          ingredientList: [],
-          methodList: Method.convertToMethod(doc['method']),
-        );
-        foodList.add(food);
-      });
-    });
+    final QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('recipes').get();
+
+    final List<dynamic> foodData = querySnapshot.docs
+        .map((QueryDocumentSnapshot<dynamic> doc) => doc.data())
+        .toList();
+
+    foodList.clear();
+    for (var element in foodData) {
+      Food food = Food.convertToFood(element);
+      foodList.add(food);
+    }
   }
 
   @override

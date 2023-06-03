@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/cooking_method.dart';
-import 'package:my_recipe/user.dart';
+import 'package:my_recipe/models/user.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
@@ -10,6 +10,7 @@ class RecipeDetails extends StatefulWidget {
   const RecipeDetails({Key? key, required this.food}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _RecipeDetailsState createState() => _RecipeDetailsState();
 }
 
@@ -117,12 +118,36 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       appBar: AppBar(
         title: Text(widget.food.name),
         actions: [
-          IconButton(
-            icon: Icon(
-              isFavourite ? Icons.favorite : Icons.favorite_border,
-              color: Colors.red,
-            ),
-            onPressed: toggleFavourite,
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 900),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: ScaleTransition(
+                  scale: animation,
+                  child: child,
+                ),
+              );
+            },
+            child: isFavourite
+                ? IconButton(
+                    key: const ValueKey(Icons.favorite),
+                    icon: const Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                    onPressed: toggleFavourite,
+                  )
+                : IconButton(
+                    key: const ValueKey(Icons.favorite_border),
+                    icon: const Icon(
+                      Icons.favorite_border,
+                      color: Colors.red,
+                    ),
+                    onPressed: toggleFavourite,
+                  ),
           ),
         ],
       ),
@@ -156,6 +181,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
 
   Widget detailsBody(BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 80),
       child: Column(
         children: [
           Image.network(
@@ -207,7 +233,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       Text(
-                        "06",
+                        widget.food.ingredientList.length.toString(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -304,7 +330,9 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                               ],
                             ),
                             Text(
-                              "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
+                              widget.food.ingredientList[index].unit == "pref"
+                                  ? "To Taste"
+                                  : "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],

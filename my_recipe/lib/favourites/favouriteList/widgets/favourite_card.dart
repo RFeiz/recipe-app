@@ -46,7 +46,7 @@ class _FavouriteCardState extends State<FavouriteCard> {
                       const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
                       const Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
                     ],
-                    stops: [
+                    stops: const [
                       0.0,
                       0.8
                     ])),
