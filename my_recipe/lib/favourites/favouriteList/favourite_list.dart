@@ -103,14 +103,27 @@ class _FavouriteListState extends State<FavouriteList> {
     return FutureBuilder(
         future: displayFav(),
         builder: (context, snapshot) {
-          return ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: favouriteFoodList.length,
-            itemBuilder: (_, i) {
-              return FavouriteCard(food: sortedList[i]);
-            },
-          );
+          if (favouriteFoodList.isNotEmpty) {
+            return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: favouriteFoodList.length,
+              itemBuilder: (_, i) {
+                return FavouriteCard(food: sortedList[i]);
+              },
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.only(top: 125.0),
+              child: Center(
+                  child: Text(
+                "You have no favourites yet!",
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              )),
+            );
+          }
         });
   }
 }

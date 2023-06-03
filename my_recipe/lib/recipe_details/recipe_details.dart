@@ -158,6 +158,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
 
   Widget detailsBody(BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 80),
       child: Column(
         children: [
           Image.network(
