@@ -15,91 +15,122 @@ class _FavouriteCardState extends State<FavouriteCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => RecipeDetails(food: widget.food)),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 7.5),
-        child: Container(
-          margin: const EdgeInsets.only(left: 12, right: 15, bottom: 10),
-          child: Stack(children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.225,
-              height: MediaQuery.of(context).size.height * 0.13,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7.0),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => RecipeDetails(food: widget.food)),
+          );
+        },
+        child: Stack(children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
+            height: MediaQuery.of(context).size.height * 0.15,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
                     image: NetworkImage(widget.food.thumbnailUrl),
-                    fit: BoxFit.cover),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              bottom: MediaQuery.of(context).size.height * 0.016,
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.75,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7.0),
-                    color: Theme.of(context).colorScheme.surface,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .scrim
-                            .withOpacity(0.2),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ]),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Column(
-                    children: [
-                      Text(widget.food.name,
-                          style: Theme.of(context).textTheme.titleMedium),
-                      Text(
-                          widget.food.smallDescription.length > 35
-                              ? "${widget.food.smallDescription.substring(0, 35)}..."
-                              : widget.food.smallDescription,
-                          style: Theme.of(context).textTheme.bodySmall),
-                      const SizedBox(height: 3.0),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  const Icon(Icons.watch_later_outlined,
-                                      color: Colors.red),
-                                  const SizedBox(width: 1.0),
-                                  Text(widget.food.cookingTime,
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall)
-                                ]),
-                            Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  const Icon(Icons.local_fire_department_sharp,
-                                      color: Colors.red),
-                                  const SizedBox(width: 1.0),
-                                  Text("${widget.food.calories} Kcal",
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall)
-                                ]),
-                          ]),
+                    fit: BoxFit.cover)),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
+            height: MediaQuery.of(context).size.height * 0.15,
+            width: MediaQuery.of(context).size.width,
+            // GRADIENT WHITE
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                gradient: LinearGradient(
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
+                    colors: [
+                      const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4),
+                      const Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
                     ],
-                  ),
-                ),
-              ),
-            )
-          ]),
-        ),
-      ),
-    );
+                    stops: [
+                      0.0,
+                      0.8
+                    ])),
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 15.0),
+                    Text(
+                      widget.food.name,
+                      // white and bold
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      widget.food.smallDescription,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 15.0),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              const Icon(Icons.favorite_border_outlined,
+                                  color: Colors.red),
+                              const SizedBox(width: 1.0),
+                              Text(
+                                  widget.food.likes > 1000
+                                      ? widget.food.likes > 1000000
+                                          ? "${(widget.food.likes / 1000000).toStringAsFixed(1)}M"
+                                          : "${(widget.food.likes / 1000).toStringAsFixed(1)}K"
+                                      : widget.food.likes.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              const Icon(Icons.watch_later_outlined,
+                                  color: Colors.red),
+                              const SizedBox(width: 1.0),
+                              Text(widget.food.cookingTime,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              const Icon(Icons.local_fire_department_sharp,
+                                  color: Colors.red),
+                              const SizedBox(width: 1.0),
+                              Text("${widget.food.calories} Kcal",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+            ),
+          ),
+        ]));
   }
 }
