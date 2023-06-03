@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 
+// ignore: must_be_immutable
 class MethodCardwimg extends StatefulWidget {
   MethodCardwimg({super.key, required this.pageController, required this.food});
 

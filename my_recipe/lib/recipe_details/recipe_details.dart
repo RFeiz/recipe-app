@@ -118,13 +118,36 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       appBar: AppBar(
         title: Text(widget.food.name),
         actions: [
-          IconButton(
-            // Make explosion animation if food is in favourites
-            icon: Icon(
-              isFavourite ? Icons.favorite : Icons.favorite_border,
-              color: Colors.red,
-            ),
-            onPressed: toggleFavourite,
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 900),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: ScaleTransition(
+                  scale: animation,
+                  child: child,
+                ),
+              );
+            },
+            child: isFavourite
+                ? IconButton(
+                    key: const ValueKey(Icons.favorite),
+                    icon: const Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                    onPressed: toggleFavourite,
+                  )
+                : IconButton(
+                    key: const ValueKey(Icons.favorite_border),
+                    icon: const Icon(
+                      Icons.favorite_border,
+                      color: Colors.red,
+                    ),
+                    onPressed: toggleFavourite,
+                  ),
           ),
         ],
       ),
