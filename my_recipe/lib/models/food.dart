@@ -33,7 +33,7 @@ class Food {
 
   static Food convertToFood(Map<String, dynamic> data) {
     String defaultIcon =
-        "https://firebasestorage.googleapis.com/v0/b/recipe-app-6d61d.appspot.com/o/ingredients%2Fvegetable-bucket.png?alt=media&token=a0768a42-aff0-437b-a63b-cc0cd1ce5988";
+        "https://firebasestorage.googleapis.com/v0/b/recipe-app-6d61d.appspot.com/o/ingredients%2Ffridge-svgrepo-com.svg?alt=media&token=e9488e7c-19ef-4253-8044-4b248ab12004&_gl=1*h2ur3i*_ga*MTIzOTk0NjEyNi4xNjgzOTE4NTEy*_ga_CW55HF8NVT*MTY4NTgyNjE0MC4yMS4xLjE2ODU4MjY3NDQuMC4wLjA.";
     List<Ingredient> ingredientList = [];
     List<String> tempIngredientList = [];
     tempIngredientList = CustomQuery.allIngredientList;

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/cooking_method.dart';
 import 'package:my_recipe/models/user.dart';
+import 'package:skeletons/skeletons.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
@@ -91,12 +93,12 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       }
 
       if (favorites.contains(recipeId) && recipeName == widget.food.name) {
-        setState(() {
-          if (_isMounted) {
+        if (_isMounted) {
+          setState(() {
             isFavourite = true;
-          }
-        });
-        break;
+          });
+          break;
+        }
       }
     }
   }
@@ -181,7 +183,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
 
   Widget detailsBody(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 80),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 80),
       child: Column(
         children: [
           ClipRRect(
@@ -276,76 +278,90 @@ class _RecipeDetailsState extends State<RecipeDetails> {
           const SizedBox(
             height: 24,
           ),
-          Container(
-            margin: const EdgeInsets.only(left: 8, right: 8),
-            child: Column(
-              children: [
-                Text(
-                  "Ingredients",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.food.ingredientList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.grey[200]!),
-                      ),
-                      padding: const EdgeInsets.all(8),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: [
-                                Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        widget
-                                            .food.ingredientList[index].iconUrl,
+          Column(
+            children: [
+              Text(
+                "Ingredients",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.food.ingredientList.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.grey[200]!),
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0, left: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              Container(
+                                width: 25,
+                                height: 25,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: SvgPicture.network(
+                                  widget.food.ingredientList[index].iconUrl,
+                                  width: 25,
+                                  height: 25,
+                                  fit: BoxFit.cover,
+                                  placeholderBuilder: (BuildContext context) =>
+                                      Container(
+                                          child: Skeleton(
+                                    isLoading: true,
+                                    skeleton: Container(
+                                      width: 25,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(7),
+                                        color: Colors.grey[300],
                                       ),
-                                      fit: BoxFit.cover,
                                     ),
-                                  ),
+                                    child: Text(""),
+                                  )),
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .color,
                                 ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  widget.food.ingredientList[index].name,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ],
-                            ),
-                            Text(
-                              widget.food.ingredientList[index].unit == "pref"
-                                  ? "To Taste"
-                                  : "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                widget.food.ingredientList[index].name,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
+                          Text(
+                            widget.food.ingredientList[index].unit == "pref"
+                                ? "To Taste"
+                                : "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           const SizedBox(
             height: 24,
