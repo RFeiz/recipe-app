@@ -306,7 +306,9 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                               ],
                             ),
                             Text(
-                              "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
+                              widget.food.ingredientList[index].unit == "pref"
+                                  ? "To Taste"
+                                  : "${widget.food.ingredientList[index].quantity} ${widget.food.ingredientList[index].unit}",
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],

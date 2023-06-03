@@ -82,8 +82,7 @@ class Food {
       calories: calories,
       likes: likes,
       ingredientList: ingredientList,
-      methodList:
-          Method.convertToMethod(data['method']), // implement later @feiz
+      methodList: Method.convertToMethod(data['method']),
     );
   }
 }
