@@ -105,14 +105,14 @@ class _PopularCardState extends State<PopularCard> {
                           Text(
                             widget.food.name,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 5.0),
                           Text(
                             widget.food.smallDescription.length > 50
                                 ? "${widget.food.smallDescription.substring(0, 50)}..."
                                 : widget.food.smallDescription,
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
@@ -132,7 +132,8 @@ class _PopularCardState extends State<PopularCard> {
                                         ? "${(widget.food.likes / 1000000).toStringAsFixed(1)}M"
                                         : "${(widget.food.likes / 1000).toStringAsFixed(1)}K"
                                     : widget.food.likes.toString(),
-                                style: Theme.of(context).textTheme.subtitle2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ),
@@ -144,7 +145,8 @@ class _PopularCardState extends State<PopularCard> {
                               const SizedBox(width: 1.0),
                               Text(
                                 widget.food.cookingTime,
-                                style: Theme.of(context).textTheme.subtitle2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ),
@@ -156,7 +158,8 @@ class _PopularCardState extends State<PopularCard> {
                               const SizedBox(width: 1.0),
                               Text(
                                 "${widget.food.calories} Kcal",
-                                style: Theme.of(context).textTheme.subtitle2,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ),
