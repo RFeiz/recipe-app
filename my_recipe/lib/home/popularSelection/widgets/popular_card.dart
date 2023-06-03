@@ -107,7 +107,6 @@ class _PopularCardState extends State<PopularCard> {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          const SizedBox(height: 5.0),
                           Text(
                             widget.food.smallDescription.length > 50
                                 ? "${widget.food.smallDescription.substring(0, 50)}..."
