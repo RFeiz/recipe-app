@@ -1,7 +1,8 @@
 // food structure
 import 'package:my_recipe/models/method.dart';
 
-import 'ingredient.dart';
+import 'package:my_recipe/models/query.dart';
+import 'package:my_recipe/models/ingredient.dart';
 
 class Food {
   String name;
@@ -31,15 +32,37 @@ class Food {
       required this.methodList});
 
   static Food convertToFood(Map<String, dynamic> data) {
+    String defaultIcon =
+        "https://firebasestorage.googleapis.com/v0/b/recipe-app-6d61d.appspot.com/o/ingredients%2Fvegetable-bucket.png?alt=media&token=a0768a42-aff0-437b-a63b-cc0cd1ce5988";
     List<Ingredient> ingredientList = [];
+    List<String> tempIngredientList = [];
+    tempIngredientList = Query.allIngredientList;
 
     Map<String, dynamic> ingredientsData = data['ingredient_list'];
     ingredientsData.forEach((id, ingredientData) {
       String unit = ingredientData['unit'];
       String quantity = ingredientData['quantity'].toString();
-      Ingredient ingredient =
-          Ingredient(unit: unit, quantity: quantity, name: '');
-      ingredientList.add(ingredient);
+
+      for (int i = 0; i <= tempIngredientList.length; i++) {
+        if (tempIngredientList[i] == id) {
+          if (tempIngredientList[i + 2] == "") {
+            Ingredient ingredient = Ingredient(
+                name: tempIngredientList[i + 1],
+                unit: unit,
+                quantity: quantity,
+                iconUrl: defaultIcon);
+            ingredientList.add(ingredient);
+          } else {
+            Ingredient ingredient = Ingredient(
+                name: tempIngredientList[i + 1],
+                unit: unit,
+                quantity: quantity,
+                iconUrl: tempIngredientList[i + 2]);
+            ingredientList.add(ingredient);
+          }
+          break;
+        }
+      }
     });
 
     String name = data['name'];
@@ -59,7 +82,8 @@ class Food {
       calories: calories,
       likes: likes,
       ingredientList: ingredientList,
-      methodList: [], // implement later @feiz
+      methodList:
+          Method.convertToMethod(data['method']), // implement later @feiz
     );
   }
 }

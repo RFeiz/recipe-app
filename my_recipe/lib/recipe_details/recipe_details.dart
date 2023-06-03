@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/cooking_method.dart';
-import 'package:my_recipe/user.dart';
+import 'package:my_recipe/models/user.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
@@ -10,6 +10,7 @@ class RecipeDetails extends StatefulWidget {
   const RecipeDetails({Key? key, required this.food}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _RecipeDetailsState createState() => _RecipeDetailsState();
 }
 
@@ -118,6 +119,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
         title: Text(widget.food.name),
         actions: [
           IconButton(
+            // Make explosion animation if food is in favourites
             icon: Icon(
               isFavourite ? Icons.favorite : Icons.favorite_border,
               color: Colors.red,
@@ -207,7 +209,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       Text(
-                        "06",
+                        widget.food.ingredientList.length.toString(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
