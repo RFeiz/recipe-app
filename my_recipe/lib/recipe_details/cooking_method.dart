@@ -39,7 +39,7 @@ class _CookingMethodState extends State<CookingMethod>
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.hourglass_bottom_rounded),
+          child: Icon(Icons.timer_outlined),
           onPressed: () {
             if (_timeController.state.value.name ==
                 CustomTimerState.counting.name) {
@@ -63,6 +63,14 @@ class _CookingMethodState extends State<CookingMethod>
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.scrim.withOpacity(0.2),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
           ),
           child: CustomTimer(
               controller: _timeController,
