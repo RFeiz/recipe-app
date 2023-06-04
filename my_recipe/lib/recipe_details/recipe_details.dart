@@ -55,7 +55,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     });
 
     DocumentReference<Map<String, dynamic>> recipeRef =
-        FirebaseFirestore.instance.collection('recipe').doc(thisRecipeId);
+        FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
 
     await recipeRef.update({
       'likes': FieldValue.increment(1),
@@ -71,7 +71,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     });
 
     DocumentReference<Map<String, dynamic>> recipeRef =
-        FirebaseFirestore.instance.collection('recipe').doc(thisRecipeId);
+        FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
 
     await recipeRef.update({
       'likes': FieldValue.increment(-1),
