@@ -43,6 +43,8 @@ dependencies:
   cloud_firestore: ^4.7.0
   skeletons: ^0.0.3
   custom_timer: ^0.2.3
+  flutter_svg: ^2.0.6
+  shared_preferences: ^2.1.1
   
 
 dev_dependencies:
