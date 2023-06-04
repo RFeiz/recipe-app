@@ -11,7 +11,9 @@ class MethodCard extends StatefulWidget {
       required this.stepDescription,
       required this.currentStep,
       required this.totalSteps,
-      this.duration = const Duration(seconds: 0)});
+      this.duration = const Duration(seconds: 0),
+      required this.stepCompleted,
+      required this.onStepCompleted});
 
   CustomTimerController timeController;
   PageController pageController;
@@ -25,6 +27,7 @@ class MethodCard extends StatefulWidget {
   final Duration duration;
 
   bool stepCompleted = false;
+  final VoidCallback onStepCompleted;
 
   @override
   State<MethodCard> createState() => _MethodCardState();
@@ -126,6 +129,7 @@ class _MethodCardState extends State<MethodCard>
                               )),
                           onPressed: () {
                             setState(() {
+                              widget.onStepCompleted();
                               widget.stepCompleted = !widget.stepCompleted;
                               if (widget.stepCompleted) {
                                 widget.pageController.animateToPage(

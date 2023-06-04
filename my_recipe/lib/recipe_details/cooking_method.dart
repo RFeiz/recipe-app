@@ -21,12 +21,24 @@ class _CookingMethodState extends State<CookingMethod>
   PageController _pageController =
       PageController(initialPage: 0, viewportFraction: 0.5);
 
+  List<bool> stepCompletedList = [];
+
   late CustomTimerController _timeController = CustomTimerController(
       vsync: this,
       begin: Duration(seconds: 0),
       end: Duration(),
       initialState: CustomTimerState.reset,
       interval: CustomTimerInterval.seconds);
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the step completion state list
+    stepCompletedList = List.generate(
+      widget.food.methodList.length,
+      (index) => false,
+    );
+  }
 
   @override
   void dispose() {
@@ -39,17 +51,24 @@ class _CookingMethodState extends State<CookingMethod>
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.timer_outlined),
+          child: Icon(
+            _timeController.state.value.name == CustomTimerState.counting.name
+                ? Icons.pause
+                : Icons.play_arrow,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           onPressed: () {
-            if (_timeController.state.value.name ==
-                CustomTimerState.counting.name) {
-              _timeController.pause();
-            } else if (_timeController.state.value.name ==
-                    CustomTimerState.paused.name ||
-                _timeController.state.value.name ==
-                    CustomTimerState.reset.name) {
-              _timeController.start();
-            }
+            setState(() {
+              if (_timeController.state.value.name ==
+                  CustomTimerState.counting.name) {
+                _timeController.pause();
+              } else if (_timeController.state.value.name ==
+                      CustomTimerState.paused.name ||
+                  _timeController.state.value.name ==
+                      CustomTimerState.reset.name) {
+                _timeController.start();
+              }
+            });
           }),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -97,6 +116,13 @@ class _CookingMethodState extends State<CookingMethod>
                 currentStep: i + 1,
                 totalSteps: widget.food.methodList.length,
                 duration: Duration(seconds: widget.food.methodList[i].time),
+                stepCompleted:
+                    stepCompletedList[i], // Pass the step completion state
+                onStepCompleted: () {
+                  setState(() {
+                    stepCompletedList[i] = true;
+                  });
+                },
               ),
           ],
         ),
