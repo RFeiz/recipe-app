@@ -17,8 +17,12 @@ class _PopularListState extends State<PopularList> {
   List<Food> foodList = [];
 
   Future getFoodList() async {
-    final QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('recipes').get();
+    // ordered by like and get the top 10
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('recipes')
+        .orderBy('likes', descending: true)
+        .limit(10)
+        .get();
 
     final List<dynamic> foodData = querySnapshot.docs
         .map((QueryDocumentSnapshot<dynamic> doc) => doc.data())
