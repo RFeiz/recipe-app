@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_recipe/profile/theme_Select.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
 
@@ -58,20 +59,23 @@ class _ProfileState extends State<Profile> {
                 child: const Text('Choose a Theme'),
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  //Implement logout logic
-                  FirebaseAuth.instance.signOut();
+             ElevatedButton(
+              onPressed: () async {
+                // Sign out from Firebase Authentication
+                await FirebaseAuth.instance.signOut();
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
-                },
-                child: const Text('Log Out'),
-              ),
+                // Sign out from Google Sign-In
+                final GoogleSignIn googleSignIn = GoogleSignIn();
+                await googleSignIn.signOut();
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              child: const Text('Log Out'),
+            ),
             ],
           ),
         ),

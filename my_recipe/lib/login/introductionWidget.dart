@@ -95,7 +95,7 @@ class _IntroductionWidgetState extends State<IntroductionWidget>
           reverse: true,
         ),
         PageViewModel(
-          title: "Ugly as fuck",
+          title: "",
           bodyWidget:
               const SizedBox(), // Empty SizedBox to remove the body text
           decoration: pageDecoration.copyWith(
@@ -111,7 +111,7 @@ class _IntroductionWidgetState extends State<IntroductionWidget>
           reverse: true,
         ),
         PageViewModel(
-          title: "Sarwin you are gay",
+          title: "",
           bodyWidget:
               const SizedBox(), // Empty SizedBox to remove the body text
           decoration: pageDecoration.copyWith(
@@ -127,7 +127,7 @@ class _IntroductionWidgetState extends State<IntroductionWidget>
           reverse: true,
         ),
         PageViewModel(
-          title: "same as farhaan, gay",
+          title: "",
           bodyWidget:
               const SizedBox(), // Empty SizedBox to remove the body text
           decoration: pageDecoration.copyWith(

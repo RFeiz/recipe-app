@@ -24,51 +24,60 @@ class LoginButton extends StatelessWidget {
     );
   }
 
-  Future<User?> signInWithGoogle({required BuildContext context}) async {
-    User? user;
+  Future<void> signInWithGoogle({required BuildContext context}) async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
 
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-
-      try {
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
 
-        user = userCredential.user;
+        final User? user = userCredential.user;
 
-        // Create a document for the user in the 'users' collection
         if (user != null) {
-          final userData = {
-            'favourites': [],
+          // Check if the user document already exists in the 'users' collection
+          final userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+          final userSnapshot = await userRef.get();
 
-            // Add additional user data fields as needed
-          };
+          if (!userSnapshot.exists) {
+            // Create a document for the user in the 'users' collection
+            final userData = {
+              'favourites': [],
+              // Add additional user data fields as needed
+            };
 
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .set(userData);
+            await userRef.set(userData);
+          }
+
+          // Navigate to MainView
+          Navigator.pushReplacementNamed(context, '/main');
         }
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'account-exists-with-different-credential') {
-          // handle the error here
-        } else if (e.code == 'invalid-credential') {
-          // handle the error here
-        }
-      } catch (e) {
-        // handle the error here
       }
-    }
+    } on PlatformException catch (e) {
+      print('PlatformException - code: ${e.code}, message: ${e.message}');
+      print('Stack trace:\n${e.stacktrace}');
 
-    return user;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.code}'),
+        ),
+      );
+    } catch (e) {
+      print('Error signing in with Google: $e');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+        ),
+      );
+    }
   }
 }
