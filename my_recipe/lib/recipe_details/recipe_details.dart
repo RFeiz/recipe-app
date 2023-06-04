@@ -53,6 +53,13 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     await userRef.update({
       'favourites': FieldValue.arrayUnion([thisRecipeId])
     });
+
+    DocumentReference<Map<String, dynamic>> recipeRef =
+        FirebaseFirestore.instance.collection('recipe').doc(thisRecipeId);
+
+    await recipeRef.update({
+      'likes': FieldValue.increment(1),
+    });
   }
 
   Future<void> removeFromFav() async {
@@ -61,6 +68,13 @@ class _RecipeDetailsState extends State<RecipeDetails> {
 
     await userRef.update({
       'favourites': FieldValue.arrayRemove([thisRecipeId])
+    });
+
+    DocumentReference<Map<String, dynamic>> recipeRef =
+        FirebaseFirestore.instance.collection('recipe').doc(thisRecipeId);
+
+    await recipeRef.update({
+      'likes': FieldValue.increment(-1),
     });
   }
 
