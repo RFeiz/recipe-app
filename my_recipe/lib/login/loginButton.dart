@@ -43,16 +43,19 @@ class LoginButton extends StatelessWidget {
         final User? user = userCredential.user;
 
         if (user != null) {
-          // Create a document for the user in the 'users' collection
-          final userData = {
-            'favourites': [],
-            // Add additional user data fields as needed
-          };
+          // Check if the user document already exists in the 'users' collection
+          final userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+          final userSnapshot = await userRef.get();
 
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .set(userData);
+          if (!userSnapshot.exists) {
+            // Create a document for the user in the 'users' collection
+            final userData = {
+              'favourites': [],
+              // Add additional user data fields as needed
+            };
+
+            await userRef.set(userData);
+          }
 
           // Navigate to MainView
           Navigator.pushReplacementNamed(context, '/main');
