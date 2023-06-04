@@ -45,10 +45,11 @@ class MyApp extends StatelessWidget {
           initialRoute: FirebaseAuth.instance.currentUser == null
               ? '/login'
               : '/main',
-          routes: {
-            '/login': (context) => const LoginPage(), // Set the LoginPage as a route
-            '/main': (context) => const MainView(),
-          },
+         routes: {
+         '/login': (context) => const LoginPage(),
+         '/main': (context) => const MainView(),
+        },
+
         );
       },
     );
