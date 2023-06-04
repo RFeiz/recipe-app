@@ -16,24 +16,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            "assets/images/loginScreen1.jpeg",
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Color.fromARGB(255, 0, 0, 0),
-                ],
-              ),
-            ),
-          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
