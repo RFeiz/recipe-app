@@ -148,11 +148,15 @@ class _IntroductionWidgetState extends State<IntroductionWidget>
       showNextButton: false, // Remove the next button
       showBackButton: false, // Remove the back button
       showDoneButton: false, // Remove the done button
-      dotsDecorator: const DotsDecorator(
+      dotsDecorator: DotsDecorator(
         size: Size(10.0, 10.0),
-        color: Color(0xFFBDBDBD),
+        color: Theme.of(context)
+            .colorScheme
+            .scrim
+            .withOpacity(0.2), // Inactive dot color
         activeSize: Size(22.0, 10.0),
-        activeColor: Color(0xFF575ecb), // Color of active dot
+        activeColor:
+            Theme.of(context).colorScheme.primary, // Color of active dot
         activeShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
