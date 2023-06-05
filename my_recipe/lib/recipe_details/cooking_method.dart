@@ -49,27 +49,32 @@ class _CookingMethodState extends State<CookingMethod>
 
   @override
   Widget build(BuildContext context) {
+    print(_timeController.remaining.value.duration.inSeconds);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          child: Icon(
-            _timeController.state.value.name == CustomTimerState.counting.name
-                ? Icons.pause
-                : Icons.play_arrow,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          onPressed: () {
-            setState(() {
-              if (_timeController.state.value.name ==
-                  CustomTimerState.counting.name) {
-                _timeController.pause();
-              } else if (_timeController.state.value.name ==
-                      CustomTimerState.paused.name ||
-                  _timeController.state.value.name ==
-                      CustomTimerState.reset.name) {
-                _timeController.start();
-              }
-            });
-          }),
+      floatingActionButton:
+          _timeController.remaining.value.duration.inSeconds != 0
+              ? FloatingActionButton(
+                  child: Icon(
+                    _timeController.state.value.name ==
+                            CustomTimerState.counting.name
+                        ? Icons.pause
+                        : Icons.play_arrow,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      if (_timeController.state.value.name ==
+                          CustomTimerState.counting.name) {
+                        _timeController.pause();
+                      } else if (_timeController.state.value.name ==
+                              CustomTimerState.paused.name ||
+                          _timeController.state.value.name ==
+                              CustomTimerState.reset.name) {
+                        _timeController.start();
+                      }
+                    });
+                  })
+              : null,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         shadowColor: Colors.transparent,
@@ -77,27 +82,31 @@ class _CookingMethodState extends State<CookingMethod>
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Container(
-          padding: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.scrim.withOpacity(0.2),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-          ),
-          child: CustomTimer(
-              controller: _timeController,
-              builder: (state, time) {
-                return Text("${time.hours}h ${time.minutes}m ${time.seconds}s",
-                    style: Theme.of(context).textTheme.titleLarge);
-              }),
-        ),
+        title: _timeController.remaining.value.duration.inSeconds != 0
+            ? Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          Theme.of(context).colorScheme.scrim.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: CustomTimer(
+                    controller: _timeController,
+                    builder: (state, time) {
+                      return Text(
+                          "${time.hours}h ${time.minutes}m ${time.seconds}s",
+                          style: Theme.of(context).textTheme.titleLarge);
+                    }),
+              )
+            : null,
       ),
       body: Container(
         color: Theme.of(context).colorScheme.surface,
@@ -109,21 +118,27 @@ class _CookingMethodState extends State<CookingMethod>
             MethodCardwimg(pageController: _pageController, food: widget.food),
             for (var i = 0; i < widget.food.methodList.length; i++)
               MethodCard(
-                timeController: _timeController,
-                pageController: _pageController,
-                title: widget.food.methodList[i].title,
-                stepDescription: widget.food.methodList[i].description,
-                currentStep: i + 1,
-                totalSteps: widget.food.methodList.length,
-                duration: Duration(seconds: widget.food.methodList[i].time),
-                stepCompleted:
-                    stepCompletedList[i], // Pass the step completion state
-                onStepCompleted: () {
-                  setState(() {
-                    stepCompletedList[i] = true;
-                  });
-                },
-              ),
+                  timeController: _timeController,
+                  pageController: _pageController,
+                  title: widget.food.methodList[i].title,
+                  stepDescription: widget.food.methodList[i].description,
+                  currentStep: i + 1,
+                  totalSteps: widget.food.methodList.length,
+                  duration: Duration(seconds: widget.food.methodList[i].time),
+                  stepCompleted:
+                      stepCompletedList[i], // Pass the step completion state
+                  onStepCompleted: () {
+                    setState(() {
+                      stepCompletedList[i] = !stepCompletedList[i];
+                    });
+                  },
+                  onSetTimer: () {
+                    setState(() {
+                      _timeController.begin =
+                          Duration(seconds: widget.food.methodList[i].time);
+                      _timeController.reset();
+                    });
+                  }),
           ],
         ),
       ),
