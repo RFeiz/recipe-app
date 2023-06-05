@@ -37,14 +37,17 @@ class _ProfileState extends State<Profile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 64,
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80'),
+                backgroundImage: NetworkImage(FirebaseAuth
+                        .instance.currentUser?.photoURL
+                        .toString() ??
+                    'https://plus.unsplash.com/premium_photo-1668447597472-d16e3fec1618?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'geerish',
+              Text(
+                FirebaseAuth.instance.currentUser?.displayName.toString() ??
+                    'USER',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -59,23 +62,23 @@ class _ProfileState extends State<Profile> {
                 child: const Text('Choose a Theme'),
               ),
               const SizedBox(height: 16),
-             ElevatedButton(
-              onPressed: () async {
-                // Sign out from Firebase Authentication
-                await FirebaseAuth.instance.signOut();
+              ElevatedButton(
+                onPressed: () async {
+                  // Sign out from Firebase Authentication
+                  await FirebaseAuth.instance.signOut();
 
-                // Sign out from Google Sign-In
-                final GoogleSignIn googleSignIn = GoogleSignIn();
-                await googleSignIn.signOut();
+                  // Sign out from Google Sign-In
+                  final GoogleSignIn googleSignIn = GoogleSignIn();
+                  await googleSignIn.signOut();
 
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: const Text('Log Out'),
-            ),
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    (Route<dynamic> route) => false,
+                  );
+                },
+                child: const Text('Log Out'),
+              ),
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/home/categoryList/category_list.dart';
 import 'package:my_recipe/home/popularSelection/popular_list.dart';
@@ -17,8 +18,9 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomAppBar(
-            title: "Hello Sarwin",
+          CustomAppBar(
+            title:
+                'Hello ${FirebaseAuth.instance.currentUser?.displayName.toString() ?? 'USER'}',
             subTitle: "What will you be cooking today?",
           ),
           const PopularList(),
