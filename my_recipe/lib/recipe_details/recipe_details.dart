@@ -46,6 +46,10 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     super.dispose();
   }
 
+  bool isInFavList(String thisId) {
+    return ids.contains(thisId);
+  }
+
   Future<void> addToFav() async {
     DocumentReference<Map<String, dynamic>> userRef =
         FirebaseFirestore.instance.collection('users').doc(id);
@@ -54,12 +58,19 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       'favourites': FieldValue.arrayUnion([thisRecipeId])
     });
 
-    DocumentReference<Map<String, dynamic>> recipeRef =
-        FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
+    if (isInFavList(thisRecipeId) == false) {
+      DocumentReference<Map<String, dynamic>> recipeRef =
+          FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
 
-    await recipeRef.update({
-      'likes': FieldValue.increment(1),
-    });
+      await recipeRef.update({
+        'likes': FieldValue.increment(1),
+      });
+      if (_isMounted) {
+        setState(() {
+          widget.food.likes++;
+        });
+      }
+    }
   }
 
   Future<void> removeFromFav() async {
@@ -70,12 +81,19 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       'favourites': FieldValue.arrayRemove([thisRecipeId])
     });
 
-    DocumentReference<Map<String, dynamic>> recipeRef =
-        FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
+    if (isInFavList(thisRecipeId) == true) {
+      DocumentReference<Map<String, dynamic>> recipeRef =
+          FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
 
-    await recipeRef.update({
-      'likes': FieldValue.increment(-1),
-    });
+      await recipeRef.update({
+        'likes': FieldValue.increment(-1),
+      });
+      if (_isMounted) {
+        setState(() {
+          widget.food.likes--;
+        });
+      }
+    }
   }
 
   Future<List<String>> getIdList(String userId) async {
