@@ -20,7 +20,7 @@ class _FavouritesState extends State<Favourites> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomAppBar(
+          CustomAppBar(
               title: "Favourites",
               subTitle: "All your favourite recipes in one place"),
           SortingBar(

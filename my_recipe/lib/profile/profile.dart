@@ -31,7 +31,7 @@ class _ProfileState extends State<Profile> {
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const CustomAppBar(
+        CustomAppBar(
             title: "Profile", subTitle: "Manage your profile settings here."),
         Center(
           child: Column(
