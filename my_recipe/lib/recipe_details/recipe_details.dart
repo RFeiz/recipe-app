@@ -8,8 +8,11 @@ import 'package:skeletons/skeletons.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
+  final ValueChanged<String> onLikeChanged;
 
-  const RecipeDetails({Key? key, required this.food}) : super(key: key);
+  const RecipeDetails(
+      {Key? key, required this.food, required this.onLikeChanged})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -65,11 +68,6 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       await recipeRef.update({
         'likes': FieldValue.increment(1),
       });
-      if (_isMounted) {
-        setState(() {
-          widget.food.likes++;
-        });
-      }
     }
   }
 
@@ -88,11 +86,6 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       await recipeRef.update({
         'likes': FieldValue.increment(-1),
       });
-      if (_isMounted) {
-        setState(() {
-          widget.food.likes--;
-        });
-      }
     }
   }
 
@@ -144,6 +137,20 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     setState(() {
       isFavourite = !isFavourite;
     });
+
+    if (isFavourite) {
+      if (isInFavList(thisRecipeId) == false) {
+        setState(() {
+          widget.onLikeChanged("add");
+        });
+      }
+    } else if (!isFavourite) {
+      if (isInFavList(thisRecipeId) == true) {
+        setState(() {
+          widget.onLikeChanged("remove");
+        });
+      }
+    }
   }
 
   @override
