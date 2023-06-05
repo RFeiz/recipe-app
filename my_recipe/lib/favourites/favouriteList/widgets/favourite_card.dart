@@ -19,7 +19,10 @@ class _FavouriteCardState extends State<FavouriteCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => RecipeDetails(food: widget.food)),
+                builder: (context) => RecipeDetails(
+                      food: widget.food,
+                      onLikeChanged: (value) {},
+                    )),
           );
         },
         child: Stack(children: [

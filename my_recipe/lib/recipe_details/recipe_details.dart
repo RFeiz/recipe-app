@@ -8,8 +8,11 @@ import 'package:skeletons/skeletons.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
+  final ValueChanged<String> onLikeChanged;
 
-  const RecipeDetails({Key? key, required this.food}) : super(key: key);
+  const RecipeDetails(
+      {Key? key, required this.food, required this.onLikeChanged})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -46,6 +49,10 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     super.dispose();
   }
 
+  bool isInFavList(String thisId) {
+    return ids.contains(thisId);
+  }
+
   Future<void> addToFav() async {
     DocumentReference<Map<String, dynamic>> userRef =
         FirebaseFirestore.instance.collection('users').doc(id);
@@ -54,12 +61,14 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       'favourites': FieldValue.arrayUnion([thisRecipeId])
     });
 
-    DocumentReference<Map<String, dynamic>> recipeRef =
-        FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
+    if (isInFavList(thisRecipeId) == false) {
+      DocumentReference<Map<String, dynamic>> recipeRef =
+          FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
 
-    await recipeRef.update({
-      'likes': FieldValue.increment(1),
-    });
+      await recipeRef.update({
+        'likes': FieldValue.increment(1),
+      });
+    }
   }
 
   Future<void> removeFromFav() async {
@@ -70,12 +79,14 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       'favourites': FieldValue.arrayRemove([thisRecipeId])
     });
 
-    DocumentReference<Map<String, dynamic>> recipeRef =
-        FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
+    if (isInFavList(thisRecipeId) == true) {
+      DocumentReference<Map<String, dynamic>> recipeRef =
+          FirebaseFirestore.instance.collection('recipes').doc(thisRecipeId);
 
-    await recipeRef.update({
-      'likes': FieldValue.increment(-1),
-    });
+      await recipeRef.update({
+        'likes': FieldValue.increment(-1),
+      });
+    }
   }
 
   Future<List<String>> getIdList(String userId) async {
@@ -126,6 +137,20 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     setState(() {
       isFavourite = !isFavourite;
     });
+
+    if (isFavourite) {
+      if (isInFavList(thisRecipeId) == false) {
+        setState(() {
+          widget.onLikeChanged("add");
+        });
+      }
+    } else if (!isFavourite) {
+      if (isInFavList(thisRecipeId) == true) {
+        setState(() {
+          widget.onLikeChanged("remove");
+        });
+      }
+    }
   }
 
   @override

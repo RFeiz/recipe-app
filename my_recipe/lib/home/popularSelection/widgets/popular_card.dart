@@ -36,7 +36,18 @@ class _PopularCardState extends State<PopularCard> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => RecipeDetails(food: widget.food),
+            builder: (context) => RecipeDetails(
+              food: widget.food,
+              onLikeChanged: (action) {
+                setState(() {
+                  if (action == "add") {
+                    widget.food.likes++;
+                  } else if (action == "remove") {
+                    widget.food.likes--;
+                  }
+                });
+              },
+            ),
           ),
         );
       },
