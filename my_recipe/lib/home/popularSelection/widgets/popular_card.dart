@@ -119,10 +119,9 @@ class _PopularCardState extends State<PopularCard> {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Text(
-                            widget.food.smallDescription.length > 50
-                                ? "${widget.food.smallDescription.substring(0, 50)}..."
-                                : widget.food.smallDescription,
+                            widget.food.smallDescription,
                             style: Theme.of(context).textTheme.bodyLarge,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],

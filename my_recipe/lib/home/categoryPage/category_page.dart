@@ -28,7 +28,8 @@ class _CategoryPageState extends State<CategoryPage> {
           children: [
             CustomAppBar(
                 title: widget.category.name,
-                subTitle: widget.category.description),
+                subTitle: widget.category.description,
+                backIcon: true),
             SortingBar(
               onSortChanged: (isDescending) {
                 setState(() {
