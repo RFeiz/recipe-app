@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
 class MethodCard extends StatefulWidget {
@@ -11,7 +14,10 @@ class MethodCard extends StatefulWidget {
       required this.stepDescription,
       required this.currentStep,
       required this.totalSteps,
-      this.duration = const Duration(seconds: 0)});
+      this.duration = const Duration(seconds: 0),
+      required this.stepCompleted,
+      required this.onStepCompleted,
+      required this.onSetTimer});
 
   CustomTimerController timeController;
   PageController pageController;
@@ -25,6 +31,8 @@ class MethodCard extends StatefulWidget {
   final Duration duration;
 
   bool stepCompleted = false;
+  final VoidCallback onStepCompleted;
+  final VoidCallback onSetTimer;
 
   @override
   State<MethodCard> createState() => _MethodCardState();
@@ -99,9 +107,9 @@ class _MethodCardState extends State<MethodCard>
                                       )),
                                   onPressed: () {
                                     setState(() {
-                                      widget.timeController.begin =
-                                          widget.duration;
-                                      widget.timeController.reset();
+                                      //play a sound
+                                      SystemSound.play(SystemSoundType.alert);
+                                      widget.onSetTimer();
                                     });
                                   },
                                   child: Text(
@@ -126,8 +134,10 @@ class _MethodCardState extends State<MethodCard>
                               )),
                           onPressed: () {
                             setState(() {
+                              widget.onStepCompleted();
                               widget.stepCompleted = !widget.stepCompleted;
                               if (widget.stepCompleted) {
+                                SystemSound.play(SystemSoundType.alert);
                                 widget.pageController.animateToPage(
                                     widget.currentStep + 1,
                                     duration: Duration(milliseconds: 300),
