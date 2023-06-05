@@ -194,6 +194,8 @@ class _ProfileState extends State<Profile> {
                         onPressed: () async {
                           // Sign out from Firebase Authentication
 
+                          print(FirebaseAuth.instance.currentUser?.uid);
+
                           await FirebaseFirestore.instance
                               .collection('users')
                               .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -201,6 +203,9 @@ class _ProfileState extends State<Profile> {
                               .then((value) => {
                                     FirebaseAuth.instance.currentUser?.delete()
                                   });
+
+                          final GoogleSignIn googleSignIn = GoogleSignIn();
+                          await googleSignIn.signOut();
 
                           Navigator.pushAndRemoveUntil(
                             context,
