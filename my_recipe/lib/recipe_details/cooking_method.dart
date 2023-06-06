@@ -24,11 +24,11 @@ class _CookingMethodState extends State<CookingMethod>
   List<bool> stepCompletedList = [];
 
   late CustomTimerController _timeController = CustomTimerController(
-      vsync: this,
-      begin: Duration(seconds: 0),
-      end: Duration(),
-      initialState: CustomTimerState.reset,
-      interval: CustomTimerInterval.seconds);
+    vsync: this,
+    begin: Duration(seconds: 0),
+    end: Duration(),
+    initialState: CustomTimerState.reset,
+  );
 
   @override
   void initState() {
@@ -49,10 +49,9 @@ class _CookingMethodState extends State<CookingMethod>
 
   @override
   Widget build(BuildContext context) {
-    print(_timeController.remaining.value.duration.inSeconds);
     return Scaffold(
       floatingActionButton:
-          _timeController.remaining.value.duration.inSeconds != 0
+          _timeController.remaining.value.duration.inSeconds > 0
               ? FloatingActionButton(
                   child: Icon(
                     _timeController.state.value.name ==
@@ -134,6 +133,7 @@ class _CookingMethodState extends State<CookingMethod>
                   },
                   onSetTimer: () {
                     setState(() {
+                      // the timer
                       _timeController.begin =
                           Duration(seconds: widget.food.methodList[i].time);
                       _timeController.reset();
