@@ -1,4 +1,5 @@
 class FoodCategory {
+  String id;
   String name;
   String imageUrl;
   String description;
@@ -6,7 +7,8 @@ class FoodCategory {
   int numberOfRecipes;
 
   FoodCategory(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.imageUrl,
       required this.description,
       required this.numberOfRecipes});
