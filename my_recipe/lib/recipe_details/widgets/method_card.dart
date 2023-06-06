@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

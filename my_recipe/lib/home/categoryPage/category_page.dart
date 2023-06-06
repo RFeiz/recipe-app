@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_recipe/home/categoryPage/recipe_list.dart';
 
 import 'package:my_recipe/models/category.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
 import 'package:my_recipe/widgets/sorting_bar.dart';
 
-import '../../favourites/favouriteList/favourite_list.dart';
-
+// ignore: must_be_immutable
 class CategoryPage extends StatefulWidget {
   CategoryPage({super.key, required this.category});
 
@@ -18,6 +19,18 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   bool isDescending = false;
   String selectedSortOptions = "Name";
+  String id = "";
+
+  Future<String> getCatId() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('categories')
+        .where('name', isEqualTo: widget.category.name)
+        .get();
+
+    String id = querySnapshot.docs.first.id;
+    print("In getCat: $id");
+    return id;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +55,10 @@ class _CategoryPageState extends State<CategoryPage> {
                 });
               },
             ),
-            FavouriteList(
+            RecipeList(
               isDescending: isDescending,
               selectedSortOptions: selectedSortOptions,
+              category: id,
             ),
           ],
         ),

@@ -44,7 +44,6 @@ class _CategoryListState extends State<CategoryList> {
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 return CategoryCard(category: categories[index]);
-                // return CategoryCard(category: categories[index]);
               },
             );
           } else {
