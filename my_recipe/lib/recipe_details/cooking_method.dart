@@ -1,5 +1,6 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/widgets/method_card.dart';
 import 'package:my_recipe/recipe_details/widgets/method_card_wimg.dart';
@@ -22,13 +23,14 @@ class _CookingMethodState extends State<CookingMethod>
       PageController(initialPage: 0, viewportFraction: 0.5);
 
   List<bool> stepCompletedList = [];
+  bool isAlarmPlaying = false;
 
   late CustomTimerController _timeController = CustomTimerController(
-      vsync: this,
-      begin: Duration(seconds: 0),
-      end: Duration(),
-      initialState: CustomTimerState.reset,
-      interval: CustomTimerInterval.seconds);
+    vsync: this,
+    begin: Duration(seconds: 0),
+    end: Duration(),
+    initialState: CustomTimerState.reset,
+  );
 
   @override
   void initState() {
@@ -47,12 +49,19 @@ class _CookingMethodState extends State<CookingMethod>
     super.dispose();
   }
 
+  void playTimerCompletedSound() {
+    setState(() {
+      isAlarmPlaying = true;
+      FlutterRingtonePlayer.playAlarm();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(_timeController.remaining.value.duration.inSeconds);
     return Scaffold(
       floatingActionButton:
-          _timeController.remaining.value.duration.inSeconds != 0
+          _timeController.remaining.value.duration.inSeconds > 0 ||
+                  isAlarmPlaying
               ? FloatingActionButton(
                   child: Icon(
                     _timeController.state.value.name ==
@@ -63,7 +72,10 @@ class _CookingMethodState extends State<CookingMethod>
                   ),
                   onPressed: () {
                     setState(() {
-                      if (_timeController.state.value.name ==
+                      if (isAlarmPlaying) {
+                        FlutterRingtonePlayer.stop();
+                        isAlarmPlaying = false;
+                      } else if (_timeController.state.value.name ==
                           CustomTimerState.counting.name) {
                         _timeController.pause();
                       } else if (_timeController.state.value.name ==
@@ -82,7 +94,8 @@ class _CookingMethodState extends State<CookingMethod>
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: _timeController.remaining.value.duration.inSeconds != 0
+        title: _timeController.remaining.value.duration.inSeconds > 0 ||
+                isAlarmPlaying
             ? Container(
                 padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
@@ -99,13 +112,23 @@ class _CookingMethodState extends State<CookingMethod>
                   ],
                 ),
                 child: CustomTimer(
-                    controller: _timeController,
-                    builder: (state, time) {
+                  controller: _timeController,
+                  builder:
+                      (CustomTimerState state, CustomTimerRemainingTime time) {
+                    if (state == CustomTimerState.finished) {
+                      isAlarmPlaying = true;
+                      FlutterRingtonePlayer.playAlarm();
                       return Text(
-                          "${time.hours}h ${time.minutes}m ${time.seconds}s",
-                          style: Theme.of(context).textTheme.titleLarge);
-                    }),
-              )
+                        "Time's up!",
+                        style: Theme.of(context).textTheme.titleLarge,
+                      );
+                    }
+                    return Text(
+                      "${time.hours}h ${time.minutes}m ${time.seconds}s",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    );
+                  },
+                ))
             : null,
       ),
       body: Container(
@@ -134,6 +157,7 @@ class _CookingMethodState extends State<CookingMethod>
                   },
                   onSetTimer: () {
                     setState(() {
+                      // the timer
                       _timeController.begin =
                           Duration(seconds: widget.food.methodList[i].time);
                       _timeController.reset();
