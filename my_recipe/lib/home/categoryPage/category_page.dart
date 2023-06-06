@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipe/home/categoryPage/recipe_list.dart';
 
@@ -19,18 +18,6 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   bool isDescending = false;
   String selectedSortOptions = "Name";
-  String id = "";
-
-  Future<String> getCatId() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('categories')
-        .where('name', isEqualTo: widget.category.name)
-        .get();
-
-    String id = querySnapshot.docs.first.id;
-    print("In getCat: $id");
-    return id;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +45,7 @@ class _CategoryPageState extends State<CategoryPage> {
             RecipeList(
               isDescending: isDescending,
               selectedSortOptions: selectedSortOptions,
-              category: id,
+              category: widget.category.id,
             ),
           ],
         ),

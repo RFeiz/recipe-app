@@ -25,7 +25,6 @@ class _RecipeListState extends State<RecipeList> {
   List<Food> foodList = [];
 
   Future<List<String>> getIdList(String catId) async {
-    print(catId);
     final DocumentSnapshot<Map<String, dynamic>> catSnapshot =
         await FirebaseFirestore.instance
             .collection('categories')
@@ -65,14 +64,14 @@ class _RecipeListState extends State<RecipeList> {
   }
 
   Future displayRecipe() async {
-    // List<String> ids = await getIdList(widget.category);
-    // List<Map<String, dynamic>> tempList = await getRecipesList(ids);
+    List<String> ids = await getIdList(widget.category);
+    List<Map<String, dynamic>> tempList = await getRecipesList(ids);
 
-    // foodList.clear();
-    // for (var element in tempList) {
-    //   Food food = Food.convertToFood(element);
-    //   foodList.add(food);
-    // }
+    foodList.clear();
+    for (var element in tempList) {
+      Food food = Food.convertToFood(element);
+      foodList.add(food);
+    }
   }
 
   List<Food> get sortedList {
