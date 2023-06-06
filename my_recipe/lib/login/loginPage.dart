@@ -13,24 +13,28 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 90),
-              child: IntroductionWidget(),
+    return Container(
+      color:Theme.of(context).colorScheme.surface,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            //put logo here
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 175),
+                child: IntroductionWidget(),
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 50),
-              child: LoginButton(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 90),
+                child: LoginButton(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
