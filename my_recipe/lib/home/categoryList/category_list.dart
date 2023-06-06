@@ -24,6 +24,7 @@ class _CategoryListState extends State<CategoryList> {
       categories.clear();
       querySnapshot.docs.forEach((result) {
         categories.add(FoodCategory(
+            id: result.id,
             name: result.data()["name"],
             imageUrl: result.data()["thumbnail_url"],
             description: result.data()["description"],
@@ -44,7 +45,6 @@ class _CategoryListState extends State<CategoryList> {
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 return CategoryCard(category: categories[index]);
-                // return CategoryCard(category: categories[index]);
               },
             );
           } else {

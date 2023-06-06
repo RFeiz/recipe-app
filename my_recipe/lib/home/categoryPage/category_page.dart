@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe/home/categoryPage/recipe_list.dart';
 
 import 'package:my_recipe/models/category.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
 import 'package:my_recipe/widgets/sorting_bar.dart';
 
-import '../../favourites/favouriteList/favourite_list.dart';
-
+// ignore: must_be_immutable
 class CategoryPage extends StatefulWidget {
   CategoryPage({super.key, required this.category});
 
@@ -42,9 +42,10 @@ class _CategoryPageState extends State<CategoryPage> {
                 });
               },
             ),
-            FavouriteList(
+            RecipeList(
               isDescending: isDescending,
               selectedSortOptions: selectedSortOptions,
+              category: widget.category.id,
             ),
           ],
         ),

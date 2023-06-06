@@ -121,7 +121,6 @@ class _PopularCardState extends State<PopularCard> {
                           Text(
                             widget.food.smallDescription,
                             style: Theme.of(context).textTheme.bodyLarge,
-                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
