@@ -3,9 +3,11 @@ import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/recipe_details.dart';
 
 class FavouriteCard extends StatefulWidget {
-  const FavouriteCard({super.key, required this.food});
-
   final Food food;
+  final ValueChanged<String> updateList;
+
+  const FavouriteCard(
+      {super.key, required this.food, required this.updateList});
 
   @override
   State<FavouriteCard> createState() => _FavouriteCardState();
@@ -21,7 +23,9 @@ class _FavouriteCardState extends State<FavouriteCard> {
             MaterialPageRoute(
                 builder: (context) => RecipeDetails(
                       food: widget.food,
-                      onLikeChanged: (value) {},
+                      onLikeChanged: (value) {
+                        widget.updateList("update");
+                      },
                     )),
           );
         },

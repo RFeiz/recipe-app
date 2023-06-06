@@ -56,7 +56,10 @@ class _MainViewState extends State<MainView> {
                   child: Text('No Recipe found'),
                 ),
                 filter: (food) => [food.name],
-                builder: (food) => FavouriteCard(food: food)),
+                builder: (food) => FavouriteCard(
+                      food: food,
+                      updateList: (value) {},
+                    )),
           ),
           child: const Icon(Icons.search),
         ),
