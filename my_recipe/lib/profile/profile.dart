@@ -83,7 +83,47 @@ class _ProfileState extends State<Profile> {
                   title: const Text('Select a Theme'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [],
+                    children: [
+                      RadioListTile(
+                        title: Text(
+                            'Light Theme'), // Text for the first radio button
+                        value:
+                            ThemeMode.light, // Value for the first radio button
+                        groupValue: _selectedTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedTheme = value as ThemeMode;
+                          });
+                        },
+                        // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
+                      ),
+                      RadioListTile(
+                        title: Text(
+                            'Dark Theme'), // Text for the first radio button
+                        value:
+                            ThemeMode.dark, // Value for the first radio button
+                        groupValue: _selectedTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedTheme = value as ThemeMode;
+                          });
+                        },
+                        // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
+                      ),
+                      RadioListTile(
+                        title: Text(
+                            'System Theme'), // Text for the first radio button
+                        value: ThemeMode
+                            .system, // Value for the first radio button
+                        groupValue: _selectedTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedTheme = value as ThemeMode;
+                          });
+                        },
+                        // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
+                      ),
+                    ],
                   ),
                   actions: [
                     TextButton(
