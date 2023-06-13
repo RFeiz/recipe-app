@@ -9,7 +9,9 @@ import 'favourites/favourites.dart';
 import 'home/home.dart';
 
 class MainView extends StatefulWidget {
-  const MainView({super.key});
+  MainView({super.key, required this.onThemeChanged});
+
+  final Function(ThemeMode) onThemeChanged;
 
   @override
   State<MainView> createState() => _MainViewState();
@@ -71,7 +73,13 @@ class _MainViewState extends State<MainView> {
               currentIndex = value;
             });
           },
-          children: const [Favourites(), Home(), Profile()],
+          children: [
+            const Favourites(),
+            const Home(),
+            Profile(
+              onThemeChanged: (ThemeMode mode) => widget.onThemeChanged(mode),
+            )
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Theme.of(context).colorScheme.primary,

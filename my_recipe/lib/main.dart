@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:my_recipe/login/loginPage.dart';
 import 'package:my_recipe/models/custom_query.dart';
 import 'package:my_recipe/main_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,15 +17,51 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
 
+  ThemeMode currentThemeMode = ThemeMode.system;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     CustomQuery query = CustomQuery();
+    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+    Future<ThemeMode> _getThemeMode() async {
+      final SharedPreferences prefs = await _prefs;
+      final int? themeMode = prefs.getInt('themeMode');
+      if (themeMode == null) {
+        return ThemeMode.system;
+      }
+      return ThemeMode.values[themeMode];
+    }
+
+    _getThemeMode().then((ThemeMode mode) {
+      setState(() {
+        widget.currentThemeMode = mode;
+      });
+    });
+
+    Future<void> _setThemeMode(ThemeMode mode) async {
+      final SharedPreferences prefs = await _prefs;
+      prefs.setInt('themeMode', mode.index);
+    }
+
+    void setThemeMode(ThemeMode mode) {
+      setState(() {
+        widget.currentThemeMode = mode;
+        _setThemeMode(mode);
+      });
+    }
+
     query.wait();
 
     return DynamicColorBuilder(
@@ -32,7 +69,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'My Recipes',
-          themeMode: ThemeMode.system,
+          themeMode: widget.currentThemeMode,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: lightDynamic?.primary ?? Colors.green,
@@ -51,7 +88,8 @@ class MyApp extends StatelessWidget {
               FirebaseAuth.instance.currentUser == null ? '/login' : '/main',
           routes: {
             '/login': (context) => const LoginPage(),
-            '/main': (context) => const MainView(),
+            '/main': (context) => MainView(
+                onThemeChanged: (ThemeMode mode) => setThemeMode(mode)),
           },
         );
       },

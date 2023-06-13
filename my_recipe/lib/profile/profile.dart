@@ -2,27 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:my_recipe/profile/theme_Select.dart';
+
 import 'package:my_recipe/widgets/custom_app_bar.dart';
 
 import '../login/loginPage.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({Key? key, required this.onThemeChanged});
+
+  final Function(ThemeMode) onThemeChanged;
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  void _showThemeSelectionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // ignore: prefer_const_constructors
-        return ThemeSelectDialog();
-      },
-    );
+  ThemeMode _selectedTheme = ThemeMode.system;
+
+  void setThemeMode(ThemeMode mode) {
+    setState(() {
+      _selectedTheme = mode;
+      widget.onThemeChanged(mode);
+    });
   }
 
   @override
@@ -82,7 +83,66 @@ class _ProfileState extends State<Profile> {
           ),
           onPressed: () {
             // Implement theme selection logic
-            _showThemeSelectionDialog(context);
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Select a Theme'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      RadioListTile(
+                        title: Text('Light Theme'),
+                        value:
+                            ThemeMode.light, // Value for the first radio button
+                        groupValue: _selectedTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            setThemeMode(value as ThemeMode);
+                          });
+                        },
+                        // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
+                      ),
+                      RadioListTile(
+                        title: Text(
+                            'Dark Theme'), // Text for the first radio button
+                        value:
+                            ThemeMode.dark, // Value for the first radio button
+                        groupValue: _selectedTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            setThemeMode(value as ThemeMode);
+                          });
+                        },
+                        // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
+                      ),
+                      RadioListTile(
+                        title: Text(
+                            'System Theme'), // Text for the first radio button
+                        value: ThemeMode
+                            .system, // Value for the first radio button
+                        groupValue: _selectedTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            setThemeMode(value as ThemeMode);
+                          });
+                        },
+                        // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Back'),
+                    ),
+                  ],
+                );
+              },
+            );
           },
           child: Text('Change Theme',
               style: Theme.of(context)
