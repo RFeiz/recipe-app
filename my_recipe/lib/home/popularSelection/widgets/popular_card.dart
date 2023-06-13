@@ -39,13 +39,15 @@ class _PopularCardState extends State<PopularCard> {
             builder: (context) => RecipeDetails(
               food: widget.food,
               onLikeChanged: (action) {
-                setState(() {
-                  if (action == "add") {
-                    widget.food.likes++;
-                  } else if (action == "remove") {
-                    widget.food.likes--;
-                  }
-                });
+                if (action != "update") {
+                  setState(() {
+                    if (action == "add") {
+                      widget.food.likes++;
+                    } else if (action == "remove") {
+                      widget.food.likes--;
+                    }
+                  });
+                }
               },
             ),
           ),

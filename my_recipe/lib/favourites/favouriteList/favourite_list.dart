@@ -111,7 +111,16 @@ class _FavouriteListState extends State<FavouriteList> {
                 shrinkWrap: true,
                 itemCount: favouriteFoodList.length,
                 itemBuilder: (_, i) {
-                  return FavouriteCard(food: sortedList[i]);
+                  return FavouriteCard(
+                    food: sortedList[i],
+                    updateList: (value) {
+                      setState(() {
+                        if (value == "update") {
+                          displayFav();
+                        }
+                      });
+                    },
+                  );
                 },
               );
             } else {

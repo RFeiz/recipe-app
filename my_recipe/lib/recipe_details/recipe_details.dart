@@ -68,6 +68,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       await recipeRef.update({
         'likes': FieldValue.increment(1),
       });
+      widget.onLikeChanged("update");
     }
   }
 
@@ -86,6 +87,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       await recipeRef.update({
         'likes': FieldValue.increment(-1),
       });
+      widget.onLikeChanged("update");
     }
   }
 
