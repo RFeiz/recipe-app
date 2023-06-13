@@ -16,23 +16,36 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
 
+  ThemeMode currentThemeMode = ThemeMode.system;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     CustomQuery query = CustomQuery();
     query.wait();
+
+    void setThemeMode(ThemeMode mode) {
+      setState(() {
+        widget.currentThemeMode = mode;
+      });
+    }
 
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'My Recipes',
-          themeMode: ThemeMode.system,
+          themeMode: widget.currentThemeMode,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: lightDynamic?.primary ?? Colors.green,
@@ -51,7 +64,8 @@ class MyApp extends StatelessWidget {
               FirebaseAuth.instance.currentUser == null ? '/login' : '/main',
           routes: {
             '/login': (context) => const LoginPage(),
-            '/main': (context) => const MainView(),
+            '/main': (context) => MainView(
+                onThemeChanged: (ThemeMode mode) => setThemeMode(mode)),
           },
         );
       },

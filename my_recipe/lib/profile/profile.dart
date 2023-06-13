@@ -8,22 +8,16 @@ import 'package:my_recipe/widgets/custom_app_bar.dart';
 import '../login/loginPage.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({Key? key, required this.onThemeChanged});
+
+  final Function(ThemeMode) onThemeChanged;
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  void _showThemeSelectionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // ignore: prefer_const_constructors
-        return ThemeSelectDialog();
-      },
-    );
-  }
+  ThemeMode _selectedTheme = ThemeMode.system;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +76,33 @@ class _ProfileState extends State<Profile> {
           ),
           onPressed: () {
             // Implement theme selection logic
-            _showThemeSelectionDialog(context);
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Select a Theme'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // Update the theme
+                        widget.onThemeChanged(_selectedTheme);
+                      },
+                      child: const Text('Apply'),
+                    ),
+                  ],
+                );
+              },
+            );
           },
           child: Text('Change Theme',
               style: Theme.of(context)
