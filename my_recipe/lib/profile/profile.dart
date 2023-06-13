@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
 
 import '../login/loginPage.dart';
@@ -18,6 +18,16 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   ThemeMode _selectedTheme = ThemeMode.system;
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  Future<ThemeMode> _getThemeMode() async {
+    final SharedPreferences prefs = await _prefs;
+    final int? themeMode = prefs.getInt('themeMode');
+    if (themeMode == null) {
+      return ThemeMode.system;
+    }
+    return ThemeMode.values[themeMode];
+  }
 
   void setThemeMode(ThemeMode mode) {
     setState(() {
@@ -28,6 +38,12 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _getThemeMode().then((ThemeMode mode) {
+        _selectedTheme = mode;
+      });
+    });
+
     return SingleChildScrollView(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
