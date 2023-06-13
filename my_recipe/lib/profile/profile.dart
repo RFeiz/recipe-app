@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:my_recipe/profile/theme_Select.dart';
+
 import 'package:my_recipe/widgets/custom_app_bar.dart';
 
 import '../login/loginPage.dart';
@@ -18,6 +18,13 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   ThemeMode _selectedTheme = ThemeMode.system;
+
+  void setThemeMode(ThemeMode mode) {
+    setState(() {
+      _selectedTheme = mode;
+      widget.onThemeChanged(mode);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,16 +90,16 @@ class _ProfileState extends State<Profile> {
                   title: const Text('Select a Theme'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       RadioListTile(
-                        title: Text(
-                            'Light Theme'), // Text for the first radio button
+                        title: Text('Light Theme'),
                         value:
                             ThemeMode.light, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
                           setState(() {
-                            _selectedTheme = value as ThemeMode;
+                            setThemeMode(value as ThemeMode);
                           });
                         },
                         // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
@@ -105,7 +112,7 @@ class _ProfileState extends State<Profile> {
                         groupValue: _selectedTheme,
                         onChanged: (value) {
                           setState(() {
-                            _selectedTheme = value as ThemeMode;
+                            setThemeMode(value as ThemeMode);
                           });
                         },
                         // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
@@ -118,7 +125,7 @@ class _ProfileState extends State<Profile> {
                         groupValue: _selectedTheme,
                         onChanged: (value) {
                           setState(() {
-                            _selectedTheme = value as ThemeMode;
+                            setThemeMode(value as ThemeMode);
                           });
                         },
                         // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
@@ -128,16 +135,9 @@ class _ProfileState extends State<Profile> {
                   actions: [
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.of(context).pop();
                       },
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // Update the theme
-                        widget.onThemeChanged(_selectedTheme);
-                      },
-                      child: const Text('Apply'),
+                      child: const Text('Back'),
                     ),
                   ],
                 );

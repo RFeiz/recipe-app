@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:my_recipe/login/loginPage.dart';
 import 'package:my_recipe/models/custom_query.dart';
 import 'package:my_recipe/main_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,13 +33,36 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     CustomQuery query = CustomQuery();
-    query.wait();
+    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+    Future<ThemeMode> _getThemeMode() async {
+      final SharedPreferences prefs = await _prefs;
+      final int? themeMode = prefs.getInt('themeMode');
+      if (themeMode == null) {
+        return ThemeMode.system;
+      }
+      return ThemeMode.values[themeMode];
+    }
+
+    _getThemeMode().then((ThemeMode mode) {
+      setState(() {
+        widget.currentThemeMode = mode;
+      });
+    });
+
+    Future<void> _setThemeMode(ThemeMode mode) async {
+      final SharedPreferences prefs = await _prefs;
+      prefs.setInt('themeMode', mode.index);
+    }
 
     void setThemeMode(ThemeMode mode) {
       setState(() {
         widget.currentThemeMode = mode;
+        _setThemeMode(mode);
       });
     }
+
+    query.wait();
 
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
