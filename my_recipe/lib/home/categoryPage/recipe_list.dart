@@ -136,7 +136,7 @@ class _RecipeListState extends State<RecipeList> {
         child: Center(
           child: Text(
             'No recipe in this category list yet!',
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
           ),
