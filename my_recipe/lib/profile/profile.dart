@@ -167,7 +167,8 @@ class _ProfileState extends State<Profile> {
                   .copyWith(color: Theme.of(context).colorScheme.onPrimary)),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-        Text("Danger Zone",
+        // Danger Zone
+        Text("",
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
