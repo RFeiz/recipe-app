@@ -50,10 +50,8 @@ class _CookingMethodState extends State<CookingMethod>
   }
 
   void playTimerCompletedSound() {
-    setState(() {
-      isAlarmPlaying = true;
-      FlutterRingtonePlayer.playAlarm();
-    });
+    FlutterRingtonePlayer.playAlarm();
+    isAlarmPlaying = true;
   }
 
   @override
@@ -67,7 +65,9 @@ class _CookingMethodState extends State<CookingMethod>
                     _timeController.state.value.name ==
                             CustomTimerState.counting.name
                         ? Icons.pause
-                        : Icons.play_arrow,
+                        : isAlarmPlaying
+                            ? Icons.stop
+                            : Icons.play_arrow,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
                   onPressed: () {
@@ -115,9 +115,8 @@ class _CookingMethodState extends State<CookingMethod>
                   controller: _timeController,
                   builder:
                       (CustomTimerState state, CustomTimerRemainingTime time) {
-                    if (state == CustomTimerState.finished) {
-                      isAlarmPlaying = true;
-                      FlutterRingtonePlayer.playAlarm();
+                    if (time.duration.inSeconds < 3 && !isAlarmPlaying) {
+                      playTimerCompletedSound();
                       return Text(
                         "Time's up!",
                         style: Theme.of(context).textTheme.titleLarge,
