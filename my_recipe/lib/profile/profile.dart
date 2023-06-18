@@ -168,7 +168,7 @@ class _ProfileState extends State<Profile> {
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
         // Danger Zone
-        Text("",
+        Text("Danger Zone",
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
