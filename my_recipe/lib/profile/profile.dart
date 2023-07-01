@@ -49,7 +49,8 @@ class _ProfileState extends State<Profile> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CustomAppBar(
-            title: "Profile", subTitle: "Manage your profile settings here."),
+            title: "Profile", subTitle: "Manage your profile settings here.", profileIcon: false,
+            ),
         Center(
           child: Column(
             children: [
@@ -72,7 +73,7 @@ class _ProfileState extends State<Profile> {
               Text(
                 FirebaseAuth.instance.currentUser?.displayName.toString() ??
                     'USER',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -134,7 +135,7 @@ class _ProfileState extends State<Profile> {
                         // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
                       ),
                       RadioListTile(
-                        title: Text(
+                        title: const Text(
                             'System Theme'), // Text for the first radio button
                         value: ThemeMode
                             .system, // Value for the first radio button

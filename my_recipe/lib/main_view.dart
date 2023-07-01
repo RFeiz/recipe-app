@@ -45,25 +45,40 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     getFoodList();
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => showSearch(
-            context: context,
-            delegate: SearchPage<Food>(
-                items: foodList,
-                searchLabel: 'Search Recipe',
-                suggestion: const Center(
-                  child: Text('Search Recipe by Name'),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                margin: const EdgeInsets.only(top: 30.0),
+                child: FloatingActionButton(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  onPressed: () => showSearch(
+                    context: context,
+                    delegate: SearchPage<Food>(
+                      items: foodList,
+                      searchLabel: 'Search Recipe',
+                      suggestion: const Center(
+                        child: Text('Search Recipe by Name'),
+                      ),
+                      failure: const Center(
+                        child: Text('No Recipe found'),
+                      ),
+                      filter: (food) => [food.name],
+                      builder: (food) => FavouriteCard(
+                        food: food,
+                        updateList: (value) {},
+                      ),
+                    ),
+                  ),
+                  child: const Icon(Icons.search),
                 ),
-                failure: const Center(
-                  child: Text('No Recipe found'),
-                ),
-                filter: (food) => [food.name],
-                builder: (food) => FavouriteCard(
-                      food: food,
-                      updateList: (value) {},
-                    )),
-          ),
-          child: const Icon(Icons.search),
+              ),
+            ),
+          ],
         ),
         body: PageView(
           physics: const BouncingScrollPhysics(),
