@@ -19,9 +19,9 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomAppBar(
-            title:
-                'Hello ${FirebaseAuth.instance.currentUser?.displayName.toString() ?? 'USER'}',
+            title:'Hello ${FirebaseAuth.instance.currentUser?.displayName.toString() ?? 'USER'}',
             subTitle: "What will you be cooking today?",
+            profileIcon: true,
           ),
           const PopularList(),
           SizedBox(height: MediaQuery.of(context).size.height * 0.05),

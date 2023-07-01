@@ -49,7 +49,8 @@ class _ProfileState extends State<Profile> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CustomAppBar(
-            title: "Profile", subTitle: "Manage your profile settings here."),
+            title: "Profile", subTitle: "Manage your profile settings here.", profileIcon: false,
+            ),
         Center(
           child: Column(
             children: [
@@ -72,7 +73,7 @@ class _ProfileState extends State<Profile> {
               Text(
                 FirebaseAuth.instance.currentUser?.displayName.toString() ??
                     'USER',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -134,7 +135,7 @@ class _ProfileState extends State<Profile> {
                         // Add any additional customizations to the RadioListTile, like subtitle, secondary, etc.
                       ),
                       RadioListTile(
-                        title: Text(
+                        title: const Text(
                             'System Theme'), // Text for the first radio button
                         value: ThemeMode
                             .system, // Value for the first radio button
@@ -230,81 +231,77 @@ class _ProfileState extends State<Profile> {
                   .copyWith(color: Colors.white)),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.005),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: ColorScheme.fromSwatch().error,
-            foregroundColor: Colors.white,
-            fixedSize: Size(MediaQuery.of(context).size.width * 0.5,
-                MediaQuery.of(context).size.height * 0.05),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
+        TextButton(
           onPressed: () async {
             showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text(
-                      'Delete Account',
-                    ),
-                    content: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                            'Are you sure you want to delete your account?'),
-                        const SizedBox(height: 8),
-                        const Text(
-                            'Note that this action cannot be undone. All your data will be lost.',
-                            style: TextStyle(color: Colors.redAccent)),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          // Sign out from Firebase Authentication
-
-                          print(FirebaseAuth.instance.currentUser?.uid);
-
-                          await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(FirebaseAuth.instance.currentUser?.uid)
-                              .delete()
-                              .then((value) => {
-                                    FirebaseAuth.instance.currentUser?.delete()
-                                  });
-
-                          final GoogleSignIn googleSignIn = GoogleSignIn();
-                          await googleSignIn.signOut();
-
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                        child: const Text(
-                          'Delete Account, I\'m sure!',
-                          style: TextStyle(color: Colors.redAccent),
-                        ),
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text(
+                    'Delete Account',
+                  ),
+                  content: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                          'Are you sure you want to delete your account?'),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Note that this action cannot be undone. All your data will be lost.',
+                        style: TextStyle(color: Colors.redAccent),
                       ),
                     ],
-                  );
-                });
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        // Sign out from Firebase Authentication
+                        print(FirebaseAuth.instance.currentUser?.uid);
+
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(FirebaseAuth.instance.currentUser?.uid)
+                            .delete()
+                            .then((value) =>
+                                {FirebaseAuth.instance.currentUser?.delete()});
+
+                        final GoogleSignIn googleSignIn = GoogleSignIn();
+                        await googleSignIn.signOut();
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      child: const Text(
+                        'Delete Account, I\'m sure!',
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
           },
-          child: Text('Delete Account',
+          child: Container(
+           
+            child: Text(
+              'Delete Account',
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
-                  .copyWith(color: Colors.white)),
+                  .copyWith(color: ColorScheme.fromSwatch().error),
+            ),
+          ),
         ),
       ],
     ));
