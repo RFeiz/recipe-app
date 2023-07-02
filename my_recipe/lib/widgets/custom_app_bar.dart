@@ -32,34 +32,34 @@ class _CustomAppBarState extends State<CustomAppBar> {
           if (widget.backIcon)
             Padding(
               padding: const EdgeInsets.only(right: 5.0, left: 5.0),
-              child: Row(
+              child: Column(
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.arrow_back),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back),
+                      ),
+                      Text(
+                        widget.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 10.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          widget.subTitle,
-                          style: Theme.of(context).textTheme.titleMedium,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                  
+                  Container(
+                    padding: const EdgeInsets.only(left: 20,right: 20),
+                    child: Text(
+                      widget.subTitle,
+                      style: Theme.of(context).textTheme.titleMedium,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -77,7 +77,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                        image: NetworkImage(FirebaseAuth.instance.currentUser?.photoURL?.toString() ??
+                        image: NetworkImage(FirebaseAuth
+                                .instance.currentUser?.photoURL
+                                ?.toString() ??
                             'https://plus.unsplash.com/premium_photo-1668447597472-d16e3fec1618?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'),
                         fit: BoxFit.fill,
                       ),
