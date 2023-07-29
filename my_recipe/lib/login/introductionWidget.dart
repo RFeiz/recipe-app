@@ -83,12 +83,12 @@ class _IntroductionWidgetState extends State<IntroductionWidget>
           bodyWidget: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildImage('1.png'), // Place the image widget here
-              const SizedBox(height: 30), // Add spacing between image and title
+              _buildImage('onbording_logo.png'), // Place the image widget here
+              const SizedBox(height: 40), // Add spacing between image and title
               Column(
                 children: [
                   Text(
-                    'Ready set go, Time to cook',
+                    'MyRecipes',
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!
@@ -96,7 +96,7 @@ class _IntroductionWidgetState extends State<IntroductionWidget>
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Unlock your culinary potential, ignite your passion for flavors, and savor the joy of creating extraordinary dishes ',
+                    'Unlock your culinary potential, ignite your passion for flavors, and savor the joy of creating extraordinary dishes',
                     style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.justify,
                   ),

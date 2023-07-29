@@ -44,42 +44,32 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     getFoodList();
-    return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        floatingActionButton: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                margin: const EdgeInsets.only(top: 30.0),
-                child: FloatingActionButton(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  onPressed: () => showSearch(
-                    context: context,
-                    delegate: SearchPage<Food>(
-                      items: foodList,
-                      searchLabel: 'Search Recipe',
-                      suggestion: const Center(
-                        child: Text('Search Recipe by Name'),
-                      ),
-                      failure: const Center(
-                        child: Text('No Recipe found'),
-                      ),
-                      filter: (food) => [food.name],
-                      builder: (food) => FavouriteCard(
-                        food: food,
-                        updateList: (value) {},
-                      ),
+    return Container(
+      margin: const EdgeInsets.only(top: 30.0),
+      child: Scaffold(
+        floatingActionButton: currentIndex != 2
+            ? FloatingActionButton(
+                onPressed: () => showSearch(
+                  context: context,
+                  delegate: SearchPage<Food>(
+                    items: foodList,
+                    searchLabel: 'Search Recipe',
+                    suggestion: const Center(
+                      child: Text('Search Recipe by Name'),
+                    ),
+                    failure: const Center(
+                      child: Text('No Recipe found'),
+                    ),
+                    filter: (food) => [food.name],
+                    builder: (food) => FavouriteCard(
+                      food: food,
+                      updateList: (value) {},
                     ),
                   ),
-                  child: const Icon(Icons.search),
                 ),
-              ),
-            ),
-          ],
-        ),
+                child: const Icon(Icons.search),
+              )
+            : null,
         body: PageView(
           physics: const BouncingScrollPhysics(),
           controller: pageController,
@@ -116,6 +106,8 @@ class _MainViewState extends State<MainView> {
                 icon: Icon(Icons.person_outline), label: "Profile"),
           ],
           currentIndex: currentIndex,
-        ));
+        ),
+      ),
+    );
   }
 }

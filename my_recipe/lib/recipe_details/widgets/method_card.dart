@@ -95,14 +95,11 @@ class _MethodCardState extends State<MethodCard>
                                 padding: const EdgeInsets.only(right: 15.0),
                                 child: TextButton(
                                   style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                        Theme.of(context).colorScheme.surface,
-                                      ),
-                                      surfaceTintColor:
-                                          MaterialStateProperty.all<Color>(
-                                        Theme.of(context).colorScheme.surface,
-                                      )),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                      Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
                                   onPressed: () {
                                     setState(() {
                                       //play a sound
@@ -115,21 +112,24 @@ class _MethodCardState extends State<MethodCard>
                                     style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .primary),
+                                            .onPrimary),
                                   ),
                                 ),
                               ),
 
                         // circle hollow button to mark as done . when click change to full circle
                         TextButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).colorScheme.surface,
-                              ),
-                              surfaceTintColor:
-                                  MaterialStateProperty.all<Color>(
-                                Theme.of(context).colorScheme.primary,
-                              )),
+                          style: widget.stepCompleted
+                              ? ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<
+                                          Color>(
+                                      Theme.of(context).colorScheme.primary))
+                              : OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 2.0),
+                                ),
                           onPressed: () {
                             setState(() {
                               widget.onStepCompleted();
@@ -146,8 +146,8 @@ class _MethodCardState extends State<MethodCard>
                           child: Icon(
                             Icons.check,
                             color: widget.stepCompleted
-                                ? Colors.green
-                                : Theme.of(context).colorScheme.surfaceVariant,
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ],
