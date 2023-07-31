@@ -44,69 +44,65 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     getFoodList();
-    return Container(
-      margin: const EdgeInsets.only(top: 30.0),
-      child: Scaffold(
-        floatingActionButton: currentIndex != 2
-            ? FloatingActionButton(
-                onPressed: () => showSearch(
-                  context: context,
-                  delegate: SearchPage<Food>(
-                    items: foodList,
-                    searchLabel: 'Search Recipe',
-                    suggestion: const Center(
-                      child: Text('Search Recipe by Name'),
-                    ),
-                    failure: const Center(
-                      child: Text('No Recipe found'),
-                    ),
-                    filter: (food) => [food.name],
-                    builder: (food) => FavouriteCard(
-                      food: food,
-                      updateList: (value) {},
-                    ),
+    return Scaffold(
+      floatingActionButton: currentIndex != 2
+          ? FloatingActionButton(
+              onPressed: () => showSearch(
+                context: context,
+                delegate: SearchPage<Food>(
+                  items: foodList,
+                  searchLabel: 'Search Recipe',
+                  suggestion: const Center(
+                    child: Text('Search Recipe by Name'),
+                  ),
+                  failure: const Center(
+                    child: Text('No Recipe found'),
+                  ),
+                  filter: (food) => [food.name],
+                  builder: (food) => FavouriteCard(
+                    food: food,
+                    updateList: (value) {},
                   ),
                 ),
-                child: const Icon(Icons.search),
-              )
-            : null,
-        body: PageView(
-          physics: const BouncingScrollPhysics(),
-          controller: pageController,
-          onPageChanged: (value) {
-            setState(() {
-              currentIndex = value;
-            });
-          },
-          children: [
-            const Favourites(),
-            const Home(),
-            Profile(
-              onThemeChanged: (ThemeMode mode) => widget.onThemeChanged(mode),
+              ),
+              child: const Icon(Icons.search),
             )
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Theme.of(context).colorScheme.primary,
-          onTap: (value) {
-            setState(() {
-              currentIndex = value;
-              pageController.animateToPage(value,
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeIn);
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border_outlined),
-                label: "Favourites"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline), label: "Profile"),
-          ],
-          currentIndex: currentIndex,
-        ),
+          : null,
+      body: PageView(
+        physics: const BouncingScrollPhysics(),
+        controller: pageController,
+        onPageChanged: (value) {
+          setState(() {
+            currentIndex = value;
+          });
+        },
+        children: [
+          const Favourites(),
+          const Home(),
+          Profile(
+            onThemeChanged: (ThemeMode mode) => widget.onThemeChanged(mode),
+          )
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        onTap: (value) {
+          setState(() {
+            currentIndex = value;
+            pageController.animateToPage(value,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeIn);
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border_outlined), label: "Favourites"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline), label: "Profile"),
+        ],
+        currentIndex: currentIndex,
       ),
     );
   }
