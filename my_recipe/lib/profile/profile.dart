@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login/loginPage.dart';
 
@@ -35,6 +35,9 @@ class _ProfileState extends State<Profile> {
       widget.onThemeChanged(mode);
     });
   }
+
+  bool _isVoiceCommandEnabled = false;
+  bool _isTextToSpeechEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +84,42 @@ class _ProfileState extends State<Profile> {
             ],
           ),
         ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Spacer should be set to 0.03
+
+        // Accessibility Section
+    Text("Accessibility",
+      style: Theme.of(context)
+        .textTheme
+        .titleLarge
+        ?.copyWith(fontWeight: FontWeight.bold)),
+    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+
+    // Voice Command Toggle
+    SwitchListTile(
+      title: Text('Voice Command'),
+      value: _isVoiceCommandEnabled,
+      onChanged: (value) {
+        setState(() {
+          _isVoiceCommandEnabled = value;
+          //  voice command enabling/disabling
+        });
+      },
+    ),
+
+    // Text-to-Speech Toggle
+    SwitchListTile(
+      title: Text('Text-to-Speech'),
+      value: _isTextToSpeechEnabled,
+      onChanged: (value) {
+        setState(() {
+          _isTextToSpeechEnabled = value;
+          // text-to-speech enabling/disabling
+        });
+      },
+    ),
+    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
+
         Text("Visuals & Styles",
             style: Theme.of(context)
                 .textTheme
@@ -293,7 +331,7 @@ class _ProfileState extends State<Profile> {
             );
           },
           child: Container(
-           
+          
             child: Text(
               'Delete Account',
               style: Theme.of(context)
