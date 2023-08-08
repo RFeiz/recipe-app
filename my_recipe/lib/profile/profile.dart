@@ -52,8 +52,10 @@ class _ProfileState extends State<Profile> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CustomAppBar(
-            title: "Profile", subTitle: "Manage your profile settings here.", profileIcon: false,
-            ),
+          title: "Profile",
+          subTitle: "Manage your profile settings here.",
+          profileIcon: false,
+        ),
         Center(
           child: Column(
             children: [
@@ -84,41 +86,42 @@ class _ProfileState extends State<Profile> {
             ],
           ),
         ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.03), // Spacer should be set to 0.03
+        SizedBox(
+            height: MediaQuery.of(context).size.height *
+                0.1), // Spacer should be set to 0.03
 
         // Accessibility Section
-    Text("Accessibility",
-      style: Theme.of(context)
-        .textTheme
-        .titleLarge
-        ?.copyWith(fontWeight: FontWeight.bold)),
-    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+        Text("Accessibility",
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.bold)),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
-    // Voice Command Toggle
-    SwitchListTile(
-      title: Text('Voice Command'),
-      value: _isVoiceCommandEnabled,
-      onChanged: (value) {
-        setState(() {
-          _isVoiceCommandEnabled = value;
-          //  voice command enabling/disabling
-        });
-      },
-    ),
+        // Voice Command Toggle
+        SwitchListTile(
+          title: Text('Voice Command'),
+          value: _isVoiceCommandEnabled,
+          onChanged: (value) {
+            setState(() {
+              _isVoiceCommandEnabled = value;
+              //  voice command enabling/disabling
+            });
+          },
+        ),
 
-    // Text-to-Speech Toggle
-    SwitchListTile(
-      title: Text('Text-to-Speech'),
-      value: _isTextToSpeechEnabled,
-      onChanged: (value) {
-        setState(() {
-          _isTextToSpeechEnabled = value;
-          // text-to-speech enabling/disabling
-        });
-      },
-    ),
-    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-
+        // Text-to-Speech Toggle
+        SwitchListTile(
+          title: Text('Text-to-Speech'),
+          value: _isTextToSpeechEnabled,
+          onChanged: (value) {
+            setState(() {
+              _isTextToSpeechEnabled = value;
+              // text-to-speech enabling/disabling
+            });
+          },
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
         Text("Visuals & Styles",
             style: Theme.of(context)
@@ -331,7 +334,6 @@ class _ProfileState extends State<Profile> {
             );
           },
           child: Container(
-          
             child: Text(
               'Delete Account',
               style: Theme.of(context)
