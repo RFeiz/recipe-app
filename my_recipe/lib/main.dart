@@ -30,45 +30,45 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // CustomQuery query = CustomQuery();
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-  Future<ThemeMode> _getThemeMode() async {
-    final SharedPreferences prefs = await _prefs;
-    final int? themeMode = prefs.getInt('themeMode');
-    if (themeMode == null) {
-      return ThemeMode.system;
-    }
-    return ThemeMode.values[themeMode];
-  }
-
-  Future<void> _setThemeMode(ThemeMode mode) async {
-    final SharedPreferences prefs = await _prefs;
-    prefs.setInt('themeMode', mode.index);
-  }
-
-  void setThemeMode(ThemeMode mode) {
-    setState(() {
-      widget.currentThemeMode = mode;
-      _setThemeMode(mode);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    CustomQuery query = CustomQuery();
+    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+    Future<ThemeMode> _getThemeMode() async {
+      final SharedPreferences prefs = await _prefs;
+      final int? themeMode = prefs.getInt('themeMode');
+      if (themeMode == null) {
+        return ThemeMode.system;
+      }
+      return ThemeMode.values[themeMode];
+    }
+
     _getThemeMode().then((ThemeMode mode) {
       setState(() {
         widget.currentThemeMode = mode;
       });
     });
 
-    // query.wait();
+    Future<void> _setThemeMode(ThemeMode mode) async {
+      final SharedPreferences prefs = await _prefs;
+      prefs.setInt('themeMode', mode.index);
+    }
+
+    void setThemeMode(ThemeMode mode) {
+      setState(() {
+        widget.currentThemeMode = mode;
+        _setThemeMode(mode);
+      });
+    }
+
+    query.wait();
 
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'MyRecipes',
+          title: 'My Recipes',
           themeMode: widget.currentThemeMode,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
