@@ -23,8 +23,12 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
+    double appBarHeight = MediaQuery.of(context).size.height * 0.29;
+    if (MediaQuery.of(context).size.height < appBarHeight) {
+      appBarHeight = MediaQuery.of(context).size.height;
+    }
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: appBarHeight,
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,9 +58,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       ),
                     ],
                   ),
-                  
                   Container(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Text(
                       widget.subTitle,
                       style: Theme.of(context).textTheme.titleMedium,
