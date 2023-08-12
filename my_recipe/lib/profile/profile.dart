@@ -99,28 +99,20 @@ class _ProfileState extends State<Profile> {
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
         // Voice Command Toggle
-        SwitchListTile(
-          title: Text('Voice Command'),
-          value: _isVoiceCommandEnabled,
-          onChanged: (value) {
-            setState(() {
-              _isVoiceCommandEnabled = value;
-              //  voice command enabling/disabling
-            });
-          },
+        Padding(
+          padding: EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          child: SwitchListTile(
+            title: Text('Easy Access'),
+            value: _isVoiceCommandEnabled,
+            onChanged: (value) {
+              setState(() {
+                _isVoiceCommandEnabled = value;
+                //  voice command enabling/disabling
+              });
+            },
+          ),
         ),
 
-        // Text-to-Speech Toggle
-        SwitchListTile(
-          title: Text('Text-to-Speech'),
-          value: _isTextToSpeechEnabled,
-          onChanged: (value) {
-            setState(() {
-              _isTextToSpeechEnabled = value;
-              // text-to-speech enabling/disabling
-            });
-          },
-        ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
         Text("Visuals & Styles",
