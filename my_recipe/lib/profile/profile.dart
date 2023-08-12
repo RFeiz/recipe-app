@@ -37,8 +37,8 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  bool _isVoiceCommandEnabled = false;
-  bool _isTextToSpeechEnabled = false;
+  bool _isHapticFeedbackEnabled = false;
+  bool _isEasyAccessEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -92,35 +92,51 @@ class _ProfileState extends State<Profile> {
                 0.1), // Spacer should be set to 0.03
 
         // Accessibility Section
-        Text("Accessibility",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(fontWeight: FontWeight.bold)),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-
-        // Voice Command Toggle
-        SwitchListTile(
-          title: Text('Voice Command'),
-          value: _isVoiceCommandEnabled,
-          onChanged: (value) {
-            setState(() {
-              _isVoiceCommandEnabled = value;
-              //  voice command enabling/disabling
-            });
-          },
+          Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Accessibility",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+            ],
+          ),
         ),
 
-        // Text-to-Speech Toggle
-        SwitchListTile(
-          title: Text('Text-to-Speech'),
-          value: _isTextToSpeechEnabled,
+
+        // Voice Command Toggle
+        Padding(
+          padding: EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          child: SwitchListTile(
+            title: Text('Easy Access'),
+            value: _isEasyAccessEnabled,
+            onChanged: (value) {
+              setState(() {
+                _isEasyAccessEnabled = value;
+                //  voice command enabling/disabling
+              });
+            },
+          ),
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+
+        Padding(
+          padding: EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          child: SwitchListTile(
+          title: Text('Haptic Feedback'),
+          value: _isHapticFeedbackEnabled,
           onChanged: (value) {
             setState(() {
-              _isTextToSpeechEnabled = value;
+              _isHapticFeedbackEnabled = value;
               // text-to-speech enabling/disabling
             });
           },
+        ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
