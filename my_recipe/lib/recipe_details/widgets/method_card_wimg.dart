@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
+import 'package:vibration/vibration.dart';
 
 // ignore: must_be_immutable
 class MethodCardwimg extends StatefulWidget {
@@ -89,6 +90,7 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                                   Theme.of(context).colorScheme.primary,
                                 )),
                             onPressed: () {
+                              Vibration.vibrate(duration: 200);
                               setState(() {
                                 widget.pageController.animateToPage(
                                     widget.pageController.page!.toInt() + 1,

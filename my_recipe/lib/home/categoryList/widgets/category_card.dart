@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/home/categoryPage/category_page.dart';
 import 'package:my_recipe/models/category.dart';
+import 'package:vibration/vibration.dart';
 
 class CategoryCard extends StatefulWidget {
   const CategoryCard({super.key, required this.category});
@@ -16,6 +17,7 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        Vibration.vibrate(duration: 200);
         Navigator.push(
           context,
           MaterialPageRoute(

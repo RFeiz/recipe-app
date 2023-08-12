@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/recipe_details.dart';
+import 'package:vibration/vibration.dart';
 
 class RecipeCard extends StatefulWidget {
   const RecipeCard({super.key, required this.food});
@@ -16,6 +17,7 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
+          Vibration.vibrate(duration: 200);
           Navigator.push(
             context,
             MaterialPageRoute(

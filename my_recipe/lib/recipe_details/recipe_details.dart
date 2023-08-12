@@ -5,6 +5,7 @@ import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/cooking_method.dart';
 import 'package:my_recipe/models/user.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:vibration/vibration.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
@@ -160,6 +161,13 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.food.name),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Vibration.vibrate(duration: 200);
+            Navigator.pop(context);
+          },
+        ),
         actions: [
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
@@ -181,7 +189,10 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                       Icons.favorite,
                       color: Colors.red,
                     ),
-                    onPressed: toggleFavourite,
+                    onPressed: () {
+                      Vibration.vibrate(duration: 200);
+                      toggleFavourite();
+                    },
                   )
                 : IconButton(
                     key: const ValueKey(Icons.favorite_border),
@@ -189,7 +200,10 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                       Icons.favorite_border,
                       color: Colors.red,
                     ),
-                    onPressed: toggleFavourite,
+                    onPressed: () {
+                      Vibration.vibrate(duration: 200);
+                      toggleFavourite();
+                    },
                   ),
           ),
         ],
@@ -205,6 +219,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       width: 200,
       child: FloatingActionButton(
         onPressed: () {
+          Vibration.vibrate(duration: 200);
           Navigator.push(
             context,
             MaterialPageRoute(
