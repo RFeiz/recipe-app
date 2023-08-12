@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class SortingBar extends StatefulWidget {
   final ValueChanged<bool> onSortChanged;
@@ -45,6 +46,7 @@ class _SortingBarState extends State<SortingBar> {
                     ?.withOpacity(0.5)),
           ),
           onPressed: () {
+            Vibration.vibrate(duration: 200);
             setState(() {
               selectedSortOption = getNextSortOption(selectedSortOption);
             });
@@ -58,6 +60,7 @@ class _SortingBarState extends State<SortingBar> {
             color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
           ),
           onPressed: () {
+            Vibration.vibrate(duration: 200);
             setState(() {
               isDescending = !isDescending;
             });

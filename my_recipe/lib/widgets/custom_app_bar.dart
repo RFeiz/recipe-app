@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class CustomAppBar extends StatefulWidget {
   CustomAppBar({
@@ -42,6 +43,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     children: [
                       IconButton(
                         onPressed: () {
+                          Vibration.vibrate(duration: 200);
                           Navigator.pop(context);
                         },
                         icon: Icon(Icons.arrow_back),

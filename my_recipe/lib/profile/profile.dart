@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
+import 'package:vibration/vibration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login/loginPage.dart';
@@ -140,6 +141,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           onPressed: () {
+            Vibration.vibrate(duration: 200);
             // Implement theme selection logic
             showDialog(
               context: context,
@@ -156,6 +158,7 @@ class _ProfileState extends State<Profile> {
                             ThemeMode.light, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
+                          Vibration.vibrate(duration: 200);
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -169,6 +172,7 @@ class _ProfileState extends State<Profile> {
                             ThemeMode.dark, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
+                          Vibration.vibrate(duration: 200);
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -182,6 +186,7 @@ class _ProfileState extends State<Profile> {
                             .system, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
+                          Vibration.vibrate(duration: 200);
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -193,6 +198,7 @@ class _ProfileState extends State<Profile> {
                   actions: [
                     TextButton(
                       onPressed: () {
+                        Vibration.vibrate(duration: 200);
                         Navigator.of(context).pop();
                       },
                       child: const Text('Back'),
@@ -227,6 +233,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           onPressed: () async {
+            Vibration.vibrate(duration: 600);
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -237,12 +244,14 @@ class _ProfileState extends State<Profile> {
                     actions: [
                       TextButton(
                         onPressed: () {
+                          Vibration.vibrate(duration: 200);
                           Navigator.pop(context);
                         },
                         child: const Text('Cancel'),
                       ),
                       TextButton(
                         onPressed: () async {
+                          Vibration.vibrate(duration: 200);
                           // Sign out from Firebase Authentication
                           await FirebaseAuth.instance.signOut();
 
@@ -274,6 +283,7 @@ class _ProfileState extends State<Profile> {
         SizedBox(height: MediaQuery.of(context).size.height * 0.005),
         TextButton(
           onPressed: () async {
+            Vibration.vibrate(duration: 600);
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -297,12 +307,14 @@ class _ProfileState extends State<Profile> {
                   actions: [
                     TextButton(
                       onPressed: () {
+                        Vibration.vibrate(duration: 200);
                         Navigator.pop(context);
                       },
                       child: const Text('Cancel'),
                     ),
                     TextButton(
                       onPressed: () async {
+                        Vibration.vibrate(duration: 200);
                         // Sign out from Firebase Authentication
                         print(FirebaseAuth.instance.currentUser?.uid);
 

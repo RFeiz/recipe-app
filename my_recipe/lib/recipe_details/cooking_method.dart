@@ -4,6 +4,7 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/widgets/method_card.dart';
 import 'package:my_recipe/recipe_details/widgets/method_card_wimg.dart';
+import 'package:vibration/vibration.dart';
 
 class CookingMethod extends StatefulWidget {
   const CookingMethod({
@@ -71,6 +72,7 @@ class _CookingMethodState extends State<CookingMethod>
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
                   onPressed: () {
+                    Vibration.vibrate(duration: 200);
                     setState(() {
                       if (isAlarmPlaying) {
                         FlutterRingtonePlayer.stop();

@@ -1,6 +1,7 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vibration/vibration.dart';
 
 // ignore: must_be_immutable
 class MethodCard extends StatefulWidget {
@@ -101,6 +102,7 @@ class _MethodCardState extends State<MethodCard>
                                     ),
                                   ),
                                   onPressed: () {
+                                    Vibration.vibrate(duration: 200);
                                     setState(() {
                                       //play a sound
                                       SystemSound.play(SystemSoundType.alert);
@@ -131,6 +133,7 @@ class _MethodCardState extends State<MethodCard>
                                       width: 2.0),
                                 ),
                           onPressed: () {
+                            Vibration.vibrate(duration: 200);
                             setState(() {
                               widget.onStepCompleted();
                               widget.stepCompleted = !widget.stepCompleted;
