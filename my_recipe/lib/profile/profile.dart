@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_recipe/globals.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
 import 'package:vibration/vibration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -114,11 +115,11 @@ class _ProfileState extends State<Profile> {
               EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
           child: SwitchListTile(
             title: Text('Easy Access'),
-            value: _isEasyAccessEnabled,
+            value: Globals.easyAccess,
             onChanged: (value) {
               setState(() {
                 _isEasyAccessEnabled = value;
-                //  voice command enabling/disabling
+                Globals.setEasyAccess(value);
               });
             },
           ),
