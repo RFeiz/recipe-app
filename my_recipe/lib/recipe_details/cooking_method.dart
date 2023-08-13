@@ -71,7 +71,9 @@ class _CookingMethodState extends State<CookingMethod>
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
                 onPressed: () {
-                  Vibration.vibrate(duration: 200);
+                  if (Globals.hapticFeedback) {
+                    Vibration.vibrate(duration: 200);
+                  }
                   setState(() {
                     if (isAlarmPlaying) {
                       FlutterRingtonePlayer.stop();

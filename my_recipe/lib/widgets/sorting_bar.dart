@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 class SortingBar extends StatefulWidget {
   final ValueChanged<bool> onSortChanged;
@@ -26,6 +27,12 @@ class _SortingBarState extends State<SortingBar> {
     "Likes",
   ];
 
+  void checkVibrate(){
+    if(Globals.hapticFeedback){
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -46,7 +53,7 @@ class _SortingBarState extends State<SortingBar> {
                     ?.withOpacity(0.5)),
           ),
           onPressed: () {
-            Vibration.vibrate(duration: 200);
+            checkVibrate();
             setState(() {
               selectedSortOption = getNextSortOption(selectedSortOption);
             });
@@ -60,7 +67,7 @@ class _SortingBarState extends State<SortingBar> {
             color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
           ),
           onPressed: () {
-            Vibration.vibrate(duration: 200);
+            checkVibrate();
             setState(() {
               isDescending = !isDescending;
             });

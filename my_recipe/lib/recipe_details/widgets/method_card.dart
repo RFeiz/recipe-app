@@ -2,6 +2,7 @@ import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 // ignore: must_be_immutable
 class MethodCard extends StatefulWidget {
@@ -39,6 +40,13 @@ class MethodCard extends StatefulWidget {
 
 class _MethodCardState extends State<MethodCard>
     with SingleTickerProviderStateMixin {
+
+  void checkVibrate() {
+    if (Globals.hapticFeedback) {
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -102,7 +110,7 @@ class _MethodCardState extends State<MethodCard>
                                     ),
                                   ),
                                   onPressed: () {
-                                    Vibration.vibrate(duration: 200);
+                                    checkVibrate();
                                     setState(() {
                                       //play a sound
                                       SystemSound.play(SystemSoundType.alert);
@@ -133,7 +141,7 @@ class _MethodCardState extends State<MethodCard>
                                       width: 2.0),
                                 ),
                           onPressed: () {
-                            Vibration.vibrate(duration: 200);
+                            checkVibrate();
                             setState(() {
                               widget.onStepCompleted();
                               widget.stepCompleted = !widget.stepCompleted;

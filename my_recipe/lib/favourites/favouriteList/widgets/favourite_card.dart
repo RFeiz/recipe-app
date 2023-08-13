@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/recipe_details.dart';
 import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 class FavouriteCard extends StatefulWidget {
   final Food food;
@@ -19,7 +20,9 @@ class _FavouriteCardState extends State<FavouriteCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Vibration.vibrate(duration: 200);
+          if (Globals.hapticFeedback) {
+            Vibration.vibrate(duration: 200);
+          }
           Navigator.push(
             context,
             MaterialPageRoute(

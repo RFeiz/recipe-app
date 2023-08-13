@@ -92,7 +92,9 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                                   Theme.of(context).colorScheme.primary,
                                 )),
                             onPressed: () {
-                              Vibration.vibrate(duration: 200);
+                              if (Globals.hapticFeedback) {
+                                Vibration.vibrate(duration: 200);
+                              }
                               setState(() {
                                 widget.pageController.animateToPage(
                                     widget.pageController.page!.toInt() + 1,
