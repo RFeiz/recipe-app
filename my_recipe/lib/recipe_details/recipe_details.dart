@@ -6,6 +6,7 @@ import 'package:my_recipe/recipe_details/cooking_method.dart';
 import 'package:my_recipe/models/user.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Food food;
@@ -156,6 +157,12 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     }
   }
 
+  void checkVibrate(){
+    if(Globals.hapticFeedback){
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,7 +171,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Vibration.vibrate(duration: 200);
+            checkVibrate();
             Navigator.pop(context);
           },
         ),
@@ -190,7 +197,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                       color: Colors.red,
                     ),
                     onPressed: () {
-                      Vibration.vibrate(duration: 200);
+                      checkVibrate();
                       toggleFavourite();
                     },
                   )
@@ -201,7 +208,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                       color: Colors.red,
                     ),
                     onPressed: () {
-                      Vibration.vibrate(duration: 200);
+                      checkVibrate();
                       toggleFavourite();
                     },
                   ),
@@ -219,7 +226,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       width: 200,
       child: FloatingActionButton(
         onPressed: () {
-          Vibration.vibrate(duration: 200);
+          checkVibrate();
           Navigator.push(
             context,
             MaterialPageRoute(

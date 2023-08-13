@@ -38,8 +38,11 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  bool _isHapticFeedbackEnabled = false;
-  bool _isEasyAccessEnabled = false;
+  void checkVibrate(){
+    if(Globals.hapticFeedback){
+      Vibration.vibrate(duration: 200);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,16 +112,14 @@ class _ProfileState extends State<Profile> {
           ),
         ),
 
-        // Voice Command Toggle
         Padding(
-          padding:
-              EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          padding: EdgeInsets.only(left: 1.0),
           child: SwitchListTile(
             title: Text('Easy Access'),
             value: Globals.easyAccess,
             onChanged: (value) {
+              checkVibrate();
               setState(() {
-                _isEasyAccessEnabled = value;
                 Globals.setEasyAccess(value);
               });
             },
@@ -127,18 +128,17 @@ class _ProfileState extends State<Profile> {
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
         Padding(
-          padding:
-              EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          padding: EdgeInsets.only(left: 1.0),
           child: SwitchListTile(
-            title: Text('Haptic Feedback'),
-            value: _isHapticFeedbackEnabled,
-            onChanged: (value) {
-              setState(() {
-                _isHapticFeedbackEnabled = value;
-                // text-to-speech enabling/disabling
-              });
-            },
-          ),
+          title: Text('Haptic Feedback'),
+          value: Globals.hapticFeedback,
+          onChanged: (value) {
+            checkVibrate();
+            setState(() {
+              Globals.setHapticFeedback(value);
+            });
+          },
+        ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
@@ -159,7 +159,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           onPressed: () {
-            Vibration.vibrate(duration: 200);
+            checkVibrate();
             // Implement theme selection logic
             showDialog(
               context: context,
@@ -176,7 +176,7 @@ class _ProfileState extends State<Profile> {
                             ThemeMode.light, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
-                          Vibration.vibrate(duration: 200);
+                          checkVibrate();
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -190,7 +190,7 @@ class _ProfileState extends State<Profile> {
                             ThemeMode.dark, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
-                          Vibration.vibrate(duration: 200);
+                          checkVibrate();
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -204,7 +204,7 @@ class _ProfileState extends State<Profile> {
                             .system, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
-                          Vibration.vibrate(duration: 200);
+                          checkVibrate();
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -216,7 +216,7 @@ class _ProfileState extends State<Profile> {
                   actions: [
                     TextButton(
                       onPressed: () {
-                        Vibration.vibrate(duration: 200);
+                        checkVibrate();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Back'),
@@ -251,7 +251,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           onPressed: () async {
-            Vibration.vibrate(duration: 600);
+            checkVibrate();
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -262,14 +262,14 @@ class _ProfileState extends State<Profile> {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          Vibration.vibrate(duration: 200);
+                          checkVibrate();
                           Navigator.pop(context);
                         },
                         child: const Text('Cancel'),
                       ),
                       TextButton(
                         onPressed: () async {
-                          Vibration.vibrate(duration: 200);
+                          checkVibrate();
                           // Sign out from Firebase Authentication
                           await FirebaseAuth.instance.signOut();
 
@@ -301,7 +301,7 @@ class _ProfileState extends State<Profile> {
         SizedBox(height: MediaQuery.of(context).size.height * 0.005),
         TextButton(
           onPressed: () async {
-            Vibration.vibrate(duration: 600);
+            checkVibrate();
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -325,14 +325,14 @@ class _ProfileState extends State<Profile> {
                   actions: [
                     TextButton(
                       onPressed: () {
-                        Vibration.vibrate(duration: 200);
+                        checkVibrate();
                         Navigator.pop(context);
                       },
                       child: const Text('Cancel'),
                     ),
                     TextButton(
                       onPressed: () async {
-                        Vibration.vibrate(duration: 200);
+                        checkVibrate();
                         // Sign out from Firebase Authentication
                         print(FirebaseAuth.instance.currentUser?.uid);
 

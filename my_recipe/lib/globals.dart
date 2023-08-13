@@ -5,6 +5,7 @@ class Globals {
   static Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   static bool easyAccess = false;
+  static bool hapticFeedback = false;
 
   factory Globals() {
     return _globals;
@@ -13,10 +14,18 @@ class Globals {
   static Future<void> loadDataFromPref() async {
     final SharedPreferences prefs = await _prefs;
     final bool? ezAccess = prefs.getBool('ezAccess');
+    final bool? htFeedback = prefs.getBool('htFeedback');
+
     if (ezAccess == null) {
       easyAccess = false;
     } else {
       easyAccess = ezAccess;
+    }
+
+    if (htFeedback == null) {
+      hapticFeedback = false;
+    } else {
+      hapticFeedback = htFeedback;
     }
   }
 
@@ -24,6 +33,12 @@ class Globals {
     final SharedPreferences prefs = await _prefs;
     prefs.setBool('ezAccess', easyAccess);
     Globals.easyAccess = easyAccess;
+  }
+
+  static Future<void> setHapticFeedback(bool hapticFeedback) async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setBool('htFeedback', hapticFeedback);
+    Globals.hapticFeedback = hapticFeedback;
   }
 
   Globals._internal();

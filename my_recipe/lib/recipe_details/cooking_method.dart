@@ -57,6 +57,12 @@ class _CookingMethodState extends State<CookingMethod>
     isAlarmPlaying = true;
   }
 
+  void checkVibrate() {
+    if (Globals.hapticFeedback) {
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     FloatingActionButton? floatingButton_normal =
@@ -73,7 +79,7 @@ class _CookingMethodState extends State<CookingMethod>
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
                 onPressed: () {
-                  Vibration.vibrate(duration: 200);
+                  checkVibrate();
                   setState(() {
                     if (isAlarmPlaying) {
                       FlutterRingtonePlayer.stop();
@@ -114,6 +120,7 @@ class _CookingMethodState extends State<CookingMethod>
                           child: FloatingActionButton.extended(
                             heroTag: null,
                             onPressed: () {
+                              checkVibrate();
                               setState(() {
                                 // the timer
                                 _timeController.begin = Duration(
@@ -129,6 +136,7 @@ class _CookingMethodState extends State<CookingMethod>
               FloatingActionButton(
                 heroTag: null,
                 onPressed: () {
+                  checkVibrate();
                   setState(() {
                     if (_pageController.page!.toInt() != 0)
                       stepCompletedList[_pageController.page!.toInt() - 1] =

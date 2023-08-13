@@ -5,6 +5,7 @@ import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/profile/profile.dart';
 import 'package:search_page/search_page.dart';
 import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 import 'favourites/favourites.dart';
 import 'home/home.dart';
@@ -42,6 +43,12 @@ class _MainViewState extends State<MainView> {
     }
   }
 
+  void checkVibrate(){
+    if(Globals.hapticFeedback){
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     getFoodList();
@@ -49,7 +56,7 @@ class _MainViewState extends State<MainView> {
       floatingActionButton: currentIndex != 2
           ? FloatingActionButton(
               onPressed: () {
-                Vibration.vibrate(duration: 200);
+                checkVibrate();
                 showSearch(
                   context: context,
                   delegate: SearchPage<Food>(
@@ -91,7 +98,7 @@ class _MainViewState extends State<MainView> {
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Theme.of(context).colorScheme.primary,
         onTap: (value) {
-          Vibration.vibrate(duration: 200);
+          checkVibrate();
           setState(() {
             currentIndex = value;
             pageController.animateToPage(value,

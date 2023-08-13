@@ -16,6 +16,12 @@ class MethodCardwimg extends StatefulWidget {
 }
 
 class _MethodCardwimgState extends State<MethodCardwimg> {
+  void checkVibrate() {
+    if (Globals.hapticFeedback) {
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -97,7 +103,7 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                                         Theme.of(context).colorScheme.primary,
                                       )),
                                   onPressed: () {
-                                    Vibration.vibrate(duration: 200);
+                                    checkVibrate();
                                     setState(() {
                                       // TODO LEVYN
                                     });
@@ -120,7 +126,7 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                                       Theme.of(context).colorScheme.primary,
                                     )),
                                 onPressed: () {
-                                  Vibration.vibrate(duration: 200);
+                                  checkVibrate();
                                   setState(() {
                                     widget.pageController.animateToPage(
                                         widget.pageController.page!.toInt() + 1,
