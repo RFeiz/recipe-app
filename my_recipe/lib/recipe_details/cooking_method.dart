@@ -1,6 +1,7 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:my_recipe/globals.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/widgets/method_card.dart';
 import 'package:my_recipe/recipe_details/widgets/method_card_wimg.dart';
@@ -57,38 +58,65 @@ class _CookingMethodState extends State<CookingMethod>
 
   @override
   Widget build(BuildContext context) {
+    FloatingActionButton? floatingButton_normal =
+        _timeController.remaining.value.duration.inSeconds > 0 || isAlarmPlaying
+            ? FloatingActionButton(
+                child: Icon(
+                  _timeController.state.value.name ==
+                          CustomTimerState.counting.name
+                      ? Icons.pause
+                      : isAlarmPlaying
+                          ? Icons.stop
+                          : Icons.play_arrow,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                onPressed: () {
+                  Vibration.vibrate(duration: 200);
+                  setState(() {
+                    if (isAlarmPlaying) {
+                      FlutterRingtonePlayer.stop();
+                      isAlarmPlaying = false;
+                    } else if (_timeController.state.value.name ==
+                        CustomTimerState.counting.name) {
+                      _timeController.pause();
+                    } else if (_timeController.state.value.name ==
+                            CustomTimerState.paused.name ||
+                        _timeController.state.value.name ==
+                            CustomTimerState.reset.name) {
+                      _timeController.start();
+                    }
+                  });
+                })
+            : null;
+
+    Column floatingButton_easy = Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        floatingButton_normal == null ? Container() : floatingButton_normal,
+        SizedBox(height: 10),
+        FloatingActionButton(
+          heroTag: null,
+          onPressed: () {
+            setState(() {
+              if (_pageController.page!.toInt() != 0)
+                stepCompletedList[_pageController.page!.toInt() - 1] = true;
+
+              _pageController.animateToPage(
+                _pageController.page!.toInt() + 1,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.ease,
+              );
+            });
+          },
+          child: Icon(Icons.done),
+        ),
+      ],
+    );
+
     return Scaffold(
       floatingActionButton:
-          _timeController.remaining.value.duration.inSeconds > 0 ||
-                  isAlarmPlaying
-              ? FloatingActionButton(
-                  child: Icon(
-                    _timeController.state.value.name ==
-                            CustomTimerState.counting.name
-                        ? Icons.pause
-                        : isAlarmPlaying
-                            ? Icons.stop
-                            : Icons.play_arrow,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                  onPressed: () {
-                    Vibration.vibrate(duration: 200);
-                    setState(() {
-                      if (isAlarmPlaying) {
-                        FlutterRingtonePlayer.stop();
-                        isAlarmPlaying = false;
-                      } else if (_timeController.state.value.name ==
-                          CustomTimerState.counting.name) {
-                        _timeController.pause();
-                      } else if (_timeController.state.value.name ==
-                              CustomTimerState.paused.name ||
-                          _timeController.state.value.name ==
-                              CustomTimerState.reset.name) {
-                        _timeController.start();
-                      }
-                    });
-                  })
-              : null,
+          Globals.easyAccess ? floatingButton_easy : floatingButton_normal,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         shadowColor: Colors.transparent,

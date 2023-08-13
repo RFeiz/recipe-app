@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipe/globals.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:vibration/vibration.dart';
 
