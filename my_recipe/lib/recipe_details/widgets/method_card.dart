@@ -106,7 +106,7 @@ class _MethodCardState extends State<MethodCard>
                               Theme.of(context).colorScheme.primary,
                             )),
                             onPressed: () {
-                              Vibration.vibrate(duration: 200);
+                              checkVibrate();
                               setState(() {
                                 // TODO LEVYN
                               });
