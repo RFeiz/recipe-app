@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> {
                 0.1), // Spacer should be set to 0.03
 
         // Accessibility Section
-          Center(
+        Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -108,10 +108,10 @@ class _ProfileState extends State<Profile> {
           ),
         ),
 
-
         // Voice Command Toggle
         Padding(
-          padding: EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          padding:
+              EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
           child: SwitchListTile(
             title: Text('Easy Access'),
             value: _isEasyAccessEnabled,
@@ -126,17 +126,18 @@ class _ProfileState extends State<Profile> {
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
         Padding(
-          padding: EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          padding:
+              EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
           child: SwitchListTile(
-          title: Text('Haptic Feedback'),
-          value: _isHapticFeedbackEnabled,
-          onChanged: (value) {
-            setState(() {
-              _isHapticFeedbackEnabled = value;
-              // text-to-speech enabling/disabling
-            });
-          },
-        ),
+            title: Text('Haptic Feedback'),
+            value: _isHapticFeedbackEnabled,
+            onChanged: (value) {
+              setState(() {
+                _isHapticFeedbackEnabled = value;
+                // text-to-speech enabling/disabling
+              });
+            },
+          ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
@@ -150,8 +151,8 @@ class _ProfileState extends State<Profile> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            fixedSize: Size(MediaQuery.of(context).size.width * 0.5,
-                MediaQuery.of(context).size.height * 0.05),
+            // fixedSize: Size(MediaQuery.of(context).size.width * 0.5,
+            //     MediaQuery.of(context).size.height * 0.05),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -224,7 +225,7 @@ class _ProfileState extends State<Profile> {
               },
             );
           },
-          child: Text('Change Theme',
+          child: Text('    Change Theme    ',
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!

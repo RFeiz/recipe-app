@@ -23,7 +23,7 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
-    double appBarHeight = MediaQuery.of(context).size.height * 0.29;
+    double appBarHeight = MediaQuery.of(context).size.height * 0.317;
     if (MediaQuery.of(context).size.height < appBarHeight) {
       appBarHeight = MediaQuery.of(context).size.height;
     }
@@ -48,13 +48,21 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         },
                         icon: Icon(Icons.arrow_back),
                       ),
-                      Text(
-                        widget.title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                        overflow: TextOverflow.ellipsis,
+                      const SizedBox(
+                          width:
+                              10), // Add some spacing between IconButton and Text
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width *
+                            0.82, // Set your preferred width here
+                        child: Text(
+                          widget.title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
+                          maxLines: 1, // Allow only one line of text
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
@@ -63,7 +71,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     child: Text(
                       widget.subTitle,
                       style: Theme.of(context).textTheme.titleMedium,
-                      maxLines: 3,
+                      maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

@@ -30,7 +30,7 @@ class _RecipeCardState extends State<RecipeCard> {
         child: Stack(children: [
           Container(
             margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.18,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
@@ -39,7 +39,7 @@ class _RecipeCardState extends State<RecipeCard> {
           ),
           Container(
             margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.18,
             width: MediaQuery.of(context).size.width,
             // GRADIENT WHITE
             decoration: BoxDecoration(

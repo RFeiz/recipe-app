@@ -73,6 +73,7 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                                   .copyWith(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
+                              maxLines: 6,
                             ),
                           ]),
                       Padding(
