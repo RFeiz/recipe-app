@@ -23,7 +23,7 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
-    double appBarHeight = MediaQuery.of(context).size.height * 0.29;
+    double appBarHeight = MediaQuery.of(context).size.height * 0.317;
     if (MediaQuery.of(context).size.height < appBarHeight) {
       appBarHeight = MediaQuery.of(context).size.height;
     }
@@ -48,10 +48,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         },
                         icon: Icon(Icons.arrow_back),
                       ),
-                      SizedBox(
+                      const SizedBox(
                           width:
                               10), // Add some spacing between IconButton and Text
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width *
                             0.82, // Set your preferred width here
                         child: Text(

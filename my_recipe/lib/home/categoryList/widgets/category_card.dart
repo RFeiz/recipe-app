@@ -28,7 +28,7 @@ class _CategoryCardState extends State<CategoryCard> {
       child: Stack(children: [
         Container(
           margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-          height: MediaQuery.of(context).size.height * 0.17,
+          height: MediaQuery.of(context).size.height * 0.16,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               image: DecorationImage(
@@ -37,7 +37,7 @@ class _CategoryCardState extends State<CategoryCard> {
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-          height: MediaQuery.of(context).size.height * 0.17,
+          height: MediaQuery.of(context).size.height * 0.16,
           width: MediaQuery.of(context).size.width,
           // GRADIENT WHITE
           decoration: BoxDecoration(
