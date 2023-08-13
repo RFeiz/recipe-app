@@ -81,31 +81,61 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                         padding: const EdgeInsets.all(15.0),
                         child: Align(
                           alignment: Alignment.bottomCenter,
-                          child: TextButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  Theme.of(context).colorScheme.surface,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                        Theme.of(context).colorScheme.surface,
+                                      ),
+                                      surfaceTintColor:
+                                          MaterialStateProperty.all<Color>(
+                                        Theme.of(context).colorScheme.primary,
+                                      )),
+                                  onPressed: () {
+                                    Vibration.vibrate(duration: 200);
+                                    setState(() {
+                                      // TODO LEVYN
+                                    });
+                                  },
+                                  child: Icon(
+                                    Icons.speaker,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
                                 ),
-                                surfaceTintColor:
-                                    MaterialStateProperty.all<Color>(
-                                  Theme.of(context).colorScheme.primary,
-                                )),
-                            onPressed: () {
-                              if (Globals.hapticFeedback) {
-                                Vibration.vibrate(duration: 200);
-                              }
-                              setState(() {
-                                widget.pageController.animateToPage(
-                                    widget.pageController.page!.toInt() + 1,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.ease);
-                              });
-                            },
-                            child: Icon(
-                              Icons.arrow_downward,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                              ),
+                              TextButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                      Theme.of(context).colorScheme.surface,
+                                    ),
+                                    surfaceTintColor:
+                                        MaterialStateProperty.all<Color>(
+                                      Theme.of(context).colorScheme.primary,
+                                    )),
+                                onPressed: () {
+                                  if (Globals.hapticFeedback) {
+                                    Vibration.vibrate(duration: 200);
+                                  }
+                                  setState(() {
+                                    widget.pageController.animateToPage(
+                                        widget.pageController.page!.toInt() + 1,
+                                        duration: Duration(milliseconds: 300),
+                                        curve: Curves.ease);
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.arrow_downward,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

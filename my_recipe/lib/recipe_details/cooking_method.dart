@@ -23,6 +23,7 @@ class _CookingMethodState extends State<CookingMethod>
     with SingleTickerProviderStateMixin {
   PageController _pageController =
       PageController(initialPage: 0, viewportFraction: 0.5);
+  int _currentPage = 0;
 
   List<bool> stepCompletedList = [];
   bool isAlarmPlaying = false;
@@ -61,6 +62,7 @@ class _CookingMethodState extends State<CookingMethod>
     FloatingActionButton? floatingButton_normal =
         _timeController.remaining.value.duration.inSeconds > 0 || isAlarmPlaying
             ? FloatingActionButton(
+                heroTag: null,
                 child: Icon(
                   _timeController.state.value.name ==
                           CustomTimerState.counting.name
@@ -96,29 +98,62 @@ class _CookingMethodState extends State<CookingMethod>
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         floatingButton_normal == null ? Container() : floatingButton_normal,
-        SizedBox(height: 10),
-        FloatingActionButton(
-          heroTag: null,
-          onPressed: () {
-            setState(() {
-              if (_pageController.page!.toInt() != 0)
-                stepCompletedList[_pageController.page!.toInt() - 1] = true;
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _currentPage == 0
+                  ? Container()
+                  : Duration(
+                                  seconds: widget
+                                      .food.methodList[_currentPage - 1].time)
+                              .inSeconds !=
+                          0
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: FloatingActionButton.extended(
+                            heroTag: null,
+                            onPressed: () {
+                              setState(() {
+                                // the timer
+                                _timeController.begin = Duration(
+                                    seconds: widget.food
+                                        .methodList[_currentPage - 1].time);
+                                _timeController.reset();
+                              });
+                            },
+                            label: Text("Set Timer"),
+                          ),
+                        )
+                      : Container(),
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  setState(() {
+                    if (_pageController.page!.toInt() != 0)
+                      stepCompletedList[_pageController.page!.toInt() - 1] =
+                          true;
 
-              _pageController.animateToPage(
-                _pageController.page!.toInt() + 1,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.ease,
-              );
-            });
-          },
-          child: Icon(Icons.done),
+                    _pageController.animateToPage(
+                      _pageController.page!.toInt() + 1,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.ease,
+                    );
+                  });
+                },
+                child: _currentPage == 0
+                    ? Icon(Icons.arrow_downward)
+                    : Icon(Icons.done),
+              ),
+            ],
+          ),
         ),
       ],
     );
 
     return Scaffold(
-      floatingActionButton:
-          Globals.easyAccess ? floatingButton_easy : floatingButton_normal,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         shadowColor: Colors.transparent,
@@ -165,6 +200,12 @@ class _CookingMethodState extends State<CookingMethod>
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         child: PageView(
+          onPageChanged: (value) {
+            setState(() {
+              print(value);
+              _currentPage = value;
+            });
+          },
           scrollDirection: Axis.vertical,
           physics: const BouncingScrollPhysics(),
           controller: _pageController,
@@ -197,6 +238,8 @@ class _CookingMethodState extends State<CookingMethod>
           ],
         ),
       ),
+      floatingActionButton:
+          Globals.easyAccess ? floatingButton_easy : floatingButton_normal,
     );
   }
 }

@@ -97,6 +97,26 @@ class _MethodCardState extends State<MethodCard>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: TextButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                              Theme.of(context).colorScheme.primary,
+                            )),
+                            onPressed: () {
+                              Vibration.vibrate(duration: 200);
+                              setState(() {
+                                // TODO LEVYN
+                              });
+                            },
+                            child: Icon(
+                              Icons.speaker,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
                         // button to set timer
                         widget.duration.inSeconds == 0
                             ? Container()
