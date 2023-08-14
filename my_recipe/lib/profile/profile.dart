@@ -38,7 +38,8 @@ class _ProfileState extends State<Profile> {
 
   bool _isHapticFeedbackEnabled = false;
   bool _isEasyAccessEnabled = false;
-
+  double _speechPitch = 1.0; // Initial speech pitch value
+  double _speedPitch = 1.0; // Initial speech speed value
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -137,6 +138,49 @@ class _ProfileState extends State<Profile> {
           },
         ),
         ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.001),
+
+        // Speech Pitch Slider
+        Text("Speech Pitch",
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.bold)),
+
+        Slider(
+          value: _speechPitch,
+          min: 0.5,
+          max: 2.0,
+          divisions: 15,
+          label: _speechPitch.toStringAsFixed(1),
+          onChanged: (double value) {
+            setState(() {
+              _speechPitch = value;
+              // text-to-speech pitch adjustment
+            });
+          },
+        ),
+
+        Text("Speed",
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.bold)),
+
+        Slider(
+          value: _speedPitch,
+          min: 0.5,
+          max: 2.0,
+          divisions: 15,
+          label: _speechPitch.toStringAsFixed(1),
+          onChanged: (double value) {
+            setState(() {
+              _speechPitch = value;
+              // text-to-speech pitch adjustment
+            });
+          },
+        ),
+
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
         Text("Visuals & Styles",
