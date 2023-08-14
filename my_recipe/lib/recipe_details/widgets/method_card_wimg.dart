@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe/globals.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:vibration/vibration.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 // ignore: must_be_immutable
 class MethodCardwimg extends StatefulWidget {
@@ -16,10 +17,23 @@ class MethodCardwimg extends StatefulWidget {
 }
 
 class _MethodCardwimgState extends State<MethodCardwimg> {
+
+  FlutterTts flutterTts = FlutterTts();
+
+
   void checkVibrate() {
     if (Globals.hapticFeedback) {
       Vibration.vibrate(duration: 200);
     }
+  }
+
+  Future<void> speak(String titleText, String descText) async {
+    await flutterTts.setPitch(Globals.speechPitch);
+    await flutterTts.setSpeechRate(Globals.speechSpeed);
+
+    await flutterTts.speak(titleText);
+    await Future.delayed(Duration(seconds: (Globals.speechSpeed * titleText.length)~/9));
+    await flutterTts.speak(descText);
   }
 
   @override
@@ -105,11 +119,11 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                                   onPressed: () {
                                     checkVibrate();
                                     setState(() {
-                                      // TODO LEVYN
+                                      speak(widget.food.name, widget.food.longDescription);
                                     });
                                   },
                                   child: Icon(
-                                    Icons.speaker,
+                                    Icons.record_voice_over,
                                     color:
                                         Theme.of(context).colorScheme.primary,
                                   ),
