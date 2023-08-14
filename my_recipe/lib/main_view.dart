@@ -4,6 +4,8 @@ import 'package:my_recipe/favourites/favouriteList/widgets/favourite_card.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/profile/profile.dart';
 import 'package:search_page/search_page.dart';
+import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 import 'favourites/favourites.dart';
 import 'home/home.dart';
@@ -41,30 +43,39 @@ class _MainViewState extends State<MainView> {
     }
   }
 
+  void checkVibrate(){
+    if(Globals.hapticFeedback){
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     getFoodList();
     return Scaffold(
       floatingActionButton: currentIndex != 2
           ? FloatingActionButton(
-              onPressed: () => showSearch(
-                context: context,
-                delegate: SearchPage<Food>(
-                  items: foodList,
-                  searchLabel: 'Search Recipe',
-                  suggestion: const Center(
-                    child: Text('Search Recipe by Name'),
+              onPressed: () {
+                checkVibrate();
+                showSearch(
+                  context: context,
+                  delegate: SearchPage<Food>(
+                    items: foodList,
+                    searchLabel: 'Search Recipe',
+                    suggestion: const Center(
+                      child: Text('Search Recipe by Name'),
+                    ),
+                    failure: const Center(
+                      child: Text('No Recipe found'),
+                    ),
+                    filter: (food) => [food.name],
+                    builder: (food) => FavouriteCard(
+                      food: food,
+                      updateList: (value) {},
+                    ),
                   ),
-                  failure: const Center(
-                    child: Text('No Recipe found'),
-                  ),
-                  filter: (food) => [food.name],
-                  builder: (food) => FavouriteCard(
-                    food: food,
-                    updateList: (value) {},
-                  ),
-                ),
-              ),
+                );
+              },
               child: const Icon(Icons.search),
             )
           : null,
@@ -87,6 +98,7 @@ class _MainViewState extends State<MainView> {
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Theme.of(context).colorScheme.primary,
         onTap: (value) {
+          checkVibrate();
           setState(() {
             currentIndex = value;
             pageController.animateToPage(value,

@@ -1,6 +1,8 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 // ignore: must_be_immutable
 class MethodCard extends StatefulWidget {
@@ -38,6 +40,13 @@ class MethodCard extends StatefulWidget {
 
 class _MethodCardState extends State<MethodCard>
     with SingleTickerProviderStateMixin {
+
+  void checkVibrate() {
+    if (Globals.hapticFeedback) {
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -88,6 +97,26 @@ class _MethodCardState extends State<MethodCard>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: TextButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                              Theme.of(context).colorScheme.primary,
+                            )),
+                            onPressed: () {
+                              checkVibrate();
+                              setState(() {
+                                // TODO LEVYN
+                              });
+                            },
+                            child: Icon(
+                              Icons.speaker,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
                         // button to set timer
                         widget.duration.inSeconds == 0
                             ? Container()
@@ -101,6 +130,7 @@ class _MethodCardState extends State<MethodCard>
                                     ),
                                   ),
                                   onPressed: () {
+                                    checkVibrate();
                                     setState(() {
                                       //play a sound
                                       SystemSound.play(SystemSoundType.alert);
@@ -131,6 +161,7 @@ class _MethodCardState extends State<MethodCard>
                                       width: 2.0),
                                 ),
                           onPressed: () {
+                            checkVibrate();
                             setState(() {
                               widget.onStepCompleted();
                               widget.stepCompleted = !widget.stepCompleted;

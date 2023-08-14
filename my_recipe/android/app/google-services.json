@@ -22,6 +22,54 @@
           }
         },
         {
+          "client_id": "706044003636-a1u3rresp5gqgm4idojog8d3gio7m4tm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.a4studio.myrecipe",
+            "certificate_hash": "1f1dc32e7a32406f7d18c632ec14e2af9ab31a0f"
+          }
+        },
+        {
+          "client_id": "706044003636-e2thnv1sup82jjfi19radq7edbs3sc5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.a4studio.myrecipe",
+            "certificate_hash": "1622589ca8cffd13560302e6fda63d16a86fe24d"
+          }
+        },
+        {
+          "client_id": "706044003636-egr5ahmiuhbnn481k42dl7o4vsmq2k16.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.a4studio.myrecipe",
+            "certificate_hash": "7ac42802b1fb4e1cbb07134fd3fd52b5b82b229b"
+          }
+        },
+        {
+          "client_id": "706044003636-glrll5liso85tmh68nmmlo65v51scvsr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.a4studio.myrecipe",
+            "certificate_hash": "595a71dcaa8a4b9a8dfab75bc3206352fcfe4fb3"
+          }
+        },
+        {
+          "client_id": "706044003636-k28g9h9ktm01iqo00eacfmiel9f2s7do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.a4studio.myrecipe",
+            "certificate_hash": "892c217cf10b2f892a1ecc253f3c127f90f53973"
+          }
+        },
+        {
+          "client_id": "706044003636-ual1p7lcpfht0erifego9j3omnbraenr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.a4studio.myrecipe",
+            "certificate_hash": "1b9a820fcffee99f5e65f5c2d6492f858741a365"
+          }
+        },
+        {
           "client_id": "706044003636-90u9etbo7ls0cac2s3t8vmriblh5d4eq.apps.googleusercontent.com",
           "client_type": 3
         }

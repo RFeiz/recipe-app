@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 class CustomAppBar extends StatefulWidget {
   CustomAppBar({
@@ -22,8 +24,12 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
+    double appBarHeight = MediaQuery.of(context).size.height * 0.317;
+    if (MediaQuery.of(context).size.height < appBarHeight) {
+      appBarHeight = MediaQuery.of(context).size.height;
+    }
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: appBarHeight,
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,27 +44,37 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     children: [
                       IconButton(
                         onPressed: () {
+                          if (Globals.hapticFeedback) {
+                            Vibration.vibrate(duration: 200);
+                          }
                           Navigator.pop(context);
                         },
                         icon: Icon(Icons.arrow_back),
                       ),
-                      Text(
-                        widget.title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                        overflow: TextOverflow.ellipsis,
+                      const SizedBox(
+                          width:
+                              10), // Add some spacing between IconButton and Text
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width *
+                            0.82, // Set your preferred width here
+                        child: Text(
+                          widget.title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
+                          maxLines: 1, // Allow only one line of text
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
-                  
                   Container(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Text(
                       widget.subTitle,
                       style: Theme.of(context).textTheme.titleMedium,
-                      maxLines: 3,
+                      maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

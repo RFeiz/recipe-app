@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/recipe_details.dart';
+import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 class FavouriteCard extends StatefulWidget {
   final Food food;
@@ -18,6 +20,9 @@ class _FavouriteCardState extends State<FavouriteCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
+          if (Globals.hapticFeedback) {
+            Vibration.vibrate(duration: 200);
+          }
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -32,7 +37,7 @@ class _FavouriteCardState extends State<FavouriteCard> {
         child: Stack(children: [
           Container(
             margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.18,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
@@ -41,7 +46,7 @@ class _FavouriteCardState extends State<FavouriteCard> {
           ),
           Container(
             margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.18,
             width: MediaQuery.of(context).size.width,
             // GRADIENT WHITE
             decoration: BoxDecoration(
@@ -69,6 +74,7 @@ class _FavouriteCardState extends State<FavouriteCard> {
                       // white and bold
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Colors.white, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       widget.food.smallDescription,

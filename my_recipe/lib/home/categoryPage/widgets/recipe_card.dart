@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/recipe_details.dart';
+import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 class RecipeCard extends StatefulWidget {
   const RecipeCard({super.key, required this.food});
@@ -16,6 +18,9 @@ class _RecipeCardState extends State<RecipeCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
+          if (Globals.hapticFeedback) {
+  Vibration.vibrate(duration: 200);
+}
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -28,7 +33,7 @@ class _RecipeCardState extends State<RecipeCard> {
         child: Stack(children: [
           Container(
             margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.18,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
@@ -37,7 +42,7 @@ class _RecipeCardState extends State<RecipeCard> {
           ),
           Container(
             margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.18,
             width: MediaQuery.of(context).size.width,
             // GRADIENT WHITE
             decoration: BoxDecoration(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_recipe/home/categoryPage/category_page.dart';
 import 'package:my_recipe/models/category.dart';
+import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 class CategoryCard extends StatefulWidget {
   const CategoryCard({super.key, required this.category});
@@ -16,6 +18,9 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (Globals.hapticFeedback) {
+          Vibration.vibrate(duration: 200);
+        }
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -26,7 +31,7 @@ class _CategoryCardState extends State<CategoryCard> {
       child: Stack(children: [
         Container(
           margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: MediaQuery.of(context).size.height * 0.16,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               image: DecorationImage(
@@ -35,7 +40,7 @@ class _CategoryCardState extends State<CategoryCard> {
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: MediaQuery.of(context).size.height * 0.16,
           width: MediaQuery.of(context).size.width,
           // GRADIENT WHITE
           decoration: BoxDecoration(
@@ -62,6 +67,7 @@ class _CategoryCardState extends State<CategoryCard> {
                     // white and bold
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     widget.category.description.length > 50
@@ -69,6 +75,7 @@ class _CategoryCardState extends State<CategoryCard> {
                         : widget.category.description,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ]),
           ),

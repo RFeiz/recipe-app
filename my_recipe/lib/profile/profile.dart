@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_recipe/globals.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
+import 'package:vibration/vibration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login/loginPage.dart';
@@ -40,6 +42,13 @@ class _ProfileState extends State<Profile> {
   bool _isEasyAccessEnabled = false;
   double _speechPitch = 1.0; // Initial speech pitch value
   double _speedPitch = 1.0; // Initial speech speed value
+
+  void checkVibrate(){
+    if(Globals.hapticFeedback){
+      Vibration.vibrate(duration: 200);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -92,7 +101,7 @@ class _ProfileState extends State<Profile> {
                 0.1), // Spacer should be set to 0.03
 
         // Accessibility Section
-          Center(
+        Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -108,17 +117,15 @@ class _ProfileState extends State<Profile> {
           ),
         ),
 
-
-        // Voice Command Toggle
         Padding(
-          padding: EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          padding: EdgeInsets.only(left: 1.0),
           child: SwitchListTile(
             title: Text('Easy Access'),
-            value: _isEasyAccessEnabled,
+            value: Globals.easyAccess,
             onChanged: (value) {
+              checkVibrate();
               setState(() {
-                _isEasyAccessEnabled = value;
-                //  voice command enabling/disabling
+                Globals.setEasyAccess(value);
               });
             },
           ),
@@ -126,14 +133,14 @@ class _ProfileState extends State<Profile> {
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
         Padding(
-          padding: EdgeInsets.only(left: 1.0), // Adjust the left padding as needed
+          padding: EdgeInsets.only(left: 1.0),
           child: SwitchListTile(
           title: Text('Haptic Feedback'),
-          value: _isHapticFeedbackEnabled,
+          value: Globals.hapticFeedback,
           onChanged: (value) {
+            checkVibrate();
             setState(() {
-              _isHapticFeedbackEnabled = value;
-              // text-to-speech enabling/disabling
+              Globals.setHapticFeedback(value);
             });
           },
         ),
@@ -193,13 +200,14 @@ class _ProfileState extends State<Profile> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            fixedSize: Size(MediaQuery.of(context).size.width * 0.5,
-                MediaQuery.of(context).size.height * 0.05),
+            // fixedSize: Size(MediaQuery.of(context).size.width * 0.5,
+            //     MediaQuery.of(context).size.height * 0.05),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
           ),
           onPressed: () {
+            checkVibrate();
             // Implement theme selection logic
             showDialog(
               context: context,
@@ -216,6 +224,7 @@ class _ProfileState extends State<Profile> {
                             ThemeMode.light, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
+                          checkVibrate();
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -229,6 +238,7 @@ class _ProfileState extends State<Profile> {
                             ThemeMode.dark, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
+                          checkVibrate();
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -242,6 +252,7 @@ class _ProfileState extends State<Profile> {
                             .system, // Value for the first radio button
                         groupValue: _selectedTheme,
                         onChanged: (value) {
+                          checkVibrate();
                           setState(() {
                             setThemeMode(value as ThemeMode);
                           });
@@ -253,6 +264,7 @@ class _ProfileState extends State<Profile> {
                   actions: [
                     TextButton(
                       onPressed: () {
+                        checkVibrate();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Back'),
@@ -262,7 +274,7 @@ class _ProfileState extends State<Profile> {
               },
             );
           },
-          child: Text('Change Theme',
+          child: Text('    Change Theme    ',
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
@@ -287,6 +299,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           onPressed: () async {
+            checkVibrate();
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -297,12 +310,14 @@ class _ProfileState extends State<Profile> {
                     actions: [
                       TextButton(
                         onPressed: () {
+                          checkVibrate();
                           Navigator.pop(context);
                         },
                         child: const Text('Cancel'),
                       ),
                       TextButton(
                         onPressed: () async {
+                          checkVibrate();
                           // Sign out from Firebase Authentication
                           await FirebaseAuth.instance.signOut();
 
@@ -334,6 +349,7 @@ class _ProfileState extends State<Profile> {
         SizedBox(height: MediaQuery.of(context).size.height * 0.005),
         TextButton(
           onPressed: () async {
+            checkVibrate();
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -357,12 +373,14 @@ class _ProfileState extends State<Profile> {
                   actions: [
                     TextButton(
                       onPressed: () {
+                        checkVibrate();
                         Navigator.pop(context);
                       },
                       child: const Text('Cancel'),
                     ),
                     TextButton(
                       onPressed: () async {
+                        checkVibrate();
                         // Sign out from Firebase Authentication
                         print(FirebaseAuth.instance.currentUser?.uid);
 

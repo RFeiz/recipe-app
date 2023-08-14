@@ -32,10 +32,14 @@ class _RecipeListState extends State<RecipeList> {
 
   Future<List<String>> getIdList(String catId) async {
     final DocumentSnapshot<Map<String, dynamic>> catSnapshot =
-        await FirebaseFirestore.instance.collection('categories').doc(catId).get();
+        await FirebaseFirestore.instance
+            .collection('categories')
+            .doc(catId)
+            .get();
 
     if (catSnapshot.exists) {
-      final List<dynamic>? recipeIds = catSnapshot.data()?['recipes'] as List<dynamic>?;
+      final List<dynamic>? recipeIds =
+          catSnapshot.data()?['recipes'] as List<dynamic>?;
 
       if (recipeIds != null) {
         return recipeIds.cast<String>();
@@ -45,7 +49,8 @@ class _RecipeListState extends State<RecipeList> {
     return [];
   }
 
-  Future<List<Map<String, dynamic>>> getRecipesList(List<String> recipeIds) async {
+  Future<List<Map<String, dynamic>>> getRecipesList(
+      List<String> recipeIds) async {
     final List<Future<DocumentSnapshot<Map<String, dynamic>>>> futures = [];
 
     for (String id in recipeIds) {
@@ -55,7 +60,8 @@ class _RecipeListState extends State<RecipeList> {
       futures.add(future);
     }
 
-    final List<DocumentSnapshot<Map<String, dynamic>>> snapshots = await Future.wait(futures);
+    final List<DocumentSnapshot<Map<String, dynamic>>> snapshots =
+        await Future.wait(futures);
 
     final List<Map<String, dynamic>> recipes = snapshots
         .map((DocumentSnapshot<Map<String, dynamic>> doc) => doc.data() ?? {})
@@ -72,7 +78,8 @@ class _RecipeListState extends State<RecipeList> {
     List<String> ids = await getIdList(widget.category);
     List<Map<String, dynamic>> tempList = await getRecipesList(ids);
 
-    List<Food> updatedList = tempList.map((element) => Food.convertToFood(element)).toList();
+    List<Food> updatedList =
+        tempList.map((element) => Food.convertToFood(element)).toList();
 
     setState(() {
       foodList = updatedList;

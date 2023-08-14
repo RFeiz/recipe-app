@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/recipe_details.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:vibration/vibration.dart';
+import 'package:my_recipe/globals.dart';
 
 class PopularCard extends StatefulWidget {
   const PopularCard({Key? key, required this.food}) : super(key: key);
@@ -33,6 +35,9 @@ class _PopularCardState extends State<PopularCard> {
 
     return GestureDetector(
       onTap: () {
+        if (Globals.hapticFeedback) {
+  Vibration.vibrate(duration: 200);
+}
         Navigator.push(
           context,
           MaterialPageRoute(
