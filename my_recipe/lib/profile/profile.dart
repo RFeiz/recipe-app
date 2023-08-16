@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_recipe/globals.dart';
 import 'package:my_recipe/widgets/custom_app_bar.dart';
-import 'package:vibration/vibration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 
 import '../login/loginPage.dart';
 
@@ -164,6 +164,7 @@ class _ProfileState extends State<Profile> {
             });
           },
         ),
+          //SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
         Text("Speed",
             style: Theme.of(context)
@@ -192,7 +193,7 @@ class _ProfileState extends State<Profile> {
                 .textTheme
                 .titleLarge
                 ?.copyWith(fontWeight: FontWeight.bold)),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
