@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vibration/vibration.dart';
 import 'package:my_recipe/globals.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 // ignore: must_be_immutable
 class MethodCard extends StatefulWidget {
@@ -41,10 +42,21 @@ class MethodCard extends StatefulWidget {
 class _MethodCardState extends State<MethodCard>
     with SingleTickerProviderStateMixin {
 
+  FlutterTts flutterTts = FlutterTts();
+
   void checkVibrate() {
     if (Globals.hapticFeedback) {
       Vibration.vibrate(duration: 200);
     }
+  }
+
+  Future<void> speak(String titleText, String descText) async {
+    await flutterTts.setPitch(Globals.speechPitch);
+    await flutterTts.setSpeechRate(Globals.speechSpeed);
+
+    await flutterTts.speak(titleText);
+    await Future.delayed(Duration(seconds: (Globals.speechSpeed * titleText.length)~/9));
+    await flutterTts.speak(descText);
   }
 
   @override
@@ -108,11 +120,11 @@ class _MethodCardState extends State<MethodCard>
                             onPressed: () {
                               checkVibrate();
                               setState(() {
-                                // TODO LEVYN
+                                speak(widget.title, widget.stepDescription);
                               });
                             },
                             child: Icon(
-                              Icons.speaker,
+                              Icons.record_voice_over,
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),

@@ -38,10 +38,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  bool _isHapticFeedbackEnabled = false;
-  bool _isEasyAccessEnabled = false;
-  double _speechPitch = 1.0; // Initial speech pitch value
-  double _speedPitch = 1.0; // Initial speech speed value
+  
 
   void checkVibrate(){
     if(Globals.hapticFeedback){
@@ -155,14 +152,14 @@ class _ProfileState extends State<Profile> {
                 ?.copyWith(fontWeight: FontWeight.bold)),
 
         Slider(
-          value: _speechPitch,
+          value: Globals.speechPitch,
           min: 0.5,
           max: 2.0,
           divisions: 15,
-          label: _speechPitch.toStringAsFixed(1),
+          label: Globals.speechPitch.toStringAsFixed(1),
           onChanged: (double value) {
             setState(() {
-              _speechPitch = value;
+              Globals.setSpeechPitch(value);
               // text-to-speech pitch adjustment
             });
           },
@@ -176,14 +173,14 @@ class _ProfileState extends State<Profile> {
                 ?.copyWith(fontWeight: FontWeight.bold)),
 
         Slider(
-          value: _speedPitch,
+          value: Globals.speechSpeed,
           min: 0.5,
           max: 2.0,
           divisions: 15,
-          label: _speedPitch.toStringAsFixed(1),
+          label: Globals.speechSpeed.toStringAsFixed(1),
           onChanged: (double value) {
             setState(() {
-              _speedPitch = value;
+              Globals.setSpeechSpeed(value);
               // text-to-speech pitch adjustment
             });
           },
