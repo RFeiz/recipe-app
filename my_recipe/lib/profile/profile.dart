@@ -38,10 +38,8 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  
-
-  void checkVibrate(){
-    if(Globals.hapticFeedback){
+  void checkVibrate() {
+    if (Globals.hapticFeedback) {
       Vibration.vibrate(duration: 200);
     }
   }
@@ -115,9 +113,10 @@ class _ProfileState extends State<Profile> {
         ),
 
         Padding(
-          padding: EdgeInsets.only(left: 1.0),
+          padding: EdgeInsets.only(left: 5.0),
           child: SwitchListTile(
-            title: Text('Easy Access'),
+            title: Text('Easy Access',
+                style: Theme.of(context).textTheme.titleMedium),
             value: Globals.easyAccess,
             onChanged: (value) {
               checkVibrate();
@@ -127,63 +126,102 @@ class _ProfileState extends State<Profile> {
             },
           ),
         ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
         Padding(
-          padding: EdgeInsets.only(left: 1.0),
+          padding: EdgeInsets.only(left: 5.0),
           child: SwitchListTile(
-          title: Text('Haptic Feedback'),
-          value: Globals.hapticFeedback,
-          onChanged: (value) {
-            checkVibrate();
-            setState(() {
-              Globals.setHapticFeedback(value);
-            });
-          },
+            title: Text(
+              'Haptic Feedback',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            value: Globals.hapticFeedback,
+            onChanged: (value) {
+              checkVibrate();
+              setState(() {
+                Globals.setHapticFeedback(value);
+              });
+            },
+          ),
         ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
+        Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Text to Speech",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+            ],
+          ),
         ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.001),
 
-        // Speech Pitch Slider
-        Text("Speech Pitch",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(fontWeight: FontWeight.bold)),
-
-        Slider(
-          value: Globals.speechPitch,
-          min: 0.5,
-          max: 2.0,
-          divisions: 15,
-          label: Globals.speechPitch.toStringAsFixed(1),
-          onChanged: (double value) {
-            setState(() {
-              Globals.setSpeechPitch(value);
-              // text-to-speech pitch adjustment
-            });
-          },
+        Padding(
+          padding: const EdgeInsets.only(left: 21.0, right: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Pitch",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.81,
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 10,
+                  ),
+                  child: Slider(
+                    value: Globals.speechPitch,
+                    min: 0.5,
+                    max: 2.0,
+                    divisions: 15,
+                    label: Globals.speechPitch.toStringAsFixed(1),
+                    onChanged: (double value) {
+                      setState(() {
+                        Globals.setSpeechPitch(value);
+                        // text-to-speech pitch adjustment
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-          //SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
-        Text("Speed",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(fontWeight: FontWeight.bold)),
-
-        Slider(
-          value: Globals.speechSpeed,
-          min: 0.5,
-          max: 2.0,
-          divisions: 15,
-          label: Globals.speechSpeed.toStringAsFixed(1),
-          onChanged: (double value) {
-            setState(() {
-              Globals.setSpeechSpeed(value);
-              // text-to-speech pitch adjustment
-            });
-          },
+        //SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+        Padding(
+          padding: const EdgeInsets.only(left: 21.0, right: 5),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text("Speed", style: Theme.of(context).textTheme.titleMedium),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.81,
+              child: SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  trackHeight: 10,
+                ),
+                child: Slider(
+                  value: Globals.speechSpeed,
+                  min: 0.5,
+                  max: 2.0,
+                  divisions: 15,
+                  label: Globals.speechSpeed.toStringAsFixed(1),
+                  onChanged: (double value) {
+                    setState(() {
+                      Globals.setSpeechSpeed(value);
+                    });
+                  },
+                ),
+              ),
+            ),
+          ]),
         ),
 
         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -193,13 +231,11 @@ class _ProfileState extends State<Profile> {
                 .textTheme
                 .titleLarge
                 ?.copyWith(fontWeight: FontWeight.bold)),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            // fixedSize: Size(MediaQuery.of(context).size.width * 0.5,
-            //     MediaQuery.of(context).size.height * 0.05),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
