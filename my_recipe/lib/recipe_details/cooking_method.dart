@@ -1,6 +1,7 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:my_recipe/globals.dart';
 import 'package:my_recipe/models/food.dart';
 import 'package:my_recipe/recipe_details/widgets/method_card.dart';
@@ -21,6 +22,18 @@ class CookingMethod extends StatefulWidget {
 
 class _CookingMethodState extends State<CookingMethod>
     with SingleTickerProviderStateMixin {
+  FlutterTts flutterTts = FlutterTts();
+
+  Future<void> speak(String titleText, String descText) async {
+    await flutterTts.setPitch(Globals.speechPitch);
+    await flutterTts.setSpeechRate(Globals.speechSpeed);
+
+    await flutterTts.speak(titleText);
+    await Future.delayed(
+        Duration(seconds: (Globals.speechSpeed * titleText.length) ~/ 9));
+    await flutterTts.speak(descText);
+  }
+
   PageController _pageController =
       PageController(initialPage: 0, viewportFraction: 0.5);
   int _currentPage = 0;
@@ -97,11 +110,29 @@ class _CookingMethodState extends State<CookingMethod>
                 })
             : null;
 
+//TODO: HERE
     Column floatingButton_easy = Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         floatingButton_normal == null ? Container() : floatingButton_normal,
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: FloatingActionButton(
+            heroTag: null,
+            onPressed: () {
+              checkVibrate();
+              setState(() {
+                if (_currentPage == 0)
+                  speak(widget.food.name, widget.food.smallDescription);
+                else
+                  speak(widget.food.methodList[_currentPage - 1].title,
+                      widget.food.methodList[_currentPage - 1].description);
+              });
+            },
+            child: Icon(Icons.record_voice_over),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Row(
