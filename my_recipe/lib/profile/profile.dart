@@ -210,8 +210,8 @@ class _ProfileState extends State<Profile> {
                 child: Slider(
                   value: Globals.speechSpeed,
                   min: 0.5,
-                  max: 2.0,
-                  divisions: 15,
+                  max: 1.5,
+                  divisions: 10,
                   label: Globals.speechSpeed.toStringAsFixed(1),
                   onChanged: (double value) {
                     setState(() {
