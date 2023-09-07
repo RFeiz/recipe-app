@@ -30,10 +30,7 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
   Future<void> speak(String titleText, String descText) async {
     await flutterTts.setPitch(Globals.speechPitch);
     await flutterTts.setSpeechRate(Globals.speechSpeed);
-
-    await flutterTts.speak(titleText);
-    await Future.delayed(Duration(seconds: (Globals.speechSpeed * titleText.length)~/9));
-    await flutterTts.speak(descText);
+    await flutterTts.speak("$titleText . $descText");
   }
 
   @override
