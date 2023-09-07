@@ -50,13 +50,10 @@ class _MethodCardState extends State<MethodCard>
     }
   }
 
-  Future<void> speak(String titleText, String descText) async {
+  Future<void> speak(String titleText, String descText, String currStep, String maxStep) async {
     await flutterTts.setPitch(Globals.speechPitch);
     await flutterTts.setSpeechRate(Globals.speechSpeed);
-
-    await flutterTts.speak(titleText);
-    await Future.delayed(Duration(seconds: (Globals.speechSpeed * titleText.length)~/9));
-    await flutterTts.speak(descText);
+    await flutterTts.speak("$titleText . Step $currStep of $maxStep . $descText");
   }
 
   @override
@@ -120,7 +117,7 @@ class _MethodCardState extends State<MethodCard>
                             onPressed: () {
                               checkVibrate();
                               setState(() {
-                                speak(widget.title, widget.stepDescription);
+                                speak(widget.title, widget.stepDescription, widget.currentStep.toString(), widget.totalSteps.toString());
                               });
                             },
                             child: Icon(
