@@ -41,7 +41,6 @@ class MethodCard extends StatefulWidget {
 
 class _MethodCardState extends State<MethodCard>
     with SingleTickerProviderStateMixin {
-
   FlutterTts flutterTts = FlutterTts();
 
   void checkVibrate() {
@@ -50,10 +49,12 @@ class _MethodCardState extends State<MethodCard>
     }
   }
 
-  Future<void> speak(String titleText, String descText, String currStep, String maxStep) async {
+  Future<void> speak(String titleText, String descText, String currStep,
+      String maxStep) async {
     await flutterTts.setPitch(Globals.speechPitch);
     await flutterTts.setSpeechRate(Globals.speechSpeed);
-    await flutterTts.speak("$titleText . Step $currStep of $maxStep . $descText");
+    await flutterTts
+        .speak("$titleText . Step $currStep of $maxStep . $descText");
   }
 
   @override
@@ -117,12 +118,19 @@ class _MethodCardState extends State<MethodCard>
                             onPressed: () {
                               checkVibrate();
                               setState(() {
-                                speak(widget.title, widget.stepDescription, widget.currentStep.toString(), widget.totalSteps.toString());
+                                speak(
+                                    widget.title,
+                                    widget.stepDescription,
+                                    widget.currentStep.toString(),
+                                    widget.totalSteps.toString());
                               });
                             },
-                            child: Icon(
-                              Icons.record_voice_over,
-                              color: Theme.of(context).colorScheme.onPrimary,
+                            child: Semantics(
+                              label: 'Text to Speech',
+                              child: Icon(
+                                Icons.record_voice_over,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
                             ),
                           ),
                         ),

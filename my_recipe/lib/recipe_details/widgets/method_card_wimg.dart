@@ -17,9 +17,7 @@ class MethodCardwimg extends StatefulWidget {
 }
 
 class _MethodCardwimgState extends State<MethodCardwimg> {
-
   FlutterTts flutterTts = FlutterTts();
-
 
   void checkVibrate() {
     if (Globals.hapticFeedback) {
@@ -116,13 +114,18 @@ class _MethodCardwimgState extends State<MethodCardwimg> {
                                   onPressed: () {
                                     checkVibrate();
                                     setState(() {
-                                      speak(widget.food.name, widget.food.longDescription);
+                                      speak(widget.food.name,
+                                          widget.food.longDescription);
                                     });
                                   },
-                                  child: Icon(
-                                    Icons.record_voice_over,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                  child: Semantics(
+                                    label: 'Text to Speech',
+                                    child: Icon(
+                                      Icons.record_voice_over,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
+                                    ),
                                   ),
                                 ),
                               ),
